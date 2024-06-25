@@ -27,7 +27,9 @@ class DatabaseSeeder extends Seeder
             $userprofile = UserProfile::create([
 				'gender'  => 'M',
 				'first_name' => 'Admin',
-				'last_name' => 'Admin'
+				'last_name' => 'Admin',
+				'file_name' => 'default',
+		        'file_path' => 'default'
 			]);
 
 			/** create user */

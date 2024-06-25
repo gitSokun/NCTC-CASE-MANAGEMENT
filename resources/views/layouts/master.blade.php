@@ -51,6 +51,8 @@
 	<link rel="stylesheet" href="{{asset('plugins/codemirror/codemirror.css')}}">
 	<link rel="stylesheet" href="{{asset('plugins/codemirror/theme/monokai.css')}}">
 
+
+
 	<style>
 	@font-face {
 		font-family: Battambang-Regular;
@@ -331,7 +333,7 @@
 	<script src="{{asset('plugins/codemirror/mode/css/css.js')}}"></script>
 	<script src="{{asset('plugins/codemirror/mode/xml/xml.js')}}"></script>
 	<script src="{{asset('plugins/codemirror/mode/htmlmixed/htmlmixed.js')}}"></script>
-	<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
+	
 	<!-- Select2 -->
 	<script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 	<!-- Bootstrap4 Duallistbox -->
@@ -351,8 +353,12 @@
 	<script src="{{asset('plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
 	<!-- dropzonejs -->
 	<script src="{{asset('plugins/dropzone/min/dropzone.min.js')}}"></script>
-
+ 
+	<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
+	<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
+	
 	@yield('script')
 </body>
 
 </html>
+

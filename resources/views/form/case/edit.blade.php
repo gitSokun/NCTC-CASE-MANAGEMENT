@@ -52,6 +52,52 @@
 							</div>
 						</div>
 
+						<div class="col-md-12">
+							<div class="card-header">
+								<h3 class="card-title label1" style="font-weight: 700;">អត្ថបទ</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="label1" style="font-weight: 200;color:red;">* ចំណងជើង
+												(មានទាំងអត្ថបទ)</label>
+											<input type="text" class="form-control @error('title') is-invalid @enderror"
+												id="title" name="title" placeholder="input" value="{{$case->title}}">
+											@if($errors->has('title'))
+											<label for="inputSkills" class="col-sm-12 col-form-label "
+												style="color:red;">{{ $errors->first('title') }}</label>
+											@endif
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសាររួម
+											(មានទាំង link ដើម)</label>
+										<textarea id="description" name="description"
+											class="@error('description') is-invalid @enderror">{{$case->description}}</textarea>
+										@if($errors->has('title'))
+										<label for="inputSkills" class="col-sm-12 col-form-label "
+											style="color:red;">{{ $errors->first('description') }}</label>
+										@endif
+									</div>
+									<div class="col-sm-12">
+										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសារដើម
+											(មានទាំង link ដើម)</label>
+										<textarea id="original_source" name="original_source"
+											class="@error('original_source') is-invalid @enderror">{{$case->original_source}}</textarea>
+										@if($errors->has('title'))
+										<label for="original_source" class="col-sm-12 col-form-label "
+											style="color:red;">{{ $errors->first('original_source') }}</label>
+										@endif
+									</div>
+
+									
+								</div>
+
+							</div>
+
+						</div>
+
 						<div class="col-md-6">
 							<!-- /.card-header -->
 							<div class="card-header">
@@ -98,12 +144,12 @@
 									<div class="col-sm-6">
 										<label class='label1' style="font-weight: 200;">ចំនួនស្លាប់</label>
 										<input type="number" class="form-control " id="death" name="death"
-											placeholder="input" value="{{$case->death}}">
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->death}}">
 									</div>
 									<div class="col-sm-6">
 										<label class='label1' style="font-weight: 200;">ចំនួនរបួស</label>
 										<input type="number" class="form-control " id="injure" name="injure"
-											placeholder="input" value="{{$case->injure}}">
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->injure}}">
 									</div>
 								</div>
 							</div>
@@ -117,47 +163,54 @@
 								<div class="row">
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
-										<select class="custom-select rounded-0 " id="activities" name="activities">
+										<input type="text" class="form-control " id="activities" name="activities"
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->activities}}">
+
+										<!--<select class="custom-select rounded-0 " id="activities" name="activities">
 											@foreach($activities as $activity)
 											<option {{$activity->name == $case->activities  ? 'selected' : ''}}>
 												{{$activity->name}}</option>
 											@endforeach
-										</select>
+										</select>-->
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
-										<select class="custom-select rounded-0 " id="causing_case" name="causing_case">
+										<input type="text" class="form-control " id="causing_case" name="causing_case"
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->causing_case}}">
+										<!--<select class="custom-select rounded-0 " id="causing_case" name="causing_case">
 											@foreach($causingCases as $causingCase)
 											<option {{$causingCase->name == $case->causing_case  ? 'selected' : ''}}>
 												{{$causingCase->name}}</option>
 											@endforeach
-										</select>
+										</select>-->
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
-										<select class="custom-select rounded-0 " id="country" name="country">
+										<input type="text" class="form-control " id="country" name="country"
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->country}}">
+										<!--<select class="custom-select rounded-0 " id="country" name="country">
 											@foreach($countries as $country)
 											<option value="{{$country->name_kh}}"
 												{{$country->name_kh == $case->country  ? 'selected' : ''}}>
 												{{$country->name_kh}}</option>
 											@endforeach
-										</select>
+										</select>-->
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ខេត្ត</label>
 										<input type="text" class="form-control " id="province_city" name="province_city"
-											placeholder="input" value="{{$case->province_city}}">
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->province_city}}">
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">តំបន់</label>
 										<input type="text" class="form-control " id="area" name="area"
-											placeholder="input" value="{{$case->area}}">
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->area}}">
 									</div>
 									<div class="col-sm-6">
 										<label class="label1"
 											style="font-weight: 200;">ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ</label>
 										<input type="text" class="form-control " id="provocative_group"
-											name="provocative_group" placeholder="input"
+											name="provocative_group" placeholder="សូមបញ្ចូលព័ត៌មាន"
 											value="{{$case->provocative_group}}">
 									</div>
 								</div>
@@ -173,18 +226,18 @@
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ក្រុមរងគ្រោះ</label>
 										<input type="text" class="form-control " id="victim" name="victim"
-											placeholder="input" value="{{$case->victim}}">
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->victim}}">
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ឈ្មោះជនបង្ក</label>
 										<input type="text" class="form-control " id="perpetrator_name"
-											name="perpetrator_name" placeholder="input"
+											name="perpetrator_name" placeholder="សូមបញ្ចូលព័ត៌មាន"
 											value="{{$case->perpetrator_name}}">
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ឈ្មោះជនរងគ្រោះ</label>
 										<input type="text" class="form-control " id="victim_name" name="victim_name"
-											placeholder="input" value="{{$case->victim_name}}">
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->victim_name}}">
 									</div>
 								</div>
 
@@ -192,43 +245,10 @@
 						</div>
 
 						<div class="col-md-12">
-							<div class="card-header">
-								<h3 class="card-title label1" style="font-weight: 700;">អត្ថបទ</h3>
-							</div>
+							
 							<div class="card-body">
 								<div class="row">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="label1" style="font-weight: 200;color:red;">* ចំណងជើង
-												(មានទាំងអត្ថបទ)</label>
-											<input type="text" class="form-control @error('title') is-invalid @enderror"
-												id="title" name="title" placeholder="input" value="{{$case->title}}">
-											@if($errors->has('title'))
-											<label for="inputSkills" class="col-sm-12 col-form-label "
-												style="color:red;">{{ $errors->first('title') }}</label>
-											@endif
-										</div>
-									</div>
-									<div class="col-sm-12">
-										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសាររួម
-											(មានទាំង link ដើម)</label>
-										<textarea id="description" name="description"
-											class="@error('description') is-invalid @enderror">{{$case->description}}</textarea>
-										@if($errors->has('title'))
-										<label for="inputSkills" class="col-sm-12 col-form-label "
-											style="color:red;">{{ $errors->first('description') }}</label>
-										@endif
-									</div>
-									<div class="col-sm-12">
-										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសារដើម
-											(មានទាំង link ដើម)</label>
-										<textarea id="original_source" name="original_source"
-											class="@error('original_source') is-invalid @enderror">{{$case->original_source}}</textarea>
-										@if($errors->has('title'))
-										<label for="original_source" class="col-sm-12 col-form-label "
-											style="color:red;">{{ $errors->first('original_source') }}</label>
-										@endif
-									</div>
+									
 
 									<div class="col-sm-12">
 

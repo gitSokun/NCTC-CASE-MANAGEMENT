@@ -111,6 +111,8 @@ class UserProfileController extends Controller
 				'skill' => $request->skill,
 				'education'  => $request->education,
 				'remark'  => $request->remark,
+				'file_name'=>'avatar5.png',
+				'file_path'=>'DefaultImage/avatar5.png'
 			]);
 
 			/** create user */

@@ -50,136 +50,6 @@
 							</div>
 						</div>
 
-						<div class="col-md-6">
-							<!-- /.card-header -->
-							<div class="card-header">
-								<h3 class="card-title label1" style="font-weight: 700;">កាលបរិច្ឆេទកើតហេតុ</h3>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;" s>កាលបរិច្ឆេទចុះផ្សាយ</label>
-										<div class="input-group date" id="reservationdate" data-target-input="nearest">
-											<input type="text" class="form-control datetimepicker-input "
-												data-target="#reservationdate" id="released_date"
-												name="released_date" />
-											<div class="input-group-append" data-target="#reservationdate"
-												data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង</label>
-										<div class="input-group date" id="reservationdate1" data-target-input="nearest">
-											<input type="text" class="form-control datetimepicker-input "
-												data-target="#reservationdate1" id="actual_date" name="actual_date" />
-											<div class="input-group-append" data-target="#reservationdate1"
-												data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-						<div class="col-md-6">
-							<!-- /.card-header -->
-							<div class="card-header">
-								<h3 class="card-title label1" style="font-weight: 700;">ការខាតបង់</h3>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចំនួនស្លាប់</label>
-										<input type="number" class="form-control " id="death" name="death"
-											placeholder="input">
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចំនួនរបួស</label>
-										<input type="number" class="form-control " id="injure" name="injure"
-											placeholder="input">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<!-- /.card-header -->
-							<div class="card-header">
-								<h3 class="card-title label1" style="font-weight: 700;">ខ្លឹមសារ</h3>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
-										<select class="custom-select rounded-0 " id="activities" name="activities">
-											@foreach($activities as $activity)
-											<option>{{$activity->name}}</option>
-											@endforeach
-										</select>
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
-										<select class="custom-select rounded-0 " id="causing_case" name="causing_case">
-											@foreach($causingCases as $causingCase)
-											<option>{{$causingCase->name}}</option>
-											@endforeach
-										</select>
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
-										<select class="custom-select rounded-0 " id="country" name="country">
-											@foreach($countries as $country)
-											<option>{{$country->name_kh}}</option>
-											@endforeach
-										</select>
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ខេត្ត</label>
-										<input type="text" class="form-control " id="province_city" name="province_city"
-											placeholder="input">
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">តំបន់</label>
-										<input type="text" class="form-control " id="area" name="area"
-											placeholder="input">
-									</div>
-									<div class="col-sm-6">
-										<label class="label1"
-											style="font-weight: 200;">ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ</label>
-										<input type="text" class="form-control " id="provocative_group"
-											name="provocative_group" placeholder="input">
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-12">
-							<div class="card-header">
-								<h3 class="card-title label1" style="font-weight: 700;">ក្រុមជនបង្ក</h3>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ក្រុមរងគ្រោះ</label>
-										<input type="text" class="form-control " id="victim" name="victim"
-											placeholder="input">
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ឈ្មោះជនបង្ក</label>
-										<input type="text" class="form-control " id="perpetrator_name"
-											name="perpetrator_name" placeholder="input">
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ឈ្មោះជនរងគ្រោះ</label>
-										<input type="text" class="form-control " id="victim_name" name="victim_name"
-											placeholder="input">
-									</div>
-								</div>
-
-							</div>
-						</div>
 
 						<div class="col-md-12">
 							<div class="card-header">
@@ -228,6 +98,144 @@
 							</div>
 
 						</div>
+
+						<div class="col-md-6">
+							<!-- /.card-header -->
+							<div class="card-header">
+								<h3 class="card-title label1" style="font-weight: 700;">កាលបរិច្ឆេទកើតហេតុ</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<label class='label1' style="font-weight: 200;" s>កាលបរិច្ឆេទចុះផ្សាយ</label>
+										<div class="input-group date" id="reservationdate" data-target-input="nearest">
+											<input type="text" class="form-control datetimepicker-input "
+												data-target="#reservationdate" id="released_date"
+												name="released_date" />
+											<div class="input-group-append" data-target="#reservationdate"
+												data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង</label>
+										<div class="input-group date" id="reservationdate1" data-target-input="nearest">
+											<input type="text" class="form-control datetimepicker-input "
+												data-target="#reservationdate1" id="actual_date" name="actual_date" />
+											<div class="input-group-append" data-target="#reservationdate1"
+												data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-md-6">
+							<!-- /.card-header -->
+							<div class="card-header">
+								<h3 class="card-title label1" style="font-weight: 700;">ការខាតបង់</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<label class='label1' style="font-weight: 200;">ចំនួនស្លាប់</label>
+										<input type="number" class="form-control " id="death" name="death"
+											placeholder="ចំនួនស្លាប់">
+									</div>
+									<div class="col-sm-6">
+										<label class='label1' style="font-weight: 200;">ចំនួនរបួស</label>
+										<input type="number" class="form-control " id="injure" name="injure"
+											placeholder="ចំនួនរបួស">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<!-- /.card-header -->
+							<div class="card-header">
+								<h3 class="card-title label1" style="font-weight: 700;">ខ្លឹមសារ</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
+										<input type="text" class="form-control " id="activities" name="activities"
+											placeholder="សកម្មភាព">
+										<!--<select class="custom-select rounded-0 " id="activities" name="activities">
+											@foreach($activities as $activity)
+											<option>{{$activity->name}}</option>
+											@endforeach
+										</select>-->
+									</div>
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
+										<input type="text" class="form-control " id="causing_case" name="causing_case"
+											placeholder="ករណីបង្ក">
+										<!--<select class="custom-select rounded-0 " id="causing_case" name="causing_case">
+											@foreach($causingCases as $causingCase)
+											<option>{{$causingCase->name}}</option>
+											@endforeach
+										</select>-->
+									</div>
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
+										<input type="text" class="form-control " id="country" name="country"
+											placeholder="ប្រទេស">
+										<!--<select class="custom-select rounded-0 " id="country" name="country">
+											@foreach($countries as $country)
+											<option>{{$country->name_kh}}</option>
+											@endforeach
+										</select>-->
+									</div>
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">ខេត្ត</label>
+										<input type="text" class="form-control " id="province_city" name="province_city"
+											placeholder="ខេត្ត">
+									</div>
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">តំបន់</label>
+										<input type="text" class="form-control " id="area" name="area"
+											placeholder="តំបន់">
+									</div>
+									<div class="col-sm-6">
+										<label class="label1"
+											style="font-weight: 200;">ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ</label>
+										<input type="text" class="form-control " id="provocative_group"
+											name="provocative_group" placeholder="ក្រុមបង្កហេតុ">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="card-header">
+								<h3 class="card-title label1" style="font-weight: 700;">ក្រុមជនបង្ក</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">ក្រុមរងគ្រោះ</label>
+										<input type="text" class="form-control " id="victim" name="victim"
+											placeholder="ក្រុមរងគ្រោះ">
+									</div>
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">ឈ្មោះជនបង្ក</label>
+										<input type="text" class="form-control " id="perpetrator_name"
+											name="perpetrator_name" placeholder="ឈ្មោះជនបង្ក">
+									</div>
+									<div class="col-sm-6">
+										<label class="label1" style="font-weight: 200;">ឈ្មោះជនរងគ្រោះ</label>
+										<input type="text" class="form-control " id="victim_name" name="victim_name"
+											placeholder="ឈ្មោះជនរងគ្រោះ">
+									</div>
+								</div>
+
+							</div>
+						</div>
+
 
 						<div class="col-md-12">
 
