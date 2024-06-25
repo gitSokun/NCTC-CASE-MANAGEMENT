@@ -19,8 +19,8 @@ return new class extends Migration
 			$table->string('skill')->nullable();
 			$table->string('education',300)->nullable();
 			$table->string('remark',1000)->nullable();
-			$table->string('file_name');
-			$table->string('file_path');
+			$table->string('file_name')->nullable();
+			$table->string('file_path')->nullable();
 			$table->timestamps();
         });
     }
