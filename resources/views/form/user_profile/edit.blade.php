@@ -111,6 +111,53 @@
 						</div>
 
 					</div><!-- /.card-body -->
+					<!--=============================== Authentication ===========================-->
+					<div class="card-header">
+						<div class=" Battambang">
+							<div class="row">
+								<div class="col-sm-6">
+									<h4>ព័ត៌មានសម្ងាត់</h4>
+								</div>
+								
+							</div>
+
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="form-group row">
+							<div class="col-sm-2"></div>
+							<div class="col-sm-10 row custom-control custom-checkbox">
+								<input class="custom-control-input" type="checkbox" id="status" value="checked"
+									checked>
+								<label for="status"
+									class="custom-control-label">អនុញ្ញាតឱ្យអ្នកប្រើប្រើប្រព័ន្ធ (Active / inactive)</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputName2" class="col-sm-2 col-form-label" style="color:red">* Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control @error('password') is-invalid @enderror"
+									id="password" name="password" value="" placeholder="**********">
+								@if($errors->has('password'))
+								<label for="inputSkills" class="col-sm-12 col-form-label "
+									style="color:red;">{{ $errors->first('password') }}</label>
+								@endif
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputName2" class="col-sm-2 col-form-label" style="color:red">* Role</label>
+							<div class="col-sm-10">
+								<select class="custom-select rounded-1" id="role" name="role">
+								   <option value="empty"></option>
+									<option value="ADMIN">ADMIN</option>
+									<option value="REPORTER">REPORTER</option>
+									<option value="USER">USER</option>
+								</select>
+							</div>
+						</div>
+
+
+					</div><!-- /.card-body -->
 				</div>
 			</form>
 			<!-- /.card -->
@@ -126,8 +173,8 @@
 						<img class="profile-user-img img-fluid img-circle"
 							src="{{asset('avatar/'.$userProfile->file_path)}}" alt="User profile picture">
 						@else
-						<img class="profile-user-img img-fluid img-circle"
-							src="{{asset('dist/img/default-150x150.png')}}" alt="User profile picture">
+						<img class="profile-user-img img-fluid img-circle" src="{{asset('dist/img/default-150x150.png')}}"
+							alt="User profile picture">
 						@endif
 
 					</div>
@@ -136,15 +183,15 @@
 						{{ csrf_field() }}
 						<input class="form-control " id="profile_id" name="profile_id" value="{{$userProfile->id}}"
 							placeholder="" hidden>
-						<div style="padding-top: 3%;">
+						<!--<div style="padding-top: 3%;">
 							<input type="file" class="form-control" name="profile_image" id="profile_image"
 								style="padding-top: 1%;padding-left: 1%;" accept="image/png, image/gif, image/jpeg" />
-						</div>
-						<div class="text-center" style="padding-top: 3%;">
+						</div>-->
+						<!--<div class="text-center" style="padding-top: 3%;">
 							<button type="submit" class="btn btn-primary">
 								<i class="fas fa-upload" aria-hidden="true"></i> បង្ហោះរូបភាព
 							</button>
-						</div>
+						</div>-->
 					</form>
 					<h3 class="profile-username text-center">{{$userProfile->first_name}} {{$userProfile->last_name}}
 					</h3>
@@ -177,7 +224,7 @@
 					<strong><i class="fas fa-book mr-1"></i> ការអប់រំ/Education</strong>
 
 					<p class="text-muted">
-					{{$userProfile->education}}
+						{{$userProfile->education}}
 					</p>
 
 					<hr>
@@ -185,7 +232,7 @@
 					<strong><i class="fas fa-map-marker-alt mr-1"></i> ទីតាំង/Location</strong>
 
 					<p class="text-muted">
-					{{$userProfile->skill}}
+						{{$userProfile->skill}}
 					</p>
 
 					<hr>
@@ -193,7 +240,7 @@
 					<strong><i class="far fa-file-alt mr-1"></i> កំណត់ចំណាំ/Notes</strong>
 
 					<p class="text-muted">
-					{{$userProfile->remark}}
+						{{$userProfile->remark}}
 					</p>
 				</div>
 				<!-- /.card-body -->

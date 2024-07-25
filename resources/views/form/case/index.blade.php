@@ -16,10 +16,10 @@
 				<div class="card">
 					<div class="card-header">
 						<button type="button" class="btn btn-primary Battambang"
-						onclick="window.location='{{ route('case-information-create')}}'"><i class="nav-icon fas fa-plus"
-								aria-hidden="true"></i>
+							onclick="window.location='{{ route('case-information-create')}}'"><i
+								class="nav-icon fas fa-plus" aria-hidden="true"></i>
 							បង្កើតព្រឹត្តិការណ៍ </button>
-						
+
 
 					</div>
 					<!-- /.card-header -->
@@ -28,19 +28,20 @@
 						<table id="example1" class="table table-bordered table-striped">
 							<thead>
 								<tr class="Battambang">
-								    <th style="width: 15%;">#</th>
+									<th style="width: 15%;">#</th>
 									<th>ចំណងជើង</th>
 									<th>ប្រទេស</th>
 									<th>ខេត្ត</th>
 									<th>តំបន់</th>
-									<th style="width: 20%;">សកម្មភាព</th>
+									<!--<th>បកប្រែ</th>-->
+									<th style="width: 35%;">សកម្មភាព</th>
 								</tr>
 							</thead>
 							<tbody>
-							@foreach($cases as $case)
+								@foreach($cases as $case)
 
 								<tr class="Battambang">
-								    <td>
+									<td>
 										<p style="font-weight: 100;">{{$case->case_number}}</p>
 									</td>
 									<td>
@@ -55,18 +56,62 @@
 									<td>
 										<p style="font-weight: 100;">{{$case->area}}</p>
 									</td>
-									
+									<!--<td>
+										<p style="font-weight: 100;">{{$case->case_id_kh}}</p>
+									</td>-->
+
 									<td>
+										@if($isRoleAdmin)
 										<div class="btn-group" style="float: right;">
-											<button type="submit" class="btn btn-warning"
-											onclick="location.href='{{ url('/case-information/' . Crypt::encrypt($case->id).'/edit') }}'">
-												<i class="fas fa-edit" aria-hidden="true"></i> កែសម្រួល
-											</button>
 											<button type="submit" class="btn btn-success"
-											onclick="location.href='{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}'">
+												onclick="location.href='{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}'">
 												<i class="fas fa-eye" aria-hidden="true"></i> មើល
 											</button>
+											<button type="submit" class="btn btn-warning" style="width: 135px;"
+												onclick="location.href='{{ url('/case-information/' . Crypt::encrypt($case->id).'/edit') }}'">
+												<i class="fas fa-edit" aria-hidden="true"></i> កែសម្រួល
+											</button>
+
+											@if($case->case_id_kh)
+											<button type="submit" class="btn btn-info"
+												onclick="location.href='{{ url('/khmer-case-information/' . Crypt::encrypt($case->case_id_kh).'/edit') }}'">
+												<i class="fas fa-edit" aria-hidden="true"></i> កែប្រែភាសាខ្មែរ
+											</button>
+											@else
+											<button type="submit" class="btn btn-primary"
+												onclick="location.href='{{ url('/case-information/create/khmer/case/' . Crypt::encrypt($case->id)) }}'">
+												<i class="fas fa-plus" aria-hidden="true"></i> បកប្រែភាសាខ្មែរ
+											</button>
+											@endif
 										</div>
+										@else
+										<div class="btn-group" style="float: right;">
+
+											<button type="submit" class="btn btn-success"
+												onclick="location.href='{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}'">
+												<i class="fas fa-eye" aria-hidden="true"></i> មើល
+											</button>
+											@if($user->id == $case->user_id_created_case)
+											<button type="submit" class="btn btn-warning" style="width: 135px;"
+												onclick="location.href='{{ url('/case-information/' . Crypt::encrypt($case->id).'/edit') }}'">
+												<i class="fas fa-edit" aria-hidden="true"></i> កែសម្រួល
+											</button>
+											@endif
+											@if($user->id == $case->user_id_created_caseKh)
+											@if($case->case_id_kh)
+											<button type="submit" class="btn btn-info"
+												onclick="location.href='{{ url('/khmer-case-information/' . Crypt::encrypt($case->case_id_kh).'/edit') }}'">
+												<i class="fas fa-edit" aria-hidden="true"></i> កែប្រែភាសាខ្មែរ
+											</button>
+											@else
+											<button type="submit" class="btn btn-primary"
+												onclick="location.href='{{ url('/case-information/create/khmer/case/' . Crypt::encrypt($case->id)) }}'">
+												<i class="fas fa-plus" aria-hidden="true"></i> បកប្រែភាសាខ្មែរ
+											</button>
+											@endif
+											@endif
+										</div>
+										@endif
 									</td>
 								</tr>
 								@endforeach

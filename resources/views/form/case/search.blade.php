@@ -45,6 +45,11 @@
 						</div>
 						@foreach($cases as $case)
 						<div class="list-group-item">
+							<div class="ribbon-wrapper">
+							<div class="ribbon bg-primary">
+										KH
+							</div>
+							</div>
 							<a href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">
 									<div class="col-auto">
@@ -67,6 +72,7 @@
 								</div>
 							</a>
 						</div>
+						
 						@endforeach
 						<div class="list-group-item">
 							<div class="row">

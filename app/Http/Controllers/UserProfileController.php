@@ -20,8 +20,16 @@ class UserProfileController extends Controller
      */
     public function index()
     {
-		$userProfiles = UserProfile::paginate(10);
+		/** exclude admin from the list */
+		$user = User::where('email','admin@gmail.com')->first();
+		if($user){
+			$userProfiles = UserProfile::where('id','<>',$user->profileable_id)->paginate(10);
+			return view('form/user_profile/index',compact('userProfiles'));
+		}
+
+		$userProfiles = UserProfile::where('','<>','Admin')->paginate(10);
 		return view('form/user_profile/index',compact('userProfiles'));
+		
     }
 
 	public function uploadMyPicture(Request $request){
@@ -102,7 +110,6 @@ class UserProfileController extends Controller
 		}
 
 		DB::transaction(function () use ($request) {
-
 			/** create profile */
             $userprofile = UserProfile::create([
 				'gender'  => $request->gender,
@@ -110,9 +117,8 @@ class UserProfileController extends Controller
 				'last_name' => $request->last_name,
 				'skill' => $request->skill,
 				'education'  => $request->education,
-				'remark'  => $request->remark,
-				'file_name'=>'avatar5.png',
-				'file_path'=>'DefaultImage/avatar5.png'
+				'remark'  => $request->remark
+				
 			]);
 
 			/** create user */
@@ -120,7 +126,8 @@ class UserProfileController extends Controller
 				'name' => $request->username,
 				'role'=>$request->role,
 				'email' => $request->email,
-				'password' => Hash::make($request->password)
+				'password' => Hash::make($request->password),
+				'status'=>'active'
 			]);
 
 			

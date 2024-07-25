@@ -12,7 +12,61 @@
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
+				<!--============== Widgets ================-->
+				<div class="col-md-3 col-sm-6 col-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-info"><i class="far fa-user"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">អ្នកប្រើប្រាស់សរុប</span>
+							<span class="info-box-number">300</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<!-- /.col -->
+				<div class="col-md-3 col-sm-6 col-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-success"><i class="fas fa-user-plus"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">អ្នកប្រើប្រាស់សកម្មសរុប</span>
+							<span class="info-box-number">300</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<!-- /.col -->
+				<div class="col-md-3 col-sm-6 col-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-warning"><i class="far fa-user"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">អ្នករាយការណ៍សរុប</span>
+							<span class="info-box-number">100</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<!-- /.col -->
+				<div class="col-md-3 col-sm-6 col-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-danger"><i class="far fa-user"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">អ្នកប្រើប្រាស់ធម្មតាសរុប</span>
+							<span class="info-box-number">200</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<!--=======================================-->
 			<div class="col-12">
+
 				<div class="card">
 					<div class="card-header">
 						<button type="button" class="btn btn-primary Battambang"
@@ -42,15 +96,16 @@
 									</td>
 									<td>
 										<p style="font-weight: 100;">
-										@if($userProfile->gender =='M')         
-										ប្រុស
-										@else
-										ស្រី
-										@endif
-									    </p>
+											@if($userProfile->gender =='M')
+											ប្រុស
+											@else
+											ស្រី
+											@endif
+										</p>
 									</td>
 									<td>
-										<p style="font-weight: 100;">{{$userProfile->first_name}} {{ $userProfile->last_name}}</p>
+										<p style="font-weight: 100;">{{$userProfile->first_name}}
+											{{ $userProfile->last_name}}</p>
 									</td>
 									<td>
 										<p style="font-weight: 100;">{{$userProfile->skill}}</p>
@@ -68,7 +123,7 @@
 												onclick="location.href='{{ url('/user-detail/' . Crypt::encrypt($userProfile->id)) }}'">
 												<i class="fas fa-eye" aria-hidden="true"></i> មើល
 											</button>
-											
+
 										</div>
 									</td>
 								</tr>

@@ -63,15 +63,20 @@ Route::group(['middleware' => ['auth','allow-role-admin']], function () {
 Route::group(['middleware' => ['auth','allow-role-admin-reporter']], function () {
     Route::get('/dashboard',[LoginController::class,'dashboard'])->name('dashboard');
     
+	/** none translate to khmer */
 	Route::get('/case-information-search',[CaseInformationController::class,'search'])->name('search-case-information');
 	Route::post('/case-information-search',[CaseInformationController::class,'searchResult'])->name('search-result-case-information');
-
 	Route::get('/case-information',[CaseInformationController::class,'index'])->name('CaseList');
 	Route::get('/case-information/create',[CaseInformationController::class,'create'])->name('case-information-create');
 	Route::post('/case-information/store',[CaseInformationController::class,'store'])->name('case-information-store');
 	Route::get('/case-information-show/{id}',[CaseInformationController::class,'show'])->name('case-information-show');
 	Route::get('/case-information/{id}/edit',[CaseInformationController::class,'edit'])->name('case-information-edit');
 	Route::post('/case-information-update',[CaseInformationController::class,'update'])->name('case-information-update');
-
 	Route::post('/case-upload/delete-file',[CaseInformationController::class,'deletCaseUpload'])->name('case-upload-remove');
+
+	/** translate to khmer */
+	Route::post('/khmer-case-information/store',[CaseInformationController::class,'storeKhmerCase'])->name('khmer-case-information-store');
+	Route::get('/case-information/create/khmer/case/{id}',[CaseInformationController::class,'createKhmerCase'])->name('create-khmer-case');
+	Route::get('/khmer-case-information/{id}/edit',[CaseInformationController::class,'editKhmerCase'])->name('khmer-case-information-edit');
+	Route::post('/khmer-case-information-update',[CaseInformationController::class,'updateKhmerCase'])->name('khmer-case-information-update');
 });

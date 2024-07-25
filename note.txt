@@ -1,0 +1,8 @@
+1. create migration
+sail artisan make:migration create_flights_table
+
+2. run migration
+sail artisan migrate
+
+3. create model
+sail artisan make:model Flight

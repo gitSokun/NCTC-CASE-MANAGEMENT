@@ -17,6 +17,7 @@ class UserProfile extends Model
 		'remark',
 		'file_name',
 		'file_path'
+		
     ];
 	protected $casts = [
         'gender'        => 'string',

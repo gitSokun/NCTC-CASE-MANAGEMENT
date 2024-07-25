@@ -7,13 +7,13 @@ use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class CaseInformation extends Model
+class CaseInfoKh extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
 	protected $fillable = [
 		'case_number',
-		'related_case_number',
+		'case_id',
         'title',
 		'description',
 		'original_source',
@@ -30,7 +30,8 @@ class CaseInformation extends Model
 		'victim',
 		'perpetrator_name',
 		'victim_name',
-		'created_at'
+		'created_at',
+		'updated_at'
     ];
 	protected $casts = [
         'released_date' => 'date',
@@ -47,9 +48,7 @@ class CaseInformation extends Model
 		//$caseIdDateStr = $caseId.''.$dateStr;
 		$caseIdDateStr = $caseId;
 		$mytime = sprintf('%09d', $caseIdDateStr);
-		$caseNumber = 'CASE_'.$mytime;
+		$caseNumber = 'CASE_KH'.$mytime;
 		return $caseNumber;
 	}
-
-	
 }

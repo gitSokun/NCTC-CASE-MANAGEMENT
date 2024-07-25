@@ -45,8 +45,9 @@
 							<a href="{{ url('/user/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">
 									<div class="col-auto">
-										<img class="img-fluid" src="{{asset('dist/img/photo1.png')}}" alt="Photo"
-											style="max-height: 100px;">
+										<!--<img class="img-fluid" src="{{asset('dist/img/photo1.png')}}" alt="Photo"
+											style="max-height: 100px;">-->
+											
 									</div>
 									<div class="col px-4">
 										<div>

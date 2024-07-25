@@ -24,7 +24,10 @@
 								</div>
 								<div class="col-sm-6">
 									<div class="btn-group" style="float: right;">
-										
+									<button type="button" class="btn btn-danger"
+											onclick="window.location='{{ route('user-list')}}'">
+											<i class="fas fa-arrow-circle-left" aria-hidden="true"></i> ត្រលប់ក្រោយ
+										</button>
 										<button type="submit" class="btn btn-success">
 											<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
 										</button>

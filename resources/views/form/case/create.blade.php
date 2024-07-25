@@ -12,18 +12,31 @@
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
-				<form class="form-horizontal" enctype="multipart/form-data" id="newcase" method="POST" action="{{ route('case-information-store') }}">
+
+				<form class="form-horizontal" enctype="multipart/form-data" id="newcase" method="POST"
+					action="{{ route('case-information-store') }}">
 					{{ csrf_field() }}
 					<div class="card-header">
-						<div class="btn-group" style="float: right;">
-							<button type="button" class="btn btn-danger"
-								onclick="window.location='{{ route('CaseList')}}'">
-								<i class="fas fa-arrow-circle-left" aria-hidden="true"></i> ត្រលប់ក្រោយ
-							</button>
-							<button type="submit" class="btn btn-success toastrDefaultSuccess">
-								<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
-							</button>
+						<div class="row">
+							<div class="col-sm-6">
+								<h4>បង្កើតព្រឹត្តិការណ៍(ទម្រង់មូលដ្ឋាន)</h4>
+							</div>
+							<div class="col-sm-6">
+								<div class="btn-group" style="float: right;">
+									<button type="button" class="btn btn-danger"
+										onclick="window.location='{{ route('CaseList')}}'">
+										<i class="fas fa-arrow-circle-left" aria-hidden="true"></i> ត្រលប់ក្រោយ
+									</button>
+									<!--<button type="submit" class="btn btn-success toastrDefaultSuccess">
+										<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុកសេចក្តីព្រាង
+									</button>-->
+									<button type="submit" class="btn btn-success toastrDefaultSuccess">
+										<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
+									</button>
+								</div>
+							</div>
 						</div>
+
 					</div>
 
 					<div class="row">
@@ -261,6 +274,9 @@
 										onclick="window.location='{{route('CaseList')}}'">
 										<i class="fas fa-arrow-circle-left" aria-hidden="true"></i> ត្រលប់ក្រោយ
 									</button>
+									<!--<button type="submit" class="btn btn-success toastrDefaultSuccess">
+										<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុកសេចក្តីព្រាង
+									</button>-->
 									<button type="submit" class="btn btn-success toastrDefaultSuccess">
 										<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
 									</button>

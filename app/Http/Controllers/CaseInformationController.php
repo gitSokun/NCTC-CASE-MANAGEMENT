@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\CaseInformation;
+use App\Models\CaseInfoKh;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
@@ -21,14 +22,36 @@ class CaseInformationController extends Controller
     public function index()
     {
 		$user = Auth::user();
+		$isRoleAdmin = false;
 
 		if($user->role == 'ADMIN'){
-			$cases = CaseInformation::orderBy('created_at', 'DESC')->paginate(10);
-			return view('form/case/index',compact('cases'));
+			$cases = CaseInformation::select(
+				'case_information.*',
+				'case_information.created_by as user_id_created_case',
+				'case_info_khs.created_by as user_id_created_caseKh', 
+				'case_info_khs.id as case_id_kh'
+				)
+			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->orderBy('case_information.created_at', 'DESC')
+			->paginate(10);
+			$isRoleAdmin = true;
+			return view('form/case/index',compact('cases','user','isRoleAdmin'));
 		}
 
-		$cases = CaseInformation::where('created_by',$user->id)->orderBy('created_at', 'DESC')->paginate(10);
-		return view('form/case/index',compact('cases'));
+		$cases = CaseInformation::select(
+			'case_information.*',
+			'case_information.created_by as user_id_created_case',
+			'case_info_khs.created_by as user_id_created_caseKh', 
+			'case_info_khs.id as case_id_kh'
+			)
+		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+		->where('case_information.created_by',$user->id)
+		->orWhere('case_info_khs.created_by',$user->id)
+		->orderBy('case_information.created_at', 'DESC')
+		->paginate(10);
+
+
+		return view('form/case/index',compact('cases','user','isRoleAdmin'));
 
 
     }
@@ -56,7 +79,128 @@ class CaseInformationController extends Controller
 
 		return view('form/case/create',compact('activities','causingCases','countries','caseNumber'));
     }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function createKhmerCase(Request $request)
+    {
+		$caseId = Crypt::decrypt($request->id);
+		$case = CaseInformation::find($caseId);
 
+		$caseInfo = new CaseInfoKh();
+		$caseNumber = $caseInfo->getCaseNumber();
+
+			if($case->released_date){
+				$khmerMonths =['','មករា','កុម្ភៈ','មិនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+				$date = Carbon::parse($case->released_date);
+				$Formatdate = $date->format('Y-m-d');
+	
+				$releaseDates = explode('-', $Formatdate);
+				$case->releaseYear = $releaseDates[0];
+				$case->releaseMonth = $khmerMonths[ltrim($releaseDates[1], '0')];
+				$case->releaseDay = $releaseDates[2];
+			}else{
+				$case->releaseYear = '';
+				$case->releaseMonth = '';
+				$case->releaseDay = '';
+			}
+	
+			$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
+	
+			/** find related news */
+			$relatedCases = CaseInformation::where('related_case_number',$case->case_number)->whereNotNull('related_case_number')->get();
+	
+			$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
+			return view('form/case/create-khmer-case',compact('case','caseUploads','relatedCases','latestCases','caseNumber'));
+		
+    }
+	public function storeKhmerCase(Request $request){
+		$request->validate([
+            'title' => 'required',
+            'description' => 'required|max:5000',
+        ]);
+		DB::transaction(function () use ($request) {
+			/** get case_number */
+			$caseInfo = new CaseInfoKh();
+			$caseNumber = $caseInfo->getCaseNumber();
+
+			/** find existing case number of kh or not */
+			$existCase = CaseInfoKh::where('case_id', $request->case_id)->first();
+			if($existCase){
+				CaseInfoKh::where('id',$existCase->id)->update([
+					'title' => $request->title,
+					'description'=>$request->description,
+					'released_date'=>$request->released_date,
+					'actual_date'=>$request->actual_date,
+					'death'=>$request->death,
+					'injure'=>$request->injure,
+					'activities'=>$request->activities,
+					'causing_case'=>$request->causing_case,
+					'country'=>$request->country,
+					'province_city'=>$request->province_city,
+					'area'=>$request->area,
+					'provocative_group'=>$request->provocative_group,
+					'victim'=>$request->victim,
+					'perpetrator_name'=>$request->perpetrator_name,
+					'victim_name'=>$request->victim_name
+				]);
+			}else{
+				/** create case information */
+				$case = CaseInfoKh::create([
+					'case_number'=>$caseNumber,
+					'case_id'=>$request->case_id,
+					'title' => $request->title,
+					'description'=>$request->description,
+					'released_date'=>$request->released_date,
+					'actual_date'=>$request->actual_date,
+					'death'=>$request->death,
+					'injure'=>$request->injure,
+					'activities'=>$request->activities,
+					'causing_case'=>$request->causing_case,
+					'country'=>$request->country,
+					'province_city'=>$request->province_city,
+					'area'=>$request->area,
+					'provocative_group'=>$request->provocative_group,
+					'victim'=>$request->victim,
+					'perpetrator_name'=>$request->perpetrator_name,
+					'victim_name'=>$request->victim_name
+				]);
+
+				/** upload file for case */
+				if($request->hasFile('photos')){
+					$dt = Carbon::now();
+					$date_time = $dt->toDayDateTimeString();
+					$folder_name=$case->case_number;
+
+					if(!\Storage::disk('local')->exists($folder_name)){
+						/** create one directory based on name */
+						\Storage::disk('local')->makeDirectory($folder_name, 0775, true);
+
+						$photos = $request->file('photos');
+						foreach ($photos as $photo){
+							$file_name = $photo->getClientOriginalName();
+							$destinationPath = $folder_name.'/'.$file_name;
+
+							/** store file in directory */
+							\Storage::disk('local')->put($destinationPath,file_get_contents($photo->getRealPath()));
+
+							/** create file upload */
+							CaseUpload::create([
+								'case_number'=>$case->case_number,
+								'file_name'=>$file_name,
+								'original_name'=>$file_name,
+								'file_path'=>$destinationPath
+							]);
+						}
+					}
+				}
+			}
+		});
+		
+		
+		return redirect()->route('CaseList')->with('success', "case information data created successfully");
+	}
+	
     /**
      * Store a newly created resource in storage.
      */
@@ -91,7 +235,9 @@ class CaseInformationController extends Controller
 				'provocative_group'=>$request->provocative_group,
 				'victim'=>$request->victim,
 				'perpetrator_name'=>$request->perpetrator_name,
-				'victim_name'=>$request->victim_name
+				'victim_name'=>$request->victim_name,
+				'is_kh'=>false,
+				'is_publish'=>true
 			]);
 
 			/** upload file for case */
@@ -179,13 +325,17 @@ class CaseInformationController extends Controller
 		$case->releaseDay = '';
 		}
 
+		/** case upload files */
 		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
+
+		/** case kH list */
+		$caseKH = CaseInfoKh::where('case_id',$case->id)->first();
 
 		/** find related news */
 		$relatedCases = CaseInformation::where('related_case_number',$case->case_number)->whereNotNull('related_case_number')->get();
 
 		$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
-		return view('form/case/show',compact('case','caseUploads','relatedCases','latestCases'));
+		return view('form/case/show',compact('case','caseUploads','relatedCases','latestCases','caseKH'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -204,6 +354,18 @@ class CaseInformationController extends Controller
 
         return view('form/case/edit',compact('case','activities','causingCases','countries','caseUploads'));
     }
+
+	/** edit khmer case information */
+	public function editKhmerCase(Request $request){
+		$caseKHId = Crypt::decrypt($request->id);
+		$caseKH = CaseInfoKh::find($caseKHId);
+		
+		$case = CaseInformation::find($caseKH->case_id);
+		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
+
+
+		return view('form/case/edit-khmer-case',compact('case','caseKH','caseUploads'));
+	}
 
     /**
      * Update the specified resource in storage.
@@ -263,6 +425,37 @@ class CaseInformationController extends Controller
 			}
 		}
 
+		return redirect()->route('CaseList')->with('success', "case information data created successfully");
+    }
+
+
+	    /**
+     * Update the specified resource in storage.
+     */
+    public function updateKhmerCase(Request $request)
+    {
+		$request->validate([
+            'title' => 'required',
+            'description' => 'required|max:5000',
+        ]);
+
+		CaseInfoKh::where('id',$request->kh_case_id)->update([
+			'title' => $request->title,
+			'description'=>$request->description,
+			'released_date'=>$request->released_date,
+			'actual_date'=>$request->actual_date,
+			'death'=>$request->death,
+			'injure'=>$request->injure,
+			'activities'=>$request->activities,
+			'causing_case'=>$request->causing_case,
+			'country'=>$request->country,
+			'province_city'=>$request->province_city,
+			'area'=>$request->area,
+			'provocative_group'=>$request->provocative_group,
+			'victim'=>$request->victim,
+			'perpetrator_name'=>$request->perpetrator_name,
+			'victim_name'=>$request->victim_name
+		]);
 		return redirect()->route('CaseList')->with('success', "case information data created successfully");
     }
 
