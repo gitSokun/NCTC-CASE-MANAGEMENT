@@ -51,7 +51,6 @@
 								@else
 								<div class="ribbon bg-warning"></div>
 								@endif
-
 							</div>
 							<a href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">

@@ -521,15 +521,29 @@ class CaseInformationController extends Controller
 	private function searchCases($searchString){
 		if($searchString){
 			$string ='%'.$searchString.'%' ;
-			$cases = CaseInformation::where('title', 'like', $string)
-			->orWhere('description', 'like', $string)
-			->orWhere('case_number','like',$string)
-			->orderBy('created_at', 'DESC')
+			$cases = CaseInformation::select(
+				'case_information.*',
+				'case_information.created_by as user_id_created_case',
+				'case_info_khs.created_by as user_id_created_caseKh', 
+				'case_info_khs.id as case_id_kh'
+				)
+			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->where('case_information.title', 'like', $string)
+			->orWhere('case_information.description', 'like', $string)
+			->orWhere('case_information.case_number','like',$string)
+			->orderBy('case_information.created_at', 'DESC')
 			->paginate(10);
 			return $cases;
 		}else{
-			$cases = CaseInformation::orderBy('created_at', 'DESC')
-		->paginate(10);
+			$cases = CaseInformation::select(
+				'case_information.*',
+				'case_information.created_by as user_id_created_case',
+				'case_info_khs.created_by as user_id_created_caseKh', 
+				'case_info_khs.id as case_id_kh'
+				)
+			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->orderBy('case_information.created_at', 'DESC')
+			->paginate(10);
 		return $cases;
 		}
 	}
