@@ -479,7 +479,16 @@ class CaseInformationController extends Controller
 	public function search(){
 
 		$search = '';
-		$cases = CaseInformation::orderBy('created_at', 'DESC')->paginate(10);
+		$cases = CaseInformation::select(
+			'case_information.*',
+			'case_information.created_by as user_id_created_case',
+			'case_info_khs.created_by as user_id_created_caseKh', 
+			'case_info_khs.id as case_id_kh'
+			)
+		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+		->orderBy('created_at', 'DESC')
+		->paginate(10);
+
 		return view('form/case/search',compact('cases','search'));
 		
 	}
@@ -488,10 +497,12 @@ class CaseInformationController extends Controller
 		if($request->search){
 			$search = $request->search;
 			$cases = $this->searchCases($request->search);
+
 			return view('form/case/user-search',compact('cases','search'));
 		}else{
-			$cases = $this->searchCases($request->search);
 			$search = '';
+			$cases = $this->searchCases($request->search);
+
 			return view('form/case/user-search',compact('cases','search'));
 		}
 	}

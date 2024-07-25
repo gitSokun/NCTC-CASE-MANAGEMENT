@@ -46,14 +46,17 @@
 						@foreach($cases as $case)
 						<div class="list-group-item">
 							<div class="ribbon-wrapper">
-							<div class="ribbon bg-primary">
-										KH
-							</div>
+								@if($case->case_id_kh)
+								<div class="ribbon bg-primary">បកប្រែ</div>
+								@else
+								<div class="ribbon bg-warning"></div>
+								@endif
+
 							</div>
 							<a href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">
 									<div class="col-auto">
-										<img class="img-fluid" src="{{asset('dist/img/photo1.png')}}" alt="Photo"
+										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}" alt="Photo"
 											style="max-height: 100px;">
 									</div>
 									<div class="col px-4">
@@ -72,7 +75,7 @@
 								</div>
 							</a>
 						</div>
-						
+
 						@endforeach
 						<div class="list-group-item">
 							<div class="row">
