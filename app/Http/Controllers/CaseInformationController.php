@@ -296,11 +296,16 @@ class CaseInformationController extends Controller
 
 		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
 
+		/** case kH list */
+		$caseKH = CaseInfoKh::where('case_id',$case->id)->first();
+
 		/** find related news */
-		$relatedCases = CaseInformation::where('related_case_number',$case->case_number)->whereNotNull('related_case_number')->get();
+		$relatedCases = CaseInformation::where('related_case_number',$case->case_number)
+		->whereNotNull('related_case_number')
+		->get();
 
 		$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
-		return view('form/case/user-show',compact('case','caseUploads','relatedCases','latestCases'));
+		return view('form/case/user-show',compact('case','caseUploads','relatedCases','latestCases','caseKH'));
 	}
     /**
      * Display the specified resource.
@@ -513,8 +518,9 @@ class CaseInformationController extends Controller
 			$cases = $this->searchCases($request->search);
 			return view('form/case/search',compact('cases','search'));
 		}else{
-			$cases = $this->searchCases($request->search);
 			$search = '';
+			$cases = $this->searchCases($request->search);
+			
 			return view('form/case/search',compact('cases','search'));
 		}
 	}
