@@ -208,7 +208,7 @@ class CaseInformationController extends Controller
     {
 		$request->validate([
             'title' => 'required',
-            'description' => 'required|max:5000',
+            //'description' => 'required|max:5000',
 			'original_source' => 'required|max:5000',
         ]);
 		DB::transaction(function () use ($request) {
@@ -221,7 +221,7 @@ class CaseInformationController extends Controller
 				'case_number'=>$caseNumber,
 				'related_case_number'=>$request->related_case_number,
 				'title' => $request->title,
-				'description'=>$request->description,
+				'description'=>$request->original_source,//$request->description,
 				'original_source'=>$request->original_source,
 				'released_date'=>$request->released_date,
 				'actual_date'=>$request->actual_date,
@@ -379,13 +379,13 @@ class CaseInformationController extends Controller
     {
 		$request->validate([
             'title' => 'required',
-            'description' => 'required|max:5000',
+            //'description' => 'required|max:5000',
         ]);
 
 		CaseInformation::where('id',$request->id)->update([
 			'related_case_number'=>$request->related_case_number,
 			'title' => $request->title,
-			'description'=>$request->description,
+			'description'=>$request->original_source,//$request->description,
 			'original_source'=>$request->original_source,
 			'released_date'=>$request->released_date,
 			'actual_date'=>$request->actual_date,

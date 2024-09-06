@@ -18,6 +18,9 @@ class LoginController extends Controller
 	public function dashboard(){
 		return view('form/dashboard');
 	}
+	public function dashboardReporter(){
+		return view('form/dashboard-reporter');
+	}
 	public function authenticate(Request $request)
     {
         $credentials = $request->validate([
@@ -33,7 +36,7 @@ class LoginController extends Controller
 				return redirect()->route('dashboard')
                 ->withSuccess('You have successfully logged in!');
 			}elseif($user->role == 'REPORTER'){
-				return redirect()->route('dashboard')
+				return redirect()->route('dashboard-reporter')
                 ->withSuccess('You have successfully logged in!');
 			}elseif($user->role == 'USER'){
 				return redirect()->route('user-search-case')

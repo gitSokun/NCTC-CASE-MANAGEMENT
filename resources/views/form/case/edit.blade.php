@@ -70,7 +70,7 @@
 											@endif
 										</div>
 									</div>
-									<div class="col-sm-12">
+									<!--<div class="col-sm-12">
 										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសាររួម
 											(មានទាំង link ដើម)</label>
 										<textarea id="description" name="description"
@@ -79,7 +79,7 @@
 										<label for="inputSkills" class="col-sm-12 col-form-label "
 											style="color:red;">{{ $errors->first('description') }}</label>
 										@endif
-									</div>
+									</div>-->
 									<div class="col-sm-12">
 										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសារដើម
 											(មានទាំង link ដើម)</label>
