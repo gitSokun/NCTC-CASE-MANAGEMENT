@@ -83,7 +83,15 @@
 										</div>
 									</div>
 
-
+									<!--@if ($errors->any())
+									<div class="alert alert-danger">
+										<ul>
+											@foreach ($errors->all() as $error)
+											<li>{{ $error }}</li>
+											@endforeach
+										</ul>
+									</div>
+									@endif-->
 									<!--<div class="col-sm-12">
 										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសាររួម
 											(មានទាំង link ដើម)</label>
@@ -94,13 +102,12 @@
 											style="color:red;">{{ $errors->first('description') }}</label>
 										@endif
 									</div>-->
-
 									<div class="col-sm-12">
 										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសារដើម
 											(មានទាំង link ដើម)</label>
 										<textarea id="original_source" name="original_source"
 											class="@error('original_source') is-invalid @enderror"></textarea>
-										@if($errors->has('title'))
+										@if($errors->has('original_source'))
 										<label for="original_source" class="col-sm-12 col-form-label "
 											style="color:red;">{{ $errors->first('original_source') }}</label>
 										@endif

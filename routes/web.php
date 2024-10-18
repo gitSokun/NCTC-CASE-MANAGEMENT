@@ -75,6 +75,9 @@ Route::group(['middleware' => ['auth','allow-role-admin-reporter']], function ()
 	Route::post('/case-information-update',[CaseInformationController::class,'update'])->name('case-information-update');
 	Route::post('/case-upload/delete-file',[CaseInformationController::class,'deletCaseUpload'])->name('case-upload-remove');
 
+	Route::get('/case-information-delete/{id}',[CaseInformationController::class,'showForDeletion'])->name('case-information-delete');
+	Route::post('/case-information-delete-info',[CaseInformationController::class,'deleteCaseInfo'])->name('case-information-delete-info');
+
 	/** translate to khmer */
 	Route::post('/khmer-case-information/store',[CaseInformationController::class,'storeKhmerCase'])->name('khmer-case-information-store');
 	Route::get('/case-information/create/khmer/case/{id}',[CaseInformationController::class,'createKhmerCase'])->name('create-khmer-case');

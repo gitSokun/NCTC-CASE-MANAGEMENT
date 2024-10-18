@@ -85,7 +85,7 @@
 											(មានទាំង link ដើម)</label>
 										<textarea id="original_source" name="original_source"
 											class="@error('original_source') is-invalid @enderror">{{$case->original_source}}</textarea>
-										@if($errors->has('title'))
+										@if($errors->has('original_source'))
 										<label for="original_source" class="col-sm-12 col-form-label "
 											style="color:red;">{{ $errors->first('original_source') }}</label>
 										@endif

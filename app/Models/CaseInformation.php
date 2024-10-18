@@ -30,6 +30,7 @@ class CaseInformation extends Model
 		'victim',
 		'perpetrator_name',
 		'victim_name',
+		'status',
 		'created_at'
     ];
 	protected $casts = [

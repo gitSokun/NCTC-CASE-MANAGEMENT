@@ -25,6 +25,7 @@
 					<!-- /.card-header -->
 					<div class="card-body">
 
+
 						<table id="example1" class="table table-bordered table-striped">
 							<thead>
 								<tr class="Battambang">
@@ -34,12 +35,12 @@
 									<th>ខេត្ត</th>
 									<th>តំបន់</th>
 									<!--<th>បកប្រែ</th>-->
-									<th style="width: 35%;">សកម្មភាព</th>
+									<th style="width: 40%;">សកម្មភាព</th>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($cases as $case)
-
+								
 								<tr class="Battambang">
 									<td>
 										<p style="font-weight: 100;">{{$case->case_number}}</p>
@@ -83,6 +84,10 @@
 												<i class="fas fa-plus" aria-hidden="true"></i> បកប្រែភាសាខ្មែរ
 											</button>
 											@endif
+											<button type="submit" class="btn btn-danger"
+												onclick="location.href='{{ url('/case-information-delete/' . Crypt::encrypt($case->id)) }}'">
+												<i class="fas fa-trash" aria-hidden="true"></i> លុប
+											</button>
 										</div>
 										@else
 										<div class="btn-group" style="float: right;">
@@ -109,9 +114,15 @@
 												<i class="fas fa-plus" aria-hidden="true"></i> បកប្រែភាសាខ្មែរ
 											</button>
 											@endif
+											<button type="submit" class="btn btn-danger"
+												onclick="location.href='{{ url('/case-information-delete/' . Crypt::encrypt($case->id)) }}'">
+												<i class="fas fa-trash" aria-hidden="true"></i> លុប
+											</button>
 											@endif
+
 										</div>
 										@endif
+
 									</td>
 								</tr>
 								@endforeach

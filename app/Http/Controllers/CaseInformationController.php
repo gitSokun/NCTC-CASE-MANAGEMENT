@@ -32,6 +32,7 @@ class CaseInformationController extends Controller
 				'case_info_khs.id as case_id_kh'
 				)
 			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->where('case_information.status','=','Active')
 			->orderBy('case_information.created_at', 'DESC')
 			->paginate(10);
 			$isRoleAdmin = true;
@@ -47,6 +48,7 @@ class CaseInformationController extends Controller
 		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
 		->where('case_information.created_by',$user->id)
 		->orWhere('case_info_khs.created_by',$user->id)
+		->where('case_information.status','=','Active')
 		->orderBy('case_information.created_at', 'DESC')
 		->paginate(10);
 
@@ -142,7 +144,8 @@ class CaseInformationController extends Controller
 					'provocative_group'=>$request->provocative_group,
 					'victim'=>$request->victim,
 					'perpetrator_name'=>$request->perpetrator_name,
-					'victim_name'=>$request->victim_name
+					'victim_name'=>$request->victim_name,
+					'status'=>'Active'
 				]);
 			}else{
 				/** create case information */
@@ -163,7 +166,8 @@ class CaseInformationController extends Controller
 					'provocative_group'=>$request->provocative_group,
 					'victim'=>$request->victim,
 					'perpetrator_name'=>$request->perpetrator_name,
-					'victim_name'=>$request->victim_name
+					'victim_name'=>$request->victim_name,
+					'status'=>'Active'
 				]);
 
 				/** upload file for case */
@@ -237,7 +241,8 @@ class CaseInformationController extends Controller
 				'perpetrator_name'=>$request->perpetrator_name,
 				'victim_name'=>$request->victim_name,
 				'is_kh'=>false,
-				'is_publish'=>true
+				'is_publish'=>true,
+				'status'=>'Active'
 			]);
 
 			/** upload file for case */
@@ -342,6 +347,38 @@ class CaseInformationController extends Controller
 		$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
 		return view('form/case/show',compact('case','caseUploads','relatedCases','latestCases','caseKH'));
     }
+	public function showForDeletion(Request $request)
+    {
+        $caseId = Crypt::decrypt($request->id);
+		$case = CaseInformation::find($caseId);
+
+		if($case->released_date){
+			$khmerMonths =['','មករា','កុម្ភៈ','មិនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+			$date = Carbon::parse($case->released_date);
+		    $Formatdate = $date->format('Y-m-d');
+
+			$releaseDates = explode('-', $Formatdate);
+			$case->releaseYear = $releaseDates[0];
+			$case->releaseMonth = $khmerMonths[ltrim($releaseDates[1], '0')];
+			$case->releaseDay = $releaseDates[2];
+		}else{
+		$case->releaseYear = '';
+		$case->releaseMonth = '';
+		$case->releaseDay = '';
+		}
+
+		/** case upload files */
+		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
+
+		/** case kH list */
+		$caseKH = CaseInfoKh::where('case_id',$case->id)->first();
+
+		/** find related news */
+		$relatedCases = CaseInformation::where('related_case_number',$case->case_number)->whereNotNull('related_case_number')->get();
+
+		$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
+		return view('form/case/show-for-delete',compact('case','caseUploads','relatedCases','latestCases','caseKH'));
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -379,7 +416,7 @@ class CaseInformationController extends Controller
     {
 		$request->validate([
             'title' => 'required',
-            //'description' => 'required|max:5000',
+            'original_source' => 'required|max:5000',
         ]);
 
 		CaseInformation::where('id',$request->id)->update([
@@ -399,7 +436,8 @@ class CaseInformationController extends Controller
 			'provocative_group'=>$request->provocative_group,
 			'victim'=>$request->victim,
 			'perpetrator_name'=>$request->perpetrator_name,
-			'victim_name'=>$request->victim_name
+			'victim_name'=>$request->victim_name,
+			'status'=>'Active'
 		]);
 
 		/** upload file for case */
@@ -432,6 +470,13 @@ class CaseInformationController extends Controller
 
 		return redirect()->route('CaseList')->with('success', "case information data created successfully");
     }
+	public function deleteCaseInfo(Request $request)
+    {
+		CaseInformation::where('id',$request->id)->update([
+			'status'=>'Inactive'
+		]);
+		return redirect()->route('CaseList')->with('success', "case information data created successfully");
+    }
 
 
 	    /**
@@ -459,7 +504,8 @@ class CaseInformationController extends Controller
 			'provocative_group'=>$request->provocative_group,
 			'victim'=>$request->victim,
 			'perpetrator_name'=>$request->perpetrator_name,
-			'victim_name'=>$request->victim_name
+			'victim_name'=>$request->victim_name,
+			'status'=>'Active'
 		]);
 		return redirect()->route('CaseList')->with('success', "case information data created successfully");
     }
@@ -491,6 +537,7 @@ class CaseInformationController extends Controller
 			'case_info_khs.id as case_id_kh'
 			)
 		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+		->where('case_information.status','=','Active')
 		->orderBy('created_at', 'DESC')
 		->paginate(10);
 
@@ -537,6 +584,7 @@ class CaseInformationController extends Controller
 			->where('case_information.title', 'like', $string)
 			->orWhere('case_information.description', 'like', $string)
 			->orWhere('case_information.case_number','like',$string)
+			->where('case_information.status','=','Active')
 			->orderBy('case_information.created_at', 'DESC')
 			->paginate(10);
 			return $cases;

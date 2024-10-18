@@ -93,7 +93,7 @@
 															ខ្លឹមសាររួម</label>
 														<textarea id="description" name="description"
 															class="@error('description') is-invalid @enderror"></textarea>
-														@if($errors->has('title'))
+														@if($errors->has('description'))
 														<label for="inputSkills" class="col-sm-12 col-form-label "
 															style="color:red;">{{ $errors->first('description') }}</label>
 														@endif

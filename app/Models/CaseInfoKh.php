@@ -30,6 +30,7 @@ class CaseInfoKh extends Model
 		'victim',
 		'perpetrator_name',
 		'victim_name',
+		'status',
 		'created_at',
 		'updated_at'
     ];
