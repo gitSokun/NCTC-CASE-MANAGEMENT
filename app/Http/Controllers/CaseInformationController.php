@@ -120,7 +120,7 @@ class CaseInformationController extends Controller
 	public function storeKhmerCase(Request $request){
 		$request->validate([
             'title' => 'required',
-            'description' => 'required|max:5000',
+            'description' => 'required',
         ]);
 		DB::transaction(function () use ($request) {
 			/** get case_number */
@@ -416,7 +416,7 @@ class CaseInformationController extends Controller
     {
 		$request->validate([
             'title' => 'required',
-            'original_source' => 'required|max:5000',
+            'original_source' => 'required',
         ]);
 
 		try{
@@ -491,7 +491,7 @@ class CaseInformationController extends Controller
     {
 		$request->validate([
             'title' => 'required',
-            'description' => 'required|max:5000',
+            'description' => 'required',
         ]);
 		try{
 		CaseInfoKh::where('id',$request->kh_case_id)->update([
