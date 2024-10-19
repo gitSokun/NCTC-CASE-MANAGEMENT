@@ -322,24 +322,24 @@ $(function() {
 		theme: 'bootstrap4'
 	})
 
-	//Datemask dd/mm/yyyy
-	$('#datemask').inputmask('dd/mm/yyyy', {
-		'placeholder': 'dd/mm/yyyy'
+	//Datemask yyyy-mm-dd
+	$('#datemask').inputmask('yyyy-mm-dd', {
+		'placeholder': 'yyyy-mm-dd'
 	})
-	//Datemask2 mm/dd/yyyy
-	$('#datemask2').inputmask('mm/dd/yyyy', {
-		'placeholder': 'mm/dd/yyyy'
+	//Datemask2 yyyy-mm-dd
+	$('#datemask2').inputmask('yyyy-mm-dd', {
+		'placeholder': 'yyyy-mm-dd'
 	})
 	//Money Euro
 	$('[data-mask]').inputmask()
 
 	//Date picker
 	$('#reservationdate').datetimepicker({
-		format: 'L'
+		format: 'yyyy-M-D'
 	});
 	//Date picker
 	$('#reservationdate1').datetimepicker({
-		format: 'L'
+		format: 'yyyy-M-D'
 	});
 
 	//Date and time picker
@@ -356,7 +356,7 @@ $(function() {
 		timePicker: true,
 		timePickerIncrement: 30,
 		locale: {
-			format: 'MM/DD/YYYY hh:mm A'
+			format: 'yyyy-mm-dd hh:mm A'
 		}
 	})
 

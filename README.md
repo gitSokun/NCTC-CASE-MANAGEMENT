@@ -64,3 +64,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+============ modify column type for two table 19-Oct-2024 ==========
+1. please install doctrine
+composer require doctrine/dbal
+
+2. pull code from branch main
+3. run command : sail artisan migrate

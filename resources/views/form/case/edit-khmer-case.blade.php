@@ -366,11 +366,11 @@ $(function() {
 
 	//Date picker
 	$('#reservationdate').datetimepicker({
-		format: 'L'
+		format: 'yyyy-M-D'
 	});
 	//Date picker
 	$('#reservationdate1').datetimepicker({
-		format: 'L'
+		format: 'yyyy-M-D'
 	});
 
 	//Date and time picker

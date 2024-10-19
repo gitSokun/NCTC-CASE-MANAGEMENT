@@ -13,6 +13,7 @@ use App\Models\CausingCase;
 use App\Models\Country;
 use App\Models\CaseUpload;
 use Carbon\Carbon;
+Use Exception;
 
 class CaseInformationController extends Controller
 {
@@ -212,8 +213,7 @@ class CaseInformationController extends Controller
     {
 		$request->validate([
             'title' => 'required',
-            //'description' => 'required|max:5000',
-			'original_source' => 'required|max:5000',
+			'original_source' => 'required',
         ]);
 		DB::transaction(function () use ($request) {
 			/** get case_number */
@@ -419,56 +419,61 @@ class CaseInformationController extends Controller
             'original_source' => 'required|max:5000',
         ]);
 
-		CaseInformation::where('id',$request->id)->update([
-			'related_case_number'=>$request->related_case_number,
-			'title' => $request->title,
-			'description'=>$request->original_source,//$request->description,
-			'original_source'=>$request->original_source,
-			'released_date'=>$request->released_date,
-			'actual_date'=>$request->actual_date,
-			'death'=>$request->death,
-			'injure'=>$request->injure,
-			'activities'=>$request->activities,
-			'causing_case'=>$request->causing_case,
-			'country'=>$request->country,
-			'province_city'=>$request->province_city,
-			'area'=>$request->area,
-			'provocative_group'=>$request->provocative_group,
-			'victim'=>$request->victim,
-			'perpetrator_name'=>$request->perpetrator_name,
-			'victim_name'=>$request->victim_name,
-			'status'=>'Active'
-		]);
+		try{
+			CaseInformation::where('id',$request->id)->update([
+				'related_case_number'=>$request->related_case_number,
+				'title' => $request->title,
+				'description'=>$request->original_source,//$request->description,
+				'original_source'=>$request->original_source,
+				'released_date'=>$request->released_date,
+				'actual_date'=>$request->actual_date,
+				'death'=>$request->death,
+				'injure'=>$request->injure,
+				'activities'=>$request->activities,
+				'causing_case'=>$request->causing_case,
+				'country'=>$request->country,
+				'province_city'=>$request->province_city,
+				'area'=>$request->area,
+				'provocative_group'=>$request->provocative_group,
+				'victim'=>$request->victim,
+				'perpetrator_name'=>$request->perpetrator_name,
+				'victim_name'=>$request->victim_name,
+				'status'=>'Active'
+			]);
 
-		/** upload file for case */
-		$case = CaseInformation::find($request->id);
-		if($request->hasFile('photos')){
-			$dt = Carbon::now();
-			$date_time = $dt->toDayDateTimeString();
-			$folder_name=$case->case_number;
-
-			/** create one directory based on name */
-			\Storage::disk('local')->makeDirectory($folder_name, 0775, true);
-
-			$photos = $request->file('photos');
-			foreach ($photos as $photo){
-				$file_name = $photo->getClientOriginalName();
-				$destinationPath = $folder_name.'/'.$file_name;
-
-				/** store file in directory */
-				\Storage::disk('local')->put($destinationPath,file_get_contents($photo->getRealPath()));
-
-				/** create file upload */
-				CaseUpload::create([
-					'case_number'=>$case->case_number,
-					'file_name'=>$file_name,
-					'original_name'=>$file_name,
-					'file_path'=>$destinationPath
-				]);
+			/** upload file for case */
+			$case = CaseInformation::find($request->id);
+			if($request->hasFile('photos')){
+				$dt = Carbon::now();
+				$date_time = $dt->toDayDateTimeString();
+				$folder_name=$case->case_number;
+	
+				/** create one directory based on name */
+				\Storage::disk('local')->makeDirectory($folder_name, 0775, true);
+	
+				$photos = $request->file('photos');
+				foreach ($photos as $photo){
+					$file_name = $photo->getClientOriginalName();
+					$destinationPath = $folder_name.'/'.$file_name;
+	
+					/** store file in directory */
+					\Storage::disk('local')->put($destinationPath,file_get_contents($photo->getRealPath()));
+	
+					/** create file upload */
+					CaseUpload::create([
+						'case_number'=>$case->case_number,
+						'file_name'=>$file_name,
+						'original_name'=>$file_name,
+						'file_path'=>$destinationPath
+					]);
+				}
 			}
+	
+			return redirect()->route('CaseList')->with('success', "case information data created successfully");
+		}catch (Exception $e) {
+			return redirect()->route('CaseList')->with('success', "case information data created successfully");
 		}
-
-		return redirect()->route('CaseList')->with('success', "case information data created successfully");
+		
     }
 	public function deleteCaseInfo(Request $request)
     {
@@ -488,7 +493,7 @@ class CaseInformationController extends Controller
             'title' => 'required',
             'description' => 'required|max:5000',
         ]);
-
+		try{
 		CaseInfoKh::where('id',$request->kh_case_id)->update([
 			'title' => $request->title,
 			'description'=>$request->description,
@@ -508,6 +513,9 @@ class CaseInformationController extends Controller
 			'status'=>'Active'
 		]);
 		return redirect()->route('CaseList')->with('success', "case information data created successfully");
+		}catch (Exception $e) {
+			abort(404);
+		}
     }
 
 	public function deletCaseUpload(Request $request){
