@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth','allow-role-admin-reporter']], function ()
 	Route::get('/case-information-search',[CaseInformationController::class,'search'])->name('search-case-information');
 	Route::post('/case-information-search',[CaseInformationController::class,'searchResult'])->name('search-result-case-information');
 	Route::get('/case-information',[CaseInformationController::class,'index'])->name('CaseList');
+	Route::post('/case-information-search-index',[CaseInformationController::class,'searchIndex'])->name('search-case-index');
 	Route::get('/case-information/create',[CaseInformationController::class,'create'])->name('case-information-create');
 	Route::post('/case-information/store',[CaseInformationController::class,'store'])->name('case-information-store');
 	Route::get('/case-information-show/{id}',[CaseInformationController::class,'show'])->name('case-information-show');

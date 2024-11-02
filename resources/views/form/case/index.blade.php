@@ -15,10 +15,30 @@
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header">
-						<button type="button" class="btn btn-primary Battambang"
-							onclick="window.location='{{ route('case-information-create')}}'"><i
-								class="nav-icon fas fa-plus" aria-hidden="true"></i>
-							បង្កើតព្រឹត្តិការណ៍ </button>
+						<div class="row">
+							<div class="col-2">
+								<button type="button" class="btn btn-primary Battambang"
+									onclick="window.location='{{ route('case-information-create')}}'"><i
+										class="nav-icon fas fa-plus" aria-hidden="true"></i>
+									បង្កើតព្រឹត្តិការណ៍ </button>
+							</div>
+							<div class="col-10">
+								<form method="POST" action="{{ route('search-case-index') }}">
+									{{ csrf_field() }}
+									<div class="input-group input-group-lg">
+										<input type="search" name="search" id="search" value="{{$search}}"
+											class="form-control form-control-lg" placeholder="ស្វែងរកព្រឹត្តិការណ៍"
+											value="">
+										<div class="input-group-append">
+											<button type="submit" class="btn btn-lg btn-default">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
 
 
 					</div>
@@ -40,8 +60,25 @@
 							</thead>
 							<tbody>
 								@foreach($cases as $case)
-								
+
 								<tr class="Battambang">
+									@if($case->case_id_kh)
+									<td>
+										<p style="font-weight: 100;">{{$case->case_number_kh}}</p>
+									</td>
+									<td>
+										<p style="font-weight: 100;">{{$case->title_kh}}</p>
+									</td>
+									<td>
+										<p style="font-weight: 100;">{{$case->country_kh}}</p>
+									</td>
+									<td>
+										<p style="font-weight: 100;">{{$case->province_city_kh}}</p>
+									</td>
+									<td>
+										<p style="font-weight: 100;">{{$case->area_kh}}</p>
+									</td>
+									@else
 									<td>
 										<p style="font-weight: 100;">{{$case->case_number}}</p>
 									</td>
@@ -57,10 +94,7 @@
 									<td>
 										<p style="font-weight: 100;">{{$case->area}}</p>
 									</td>
-									<!--<td>
-										<p style="font-weight: 100;">{{$case->case_id_kh}}</p>
-									</td>-->
-
+									@endif
 									<td>
 										@if($isRoleAdmin)
 										<div class="btn-group" style="float: right;">
@@ -114,10 +148,10 @@
 												<i class="fas fa-plus" aria-hidden="true"></i> បកប្រែភាសាខ្មែរ
 											</button>
 											@endif
-											<button type="submit" class="btn btn-danger"
-												onclick="location.href='{{ url('/case-information-delete/' . Crypt::encrypt($case->id)) }}'">
-												<i class="fas fa-trash" aria-hidden="true"></i> លុប
-											</button>
+											<!--<button type="submit" class="btn btn-danger"
+													onclick="location.href='{{ url('/case-information-delete/' . Crypt::encrypt($case->id)) }}'">
+													<i class="fas fa-trash" aria-hidden="true"></i> លុប
+												</button>-->
 											@endif
 
 										</div>

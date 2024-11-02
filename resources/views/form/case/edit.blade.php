@@ -61,7 +61,7 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<label class="label1" style="font-weight: 200;color:red;">* ចំណងជើង
-												(មានទាំងអត្ថបទ)</label>
+											</label>
 											<input type="text" class="form-control @error('title') is-invalid @enderror"
 												id="title" name="title" placeholder="input" value="{{$case->title}}">
 											@if($errors->has('title'))
@@ -91,7 +91,7 @@
 										@endif
 									</div>
 
-									
+
 								</div>
 
 							</div>
@@ -245,10 +245,10 @@
 						</div>
 
 						<div class="col-md-12">
-							
+
 							<div class="card-body">
 								<div class="row">
-									
+
 
 									<div class="col-sm-12">
 
@@ -330,7 +330,8 @@
 										placeholder="" hidden>
 									<input class="form-control " id="case_upload_id" name="case_upload_id"
 										value="{{Crypt::encrypt($file->id)}}" placeholder="" hidden>
-									<button type="submit" class="btn btn-danger" onclick="return confirm('តើអ្នកប្រាកដថាចង់លុបឯកសារ ?')">
+									<button type="submit" class="btn btn-danger"
+										onclick="return confirm('តើអ្នកប្រាកដថាចង់លុបឯកសារ ?')">
 										<i class="fas fa-trash" aria-hidden="true"></i> លុបឯកសារ
 									</button>
 								</form>

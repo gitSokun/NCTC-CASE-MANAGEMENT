@@ -22,6 +22,7 @@ class CaseInformationController extends Controller
      */
     public function index()
     {
+		$search = '';
 		$user = Auth::user();
 		$isRoleAdmin = false;
 
@@ -30,21 +31,33 @@ class CaseInformationController extends Controller
 				'case_information.*',
 				'case_information.created_by as user_id_created_case',
 				'case_info_khs.created_by as user_id_created_caseKh', 
-				'case_info_khs.id as case_id_kh'
+				'case_info_khs.id as case_id_kh',
+				'case_info_khs.title as title_kh',
+				'case_info_khs.case_number as case_number_kh',
+				'case_info_khs.description as description_kh',
+				'case_info_khs.country as country_kh',
+				'case_info_khs.province_city as province_city_kh',
+				'case_info_khs.area as area_kh'
 				)
 			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
 			->where('case_information.status','=','Active')
 			->orderBy('case_information.created_at', 'DESC')
 			->paginate(10);
 			$isRoleAdmin = true;
-			return view('form/case/index',compact('cases','user','isRoleAdmin'));
+			return view('form/case/index',compact('cases','user','isRoleAdmin','search'));
 		}
 
 		$cases = CaseInformation::select(
 			'case_information.*',
 			'case_information.created_by as user_id_created_case',
 			'case_info_khs.created_by as user_id_created_caseKh', 
-			'case_info_khs.id as case_id_kh'
+			'case_info_khs.id as case_id_kh',
+			'case_info_khs.title as title_kh',
+			'case_info_khs.case_number as case_number_kh',
+			'case_info_khs.description as description_kh',
+			'case_info_khs.country as country_kh',
+			'case_info_khs.province_city as province_city_kh',
+			'case_info_khs.area as area_kh'
 			)
 		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
 		->where('case_information.created_by',$user->id)
@@ -53,11 +66,125 @@ class CaseInformationController extends Controller
 		->orderBy('case_information.created_at', 'DESC')
 		->paginate(10);
 
-
-		return view('form/case/index',compact('cases','user','isRoleAdmin'));
-
-
+		return view('form/case/index',compact('cases','user','isRoleAdmin','search'));
     }
+	public function searchIndex(Request $request){
+
+		$search = '';
+		if($request->search){
+			$search = $request->search;
+			$string ='%'.$search.'%' ;
+		}
+
+		$user = Auth::user();
+		$isRoleAdmin = false;
+        
+		if($search){
+			if($user->role == 'ADMIN'){
+				$cases = CaseInformation::select(
+					'case_information.*',
+					'case_information.created_by as user_id_created_case',
+					'case_info_khs.created_by as user_id_created_caseKh', 
+					'case_info_khs.id as case_id_kh',
+					'case_info_khs.title as title_kh',
+					'case_info_khs.case_number as case_number_kh',
+					'case_info_khs.description as description_kh',
+					'case_info_khs.country as country_kh',
+					'case_info_khs.province_city as province_city_kh',
+					'case_info_khs.area as area_kh'
+					)
+				->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+				->where('case_information.status','=','Active')
+	
+				->where('case_information.title', 'like', $string)
+				->orWhere('case_information.description', 'like', $string)
+				->orWhere('case_information.case_number','like',$string)
+	
+				->orWhere('case_info_khs.title', 'like', $string)
+				->orWhere('case_info_khs.description', 'like', $string)
+				->orWhere('case_info_khs.case_number','like',$string)
+	
+				->orderBy('case_information.created_at', 'DESC')
+				->paginate(10);
+				$isRoleAdmin = true;
+				return view('form/case/index',compact('cases','user','isRoleAdmin','search'));
+			}
+	
+			$cases = CaseInformation::select(
+				'case_information.*',
+				'case_information.created_by as user_id_created_case',
+				'case_info_khs.created_by as user_id_created_caseKh', 
+				'case_info_khs.id as case_id_kh',
+				'case_info_khs.title as title_kh',
+				'case_info_khs.case_number as case_number_kh',
+				'case_info_khs.description as description_kh',
+				'case_info_khs.country as country_kh',
+				'case_info_khs.province_city as province_city_kh',
+				'case_info_khs.area as area_kh'
+				)
+			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->where('case_information.created_by',$user->id)
+			->orWhere('case_info_khs.created_by',$user->id)
+			->where('case_information.status','=','Active')
+	
+			->where('case_information.title', 'like', $string)
+			->orWhere('case_information.description', 'like', $string)
+			->orWhere('case_information.case_number','like',$string)
+	
+			->orWhere('case_info_khs.title', 'like', $string)
+			->orWhere('case_info_khs.description', 'like', $string)
+			->orWhere('case_info_khs.case_number','like',$string)
+	
+			->orderBy('case_information.created_at', 'DESC')
+			->paginate(10);
+	
+			return view('form/case/index',compact('cases','user','isRoleAdmin','search'));
+		}else{
+			if($user->role == 'ADMIN'){
+				$cases = CaseInformation::select(
+					'case_information.*',
+					'case_information.created_by as user_id_created_case',
+					'case_info_khs.created_by as user_id_created_caseKh', 
+					'case_info_khs.id as case_id_kh',
+					'case_info_khs.title as title_kh',
+					'case_info_khs.case_number as case_number_kh',
+					'case_info_khs.description as description_kh',
+					'case_info_khs.country as country_kh',
+					'case_info_khs.province_city as province_city_kh',
+					'case_info_khs.area as area_kh'
+					)
+				->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+				->where('case_information.status','=','Active')
+				->orderBy('case_information.created_at', 'DESC')
+				->paginate(10);
+				$isRoleAdmin = true;
+				return view('form/case/index',compact('cases','user','isRoleAdmin','search'));
+			}
+	
+			$cases = CaseInformation::select(
+				'case_information.*',
+				'case_information.created_by as user_id_created_case',
+				'case_info_khs.created_by as user_id_created_caseKh', 
+				'case_info_khs.id as case_id_kh',
+				'case_info_khs.title as title_kh',
+				'case_info_khs.case_number as case_number_kh',
+				'case_info_khs.description as description_kh',
+				'case_info_khs.country as country_kh',
+				'case_info_khs.province_city as province_city_kh',
+				'case_info_khs.area as area_kh'
+				)
+			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->where('case_information.created_by',$user->id)
+			->orWhere('case_info_khs.created_by',$user->id)
+			->where('case_information.status','=','Active')
+			->orderBy('case_information.created_at', 'DESC')
+			->paginate(10);
+	
+			return view('form/case/index',compact('cases','user','isRoleAdmin','search'));
+		}
+
+		
+	}
 
 	public function download($id){
 		try{
@@ -512,6 +639,25 @@ class CaseInformationController extends Controller
 			'victim_name'=>$request->victim_name,
 			'status'=>'Active'
 		]);
+
+		//find case for update
+		CaseInformation::where('id',$request->case_id)->update([
+			'released_date'=>$request->released_date,
+			'actual_date'=>$request->actual_date,
+			'death'=>$request->death,
+			'injure'=>$request->injure,
+			'activities'=>$request->activities,
+			'causing_case'=>$request->causing_case,
+			'country'=>$request->country,
+			'province_city'=>$request->province_city,
+			'area'=>$request->area,
+			'provocative_group'=>$request->provocative_group,
+			'victim'=>$request->victim,
+			'perpetrator_name'=>$request->perpetrator_name,
+			'victim_name'=>$request->victim_name,
+			'status'=>'Active'
+		]);
+
 		return redirect()->route('CaseList')->with('success', "case information data created successfully");
 		}catch (Exception $e) {
 			abort(404);
@@ -542,7 +688,10 @@ class CaseInformationController extends Controller
 			'case_information.*',
 			'case_information.created_by as user_id_created_case',
 			'case_info_khs.created_by as user_id_created_caseKh', 
-			'case_info_khs.id as case_id_kh'
+			'case_info_khs.id as case_id_kh',
+			'case_info_khs.title as title_kh',
+			'case_info_khs.case_number as case_number_kh',
+			'case_info_khs.description as description_kh'
 			)
 		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
 		->where('case_information.status','=','Active')
@@ -570,11 +719,11 @@ class CaseInformationController extends Controller
 	public function searchResult(Request $request){
 		if($request->search){
 			$search = $request->search;
-			$cases = $this->searchCases($request->search);
+			$cases = $this->searchCases($search);
 			return view('form/case/search',compact('cases','search'));
 		}else{
 			$search = '';
-			$cases = $this->searchCases($request->search);
+			$cases = $this->searchCases($search);
 			
 			return view('form/case/search',compact('cases','search'));
 		}
@@ -586,13 +735,22 @@ class CaseInformationController extends Controller
 				'case_information.*',
 				'case_information.created_by as user_id_created_case',
 				'case_info_khs.created_by as user_id_created_caseKh', 
-				'case_info_khs.id as case_id_kh'
+				'case_info_khs.id as case_id_kh',
+				'case_info_khs.title as title_kh',
+				'case_info_khs.case_number as case_number_kh',
+				'case_info_khs.description as description_kh'
 				)
 			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
+			->where('case_information.status','=','Active')
+
 			->where('case_information.title', 'like', $string)
 			->orWhere('case_information.description', 'like', $string)
 			->orWhere('case_information.case_number','like',$string)
-			->where('case_information.status','=','Active')
+
+			->orWhere('case_info_khs.title', 'like', $string)
+			->orWhere('case_info_khs.description', 'like', $string)
+			->orWhere('case_info_khs.case_number','like',$string)
+
 			->orderBy('case_information.created_at', 'DESC')
 			->paginate(10);
 			return $cases;

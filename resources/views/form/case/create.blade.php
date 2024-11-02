@@ -73,7 +73,7 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<label class="label1" style="font-weight: 200;color:red;">* ចំណងជើង
-												(មានទាំងអត្ថបទ)</label>
+												</label>
 											<input type="text" class="form-control @error('title') is-invalid @enderror"
 												id="title" name="title" placeholder="input" value="">
 											@if($errors->has('title'))

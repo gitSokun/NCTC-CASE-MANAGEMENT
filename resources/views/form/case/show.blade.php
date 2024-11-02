@@ -40,6 +40,12 @@
 						@if($caseKH)
 						<div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel"
 							aria-labelledby="custom-tabs-three-home-tab">
+							<div class="card-header" style="padding-left: 0px;">
+								<button type="submit" class="btn btn-info" style="width: 135px;"
+									onclick="location.href='{{ url('/khmer-case-information/' . Crypt::encrypt($caseKH->id).'/edit') }}'">
+									<i class="fas fa-edit" aria-hidden="true"></i> កែសម្រួល
+								</button>
+							</div>
 							<div class="card">
 
 								<div class="card-header p-2">
@@ -48,6 +54,7 @@
 										ឆ្នាំ{{$caseKH->releaseYear}}</p>
 									<p>{{$caseKH->case_number}}</p>
 								</div><!-- /.card-header -->
+
 								<div class="card-body">
 									<!--<img class="img-fluid pad" src="{{asset('dist/img/news/ISIS5.jpg')}}" alt="Photo">-->
 									<p style="">
@@ -73,6 +80,12 @@
 
 						<div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel"
 							aria-labelledby="custom-tabs-three-profile-tab">
+							<div class="card-header" style="padding-left: 0px;">
+								<button type="submit" class="btn btn-info" style="width: 135px;"
+									onclick="location.href='{{ url('/case-information/' . Crypt::encrypt($case->id).'/edit') }}'">
+									<i class="fas fa-edit" aria-hidden="true"></i> កែសម្រួល
+								</button>
+							</div>
 							<div class="card">
 
 								<div class="card-header p-2">

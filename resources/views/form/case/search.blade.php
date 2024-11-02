@@ -52,6 +52,29 @@
 								<div class="ribbon bg-warning"></div>
 								@endif
 							</div>
+							@if($case->case_id_kh)
+							<a href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">
+								<div class="row">
+									<div class="col-auto">
+										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}" alt="Photo"
+											style="max-height: 100px;">
+									</div>
+									<div class="col px-4">
+										<div>
+											<div class="float-right" style="color: darkblue;">{{$case->released_date}}
+											</div>
+											<h5 class="str_limit_title"><a
+													href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">{{$case->title_kh}}</a>
+											</h5>
+											<h6 class="str_limit_title"><a
+													href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">{{$case->case_number_kh}}</a>
+											</h6>
+											<div class="mb-0 str_limit_body">{{strip_tags($case->description_kh)}}</div>
+										</div>
+									</div>
+								</div>
+							</a>
+							@else
 							<a href="{{ url('/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">
 									<div class="col-auto">
@@ -73,6 +96,8 @@
 									</div>
 								</div>
 							</a>
+							@endif
+							
 						</div>
 
 						@endforeach

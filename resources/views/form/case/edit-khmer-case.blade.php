@@ -43,6 +43,7 @@
 									action="{{ route('khmer-case-information-update')}}">
 									{{ csrf_field() }}
 									<input class="form-control " id="kh_case_id" name="kh_case_id" value="{{$caseKH->id}}" placeholder="" hidden>
+									<input class="form-control " id="case_id" name="case_id" value="{{$caseKH->case_id}}" placeholder="" hidden>
 									<div class="card-header">
 										<div class="row">
 											<div class="col-sm-6">
