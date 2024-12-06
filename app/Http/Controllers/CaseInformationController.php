@@ -12,6 +12,7 @@ use App\Models\Activity;
 use App\Models\CausingCase;
 use App\Models\Country;
 use App\Models\CaseUpload;
+use App\Models\Action;
 use Carbon\Carbon;
 Use Exception;
 
@@ -200,14 +201,14 @@ class CaseInformationController extends Controller
      */
     public function create()
     {
-		$activities = Activity::get();
+		$actions = Action::get();
 		$causingCases = CausingCase::get();
 		$countries = Country::get();
 
 		$caseInfo = new CaseInformation();
 		$caseNumber = $caseInfo->getCaseNumber();
 
-		return view('form/case/create',compact('activities','causingCases','countries','caseNumber'));
+		return view('form/case/create',compact('actions','causingCases','countries','caseNumber'));
     }
     /**
      * Show the form for creating a new resource.
@@ -216,7 +217,7 @@ class CaseInformationController extends Controller
     {
 		$caseId = Crypt::decrypt($request->id);
 		$case = CaseInformation::find($caseId);
-
+		$countries = Country::get();
 		$caseInfo = new CaseInfoKh();
 		$caseNumber = $caseInfo->getCaseNumber();
 
@@ -241,7 +242,8 @@ class CaseInformationController extends Controller
 			$relatedCases = CaseInformation::where('related_case_number',$case->case_number)->whereNotNull('related_case_number')->get();
 	
 			$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
-			return view('form/case/create-khmer-case',compact('case','caseUploads','relatedCases','latestCases','caseNumber'));
+			$actions = Action::get();
+			return view('form/case/create-khmer-case',compact('case','actions','countries','caseUploads','relatedCases','latestCases','caseNumber'));
 		
     }
 	public function storeKhmerCase(Request $request){
@@ -519,21 +521,22 @@ class CaseInformationController extends Controller
 		$activities = Activity::get();
 		$causingCases = CausingCase::get();
 		$countries = Country::get();
+		$actions = Action::get();
 
 
-        return view('form/case/edit',compact('case','activities','causingCases','countries','caseUploads'));
+        return view('form/case/edit',compact('case','actions','activities','causingCases','countries','caseUploads'));
     }
 
 	/** edit khmer case information */
 	public function editKhmerCase(Request $request){
 		$caseKHId = Crypt::decrypt($request->id);
 		$caseKH = CaseInfoKh::find($caseKHId);
-		
+		$countries = Country::get();
 		$case = CaseInformation::find($caseKH->case_id);
 		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
+		$actions = Action::get();
 
-
-		return view('form/case/edit-khmer-case',compact('case','caseKH','caseUploads'));
+		return view('form/case/edit-khmer-case',compact('case','actions','countries','caseKH','caseUploads'));
 	}
 
     /**

@@ -6,6 +6,16 @@
 @endsection
 @section('sidebar')
 @include('sidebar.dashboard-side')
+<style>
+.select2-container .select2-selection--single {
+	box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	height: 35px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+</style>
 @endsection
 @section('content')
 <div class="container-fluid Battambang">
@@ -42,7 +52,8 @@
 								<form class="form-horizontal" enctype="multipart/form-data" id="newcase" method="POST"
 									action="{{ route('khmer-case-information-store')}}">
 									{{ csrf_field() }}
-									<input class="form-control " id="case_id" name="case_id" value="{{$case->id}}" placeholder="" hidden>
+									<input class="form-control " id="case_id" name="case_id" value="{{$case->id}}"
+										placeholder="" hidden>
 									<div class="card-header">
 										<div class="row">
 											<div class="col-sm-6">
@@ -181,8 +192,15 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
-														<input type="text" class="form-control " id="activities"
-															name="activities" placeholder="សកម្មភាព">
+														<!--<input type="text" class="form-control " id="activities"
+															name="activities" placeholder="សកម្មភាព">-->
+
+														<select class="custom-select rounded-0 " id="activities"
+															name="activities">
+															@foreach($actions as $action)
+															<option>{{$action->name}}</option>
+															@endforeach
+														</select>
 
 													</div>
 													<div class="col-sm-6">
@@ -193,8 +211,17 @@
 													</div>
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">ប្រទេស</label>
-														<input type="text" class="form-control " id="country"
-															name="country" placeholder="ប្រទេស">
+														<div class="form-group">
+															<select class="select2" data-placeholder="ប្រទេស"
+																id="country" name="country"
+																style="width: 100%; height: 40%;">
+																@foreach($countries as $country)
+																<option>{{$country->name_eng}}</option>
+																@endforeach
+															</select>
+														</div>
+														<!--<input type="text" class="form-control " id="country"
+															name="country" placeholder="ប្រទេស">-->
 
 													</div>
 													<div class="col-sm-6">

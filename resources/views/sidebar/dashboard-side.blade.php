@@ -56,6 +56,18 @@
 				<p>ចុះឈ្មោះ</p>
 			</a>
 		</li>
+		<li class="nav-item">
+			<a href="{{ route('country-list') }}" class="nav-link">
+				<i class="far fa-minus-square nav-icon"></i>
+				<p>បញ្ជីប្រទេស</p>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="{{ route('action-list') }}" class="nav-link">
+				<i class="far fa-minus-square nav-icon"></i>
+				<p>បញ្ជីសកម្មភាព</p>
+			</a>
+		</li>
 	</ul>
 </li>
 <li class="nav-item Battambang">

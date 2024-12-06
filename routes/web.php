@@ -6,6 +6,8 @@ use App\Http\Controllers\CaseController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CaseInformationController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\ActionController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +59,18 @@ Route::group(['middleware' => ['auth','allow-role-admin']], function () {
 	Route::get('/user/create',[UserProfileController::class,'create'])->name('user-create');
 	Route::post('/user/store',[UserProfileController::class,'store'])->name('user-store');
 	Route::post('/user-update',[UserProfileController::class,'update'])->name('user-update');
+
+	/** country */
+	Route::get('/country',[CountryController::class,'index'])->name('country-list');
+	Route::post('/country-search-index',[CountryController::class,'searchIndex'])->name('search-country-index');
+	Route::post('/country/store',[CountryController::class,'store'])->name('store-country');
+	Route::post('/country/update',[CountryController::class,'update'])->name('update-country');
+
+	/** action  */
+	Route::get('/action',[ActionController::class,'index'])->name('action-list');
+	Route::post('/action/store',[ActionController::class,'store'])->name('store-action');
+	Route::post('/action/update',[ActionController::class,'update'])->name('update-action');
+
 });
 
 /** allow both role as Admin and Reporter */
@@ -68,7 +82,7 @@ Route::group(['middleware' => ['auth','allow-role-admin-reporter']], function ()
 	Route::get('/case-information-search',[CaseInformationController::class,'search'])->name('search-case-information');
 	Route::post('/case-information-search',[CaseInformationController::class,'searchResult'])->name('search-result-case-information');
 	Route::get('/case-information',[CaseInformationController::class,'index'])->name('CaseList');
-	Route::post('/case-information-search-index',[CaseInformationController::class,'searchIndex'])->name('search-case-index');
+
 	Route::get('/case-information/create',[CaseInformationController::class,'create'])->name('case-information-create');
 	Route::post('/case-information/store',[CaseInformationController::class,'store'])->name('case-information-store');
 	Route::get('/case-information-show/{id}',[CaseInformationController::class,'show'])->name('case-information-show');
@@ -84,4 +98,8 @@ Route::group(['middleware' => ['auth','allow-role-admin-reporter']], function ()
 	Route::get('/case-information/create/khmer/case/{id}',[CaseInformationController::class,'createKhmerCase'])->name('create-khmer-case');
 	Route::get('/khmer-case-information/{id}/edit',[CaseInformationController::class,'editKhmerCase'])->name('khmer-case-information-edit');
 	Route::post('/khmer-case-information-update',[CaseInformationController::class,'updateKhmerCase'])->name('khmer-case-information-update');
+
+	/** searching */
+	Route::post('/case-information-search-index',[CaseInformationController::class,'searchIndex'])->name('search-case-index');
+
 });

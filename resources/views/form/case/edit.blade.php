@@ -6,6 +6,16 @@
 @endsection
 @section('sidebar')
 @include('sidebar.dashboard-side')
+<style>
+.select2-container .select2-selection--single {
+	box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	height: 35px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+</style>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -163,15 +173,15 @@
 								<div class="row">
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
-										<input type="text" class="form-control " id="activities" name="activities"
-											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->activities}}">
+										<!--<input type="text" class="form-control " id="activities" name="activities"
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->activities}}">-->
 
-										<!--<select class="custom-select rounded-0 " id="activities" name="activities">
-											@foreach($activities as $activity)
-											<option {{$activity->name == $case->activities  ? 'selected' : ''}}>
-												{{$activity->name}}</option>
+										<select class="custom-select rounded-0 " id="activities" name="activities">
+											@foreach($actions as $action)
+											<option {{$action->name == $case->activities  ? 'selected' : ''}}>
+												{{$action->name}}</option>
 											@endforeach
-										</select>-->
+										</select>
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
@@ -186,8 +196,21 @@
 									</div>
 									<div class="col-sm-6">
 										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
-										<input type="text" class="form-control " id="country" name="country"
-											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->country}}">
+										<div class="form-group">
+											<select class="select2" data-placeholder="ប្រទេស" id="country"
+												name="country" style="width: 100%; height: 40%;">
+												@foreach($countries as $country)
+												<option value="{{$country->name_eng}}"
+													{{$country->name_eng == $case->country  ? 'selected' : ''}}>
+													{{$country->name_eng}}
+												</option>
+												@endforeach
+											</select>
+										</div>
+
+										<!--<input type="text" class="form-control " id="country" name="country"
+											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->country}}">-->
+
 										<!--<select class="custom-select rounded-0 " id="country" name="country">
 											@foreach($countries as $country)
 											<option value="{{$country->name_kh}}"

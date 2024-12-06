@@ -6,6 +6,16 @@
 @endsection
 @section('sidebar')
 @include('sidebar.dashboard-side')
+<style>
+.select2-container .select2-selection--single {
+	box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	height: 35px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+</style>
 @endsection
 @section('content')
 <div class="container-fluid Battambang">
@@ -42,8 +52,10 @@
 								<form class="form-horizontal" enctype="multipart/form-data" id="newcase" method="POST"
 									action="{{ route('khmer-case-information-update')}}">
 									{{ csrf_field() }}
-									<input class="form-control " id="kh_case_id" name="kh_case_id" value="{{$caseKH->id}}" placeholder="" hidden>
-									<input class="form-control " id="case_id" name="case_id" value="{{$caseKH->case_id}}" placeholder="" hidden>
+									<input class="form-control " id="kh_case_id" name="kh_case_id"
+										value="{{$caseKH->id}}" placeholder="" hidden>
+									<input class="form-control " id="case_id" name="case_id"
+										value="{{$caseKH->case_id}}" placeholder="" hidden>
 									<div class="card-header">
 										<div class="row">
 											<div class="col-sm-6">
@@ -80,7 +92,8 @@
 																ចំណងជើង</label>
 															<input type="text"
 																class="form-control @error('title') is-invalid @enderror"
-																id="title" name="title" placeholder="input" value="{{$caseKH->title}}">
+																id="title" name="title" placeholder="input"
+																value="{{$caseKH->title}}">
 															@if($errors->has('title'))
 															<label for="inputSkills" class="col-sm-12 col-form-label "
 																style="color:red;">{{ $errors->first('title') }}</label>
@@ -121,7 +134,8 @@
 															<input type="text"
 																class="form-control datetimepicker-input "
 																data-target="#reservationdate" id="released_date"
-																name="released_date" value="{{$caseKH->released_date}}"  />
+																name="released_date"
+																value="{{$caseKH->released_date}}" />
 															<div class="input-group-append"
 																data-target="#reservationdate"
 																data-toggle="datetimepicker">
@@ -138,7 +152,7 @@
 															<input type="text"
 																class="form-control datetimepicker-input "
 																data-target="#reservationdate1" id="actual_date"
-																name="actual_date"  value="{{$caseKH->actual_date}}"/>
+																name="actual_date" value="{{$caseKH->actual_date}}" />
 															<div class="input-group-append"
 																data-target="#reservationdate1"
 																data-toggle="datetimepicker">
@@ -162,13 +176,15 @@
 														<label class='label1'
 															style="font-weight: 200;">ចំនួនស្លាប់</label>
 														<input type="number" class="form-control " id="death"
-															name="death" placeholder="ចំនួនស្លាប់" value="{{$caseKH->death}}">
+															name="death" placeholder="ចំនួនស្លាប់"
+															value="{{$caseKH->death}}">
 													</div>
 													<div class="col-sm-6">
 														<label class='label1'
 															style="font-weight: 200;">ចំនួនរបួស</label>
 														<input type="number" class="form-control " id="injure"
-															name="injure" placeholder="ចំនួនរបួស" value="{{$caseKH->injure}}">
+															name="injure" placeholder="ចំនួនរបួស"
+															value="{{$caseKH->injure}}">
 													</div>
 												</div>
 											</div>
@@ -182,26 +198,51 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
-														<input type="text" class="form-control " id="activities"
-															name="activities" placeholder="សកម្មភាព" value="{{$caseKH->activities}}">
+														<!--<input type="text" class="form-control " id="activities"
+															name="activities" placeholder="សកម្មភាព"
+															value="{{$caseKH->activities}}">-->
+
+														<select class="custom-select rounded-0 " id="activities"
+															name="activities">
+															@foreach($actions as $action)
+															<option
+																{{$action->name == $case->activities  ? 'selected' : ''}}>
+																{{$action->name}}</option>
+															@endforeach
+														</select>
 
 													</div>
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
 														<input type="text" class="form-control " id="causing_case"
-															name="causing_case" placeholder="ករណីបង្ក" value="{{$caseKH->causing_case}}">
+															name="causing_case" placeholder="ករណីបង្ក"
+															value="{{$caseKH->causing_case}}">
 
 													</div>
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">ប្រទេស</label>
-														<input type="text" class="form-control " id="country"
-															name="country" placeholder="ប្រទេស" value="{{$caseKH->country}}">
+														<div class="form-group">
+															<select class="select2" data-placeholder="ប្រទេស"
+																id="country" name="country"
+																style="width: 100%; height: 40%;">
+																@foreach($countries as $country)
+																<option value="{{$country->name_eng}}"
+																	{{$country->name_eng == $case->country  ? 'selected' : ''}}>
+																	{{$country->name_eng}}
+																</option>
+																@endforeach
+															</select>
+														</div>
+														<!--<<input type="text" class="form-control " id="country"
+															name="country" placeholder="ប្រទេស"
+															value="{{$caseKH->country}}">-->
 
 													</div>
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">ខេត្ត</label>
 														<input type="text" class="form-control " id="province_city"
-															name="province_city" placeholder="ខេត្ត" value="{{$caseKH->province_city}}" >
+															name="province_city" placeholder="ខេត្ត"
+															value="{{$caseKH->province_city}}">
 													</div>
 													<div class="col-sm-6">
 														<label class="label1" style="font-weight: 200;">តំបន់</label>
@@ -212,7 +253,8 @@
 														<label class="label1"
 															style="font-weight: 200;">ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ</label>
 														<input type="text" class="form-control " id="provocative_group"
-															name="provocative_group" placeholder="ក្រុមបង្កហេតុ"  value="{{$caseKH->provocative_group}}" >
+															name="provocative_group" placeholder="ក្រុមបង្កហេតុ"
+															value="{{$caseKH->provocative_group}}">
 													</div>
 												</div>
 											</div>
@@ -228,19 +270,22 @@
 														<label class="label1"
 															style="font-weight: 200;">ក្រុមរងគ្រោះ</label>
 														<input type="text" class="form-control " id="victim"
-															name="victim" placeholder="ក្រុមរងគ្រោះ" value="{{$caseKH->victim}}" >
+															name="victim" placeholder="ក្រុមរងគ្រោះ"
+															value="{{$caseKH->victim}}">
 													</div>
 													<div class="col-sm-6">
 														<label class="label1"
 															style="font-weight: 200;">ឈ្មោះជនបង្ក</label>
 														<input type="text" class="form-control " id="perpetrator_name"
-															name="perpetrator_name" placeholder="ឈ្មោះជនបង្ក" value="{{$caseKH->perpetrator_name}}" >
+															name="perpetrator_name" placeholder="ឈ្មោះជនបង្ក"
+															value="{{$caseKH->perpetrator_name}}">
 													</div>
 													<div class="col-sm-6">
 														<label class="label1"
 															style="font-weight: 200;">ឈ្មោះជនរងគ្រោះ</label>
 														<input type="text" class="form-control " id="victim_name"
-															name="victim_name" placeholder="ឈ្មោះជនរងគ្រោះ" value="{{$caseKH->victim_name}}" >
+															name="victim_name" placeholder="ឈ្មោះជនរងគ្រោះ"
+															value="{{$caseKH->victim_name}}">
 													</div>
 												</div>
 
