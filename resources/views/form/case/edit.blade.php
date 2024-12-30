@@ -176,7 +176,8 @@
 										<!--<input type="text" class="form-control " id="activities" name="activities"
 											placeholder="សូមបញ្ចូលព័ត៌មាន" value="{{$case->activities}}">-->
 
-										<select class="custom-select rounded-0 " id="activities" name="activities">
+										<select class="custom-select rounded-0 " id="activities" name="activities" placeholder="សកម្មភាព">
+										<option>  </option>
 											@foreach($actions as $action)
 											<option {{$action->name == $case->activities  ? 'selected' : ''}}>
 												{{$action->name}}</option>
@@ -199,6 +200,7 @@
 										<div class="form-group">
 											<select class="select2" data-placeholder="ប្រទេស" id="country"
 												name="country" style="width: 100%; height: 40%;">
+												<option></option>
 												@foreach($countries as $country)
 												<option value="{{$country->name_eng}}"
 													{{$country->name_eng == $case->country  ? 'selected' : ''}}>
@@ -405,7 +407,10 @@ $(function() {
 <script>
 $(function() {
 	//Initialize Select2 Elements
-	$('.select2').select2()
+	$('.select2').select2({
+		placeholder: "Select a state",
+        allowClear: true
+	})
 
 	//Initialize Select2 Elements
 	$('.select2bs4').select2({
