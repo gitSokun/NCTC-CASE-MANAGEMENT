@@ -1,5 +1,5 @@
 <li class="nav-item">
-	<a href="{{ route('dashboard') }}" class="nav-link active">
+	<a href="{{ route('dashboard') }}" class="nav-link ">
 		<i class="fa fa-university nav-icon"></i>
 		<p>
 			ទំព័រដើម
@@ -13,13 +13,13 @@
 	</a>
 </li>
 <li class="nav-item">
-	<a href="{{ route('CaseList') }}" class="nav-link Battambang">
+	<a href="{{ route('CaseList') }}" class="nav-link Battambang ">
 		<i class="nav-icon fas fa-th"></i>
 		<p>បញ្ជីព្រឹត្តិការណ៍</p>
 	</a>
 </li>
 <li class="nav-item">
-	<a href="{{ route('case-information-create') }}" class="nav-link Battambang">
+	<a href="{{ route('case-information-create') }}" class="nav-link Battambang ">
 		<i class="nav-icon fas fa-plus"></i>
 		<p>
 			បង្កើតព្រឹត្តិការណ៍
@@ -29,8 +29,8 @@
 
 @if(Auth::user()->role == 'ADMIN')
 
-<li class="nav-item Battambang">
-	<a href="#" class="nav-link">
+<li class="nav-item  menu-open Battambang" >
+	<a href="#" class="nav-link active">
 		<i class="fa fa-university nav-icon"></i>
 		<p>
 			គ្រប់គ្រងប្រព័ន្ធ
@@ -38,8 +38,8 @@
 		</p>
 	</a>
 	<ul class="nav nav-treeview">
-		<li class="nav-item">
-			<a href="{{ route('user-list') }}" class="nav-link">
+		<li class="nav-item ">
+			<a href="{{ route('user-list') }}" class="nav-link active">
 				<i class="far fa-minus-square nav-icon"></i>
 				<p>បញ្ជីបុគ្គលិក</p>
 			</a>

@@ -4,9 +4,9 @@
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">ទំព័រដើម</a></li>
 <li class="breadcrumb-item active">បង្កើតព្រឹត្តិការណ៍(ទម្រង់មូលដ្ឋាន)</li>
 @endsection
-@section('sidebar')
 
-@include('sidebar.dashboard-side')
+@section('sidebar')
+@include('sidebar.sidebarCaseList')
 
 <style>
 .select2-container .select2-selection--single {

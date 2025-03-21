@@ -5,7 +5,7 @@
 <li class="breadcrumb-item active">លុបព្រឹត្តិការណ៍(ទម្រង់មូលដ្ឋាន)</li>
 @endsection
 @section('sidebar')
-@include('sidebar.dashboard-side')
+@include('sidebar.sidebarCaseList')
 @endsection
 @section('content')
 <div class="container-fluid Battambang">

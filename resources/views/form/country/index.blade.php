@@ -4,9 +4,11 @@
 <li class="breadcrumb-item"><a href="dashboard.html">ទំព័រដើម</a></li>
 <li class="breadcrumb-item active">បញ្ជីប្រទេស</li>
 @endsection
+
 @section('sidebar')
-@include('sidebar.dashboard-side')
+@include('sidebar.sidebarCountryCreate')
 @endsection
+
 @section('content')
 <!-- Main content -->
 <section class="content">

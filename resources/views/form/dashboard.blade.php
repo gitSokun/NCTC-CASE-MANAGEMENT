@@ -6,9 +6,11 @@
 @section('breadcrumbs')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">ទំព័រដើម</a></li>
 @endsection
+
 @section('sidebar')
 @include('sidebar.dashboard-side')
 @endsection
+
 @section('content')
 <div class="container-fluid">
 	<div class="row">

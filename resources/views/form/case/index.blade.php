@@ -5,7 +5,7 @@
 <li class="breadcrumb-item active">បញ្ជីព្រឹត្តិការណ៍</li>
 @endsection
 @section('sidebar')
-@include('sidebar.dashboard-side')
+@include('sidebar.sidebarCaseList')
 @endsection
 @section('content')
 <!-- Main content -->

@@ -5,9 +5,11 @@
 <li class="breadcrumb-item"><a href="#">គ្រប់គ្រងប្រព័ន្ធ</a></li>
 <li class="breadcrumb-item active">បញ្ជីអ្នក​ប្រើប្រាស់</li>
 @endsection
+
 @section('sidebar')
-@include('sidebar.dashboard-side')
+@include('sidebar.sidebarUserList')
 @endsection
+
 @section('content')
 <section class="content">
 	<div class="container-fluid">

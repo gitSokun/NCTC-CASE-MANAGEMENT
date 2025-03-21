@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('sidebar')
-@include('sidebar.dashboard-side')
+@include('sidebar.sidebarSearch')
 @endsection
 
 @section('content')

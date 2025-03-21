@@ -1,5 +1,5 @@
 <li class="nav-item">
-	<a href="{{ route('dashboard') }}" class="nav-link active">
+	<a href="{{ route('dashboard') }}" class="nav-link ">
 		<i class="fa fa-university nav-icon"></i>
 		<p>
 			ទំព័រដើម
@@ -13,7 +13,7 @@
 	</a>
 </li>
 <li class="nav-item">
-	<a href="{{ route('CaseList') }}" class="nav-link Battambang">
+	<a href="{{ route('CaseList') }}" class="nav-link Battambang active">
 		<i class="nav-icon fas fa-th"></i>
 		<p>បញ្ជីព្រឹត្តិការណ៍</p>
 	</a>

@@ -1,4 +1,9 @@
 @extends('layouts.master_search')
+
+@section('sidebar')
+@include('sidebar.sidebarSearch')
+@endsection
+
 @section('content')
 <div class="container-fluid Battambang" style="padding-top: 1%;">
 	<div class="row">

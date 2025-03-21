@@ -4,9 +4,13 @@
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">ទំព័រដើម</a></li>
 <li class="breadcrumb-item active">បង្កើតព្រឹត្តិការណ៍(ទម្រង់មូលដ្ឋាន)</li>
 @endsection
+
+
 @section('sidebar')
-@include('sidebar.dashboard-side')
+@include('sidebar.sidebarCaseList')
 @endsection
+
+
 @section('content')
 <div class="container-fluid Battambang">
 	<div class="row">
