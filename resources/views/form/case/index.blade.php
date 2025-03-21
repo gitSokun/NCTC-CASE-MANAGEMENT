@@ -9,7 +9,7 @@
 @endsection
 @section('content')
 <!-- Main content -->
-<section class="content">
+<section class="content Battambang">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">

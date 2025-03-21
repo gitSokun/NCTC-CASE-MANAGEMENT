@@ -1,7 +1,9 @@
 @extends('layouts.master')
+
 @section('sidebar')
 @include('sidebar.dashboard-side')
 @endsection
+
 @section('content')
 <div class="container-fluid Battambang">
 	<!-- Content Header (Page header) -->

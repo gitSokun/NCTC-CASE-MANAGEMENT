@@ -32,7 +32,19 @@ class CaseInfoKh extends Model
 		'victim_name',
 		'status',
 		'created_at',
-		'updated_at'
+		'updated_at',
+		'detention',
+		'relocate',
+		'migration',
+		'provocative_case',
+		'other_material',
+		'other_losses',
+		'suppressors',
+		'attackers',
+		'suppressed',
+		'victims',
+		'crackdowns',
+		'attackeds'
     ];
 	protected $casts = [
         'released_date' => 'date',

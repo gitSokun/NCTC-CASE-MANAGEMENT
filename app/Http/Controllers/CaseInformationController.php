@@ -252,6 +252,105 @@ class CaseInformationController extends Controller
             'description' => 'required',
         ]);
 		DB::transaction(function () use ($request) {
+
+		/** អ្នកបង្រ្កាប */
+		$suppressors = collect([]);
+		$suprressorNum = 0;
+		$suppressorOrgs   = $request->suppressors_orgs;
+		$suppressorGroups = $request->suppressor_groups;
+		foreach($suppressorOrgs as $suppressorOrg){
+			if($suppressorOrg != null || $suppressorGroups[$suprressorNum] != null){
+				$suppressors->push([
+					'suppressors_org'=>$suppressorOrg,
+					'suppressor_group'=>$suppressorGroups[$suprressorNum]
+				]);
+			}
+			
+			$suprressorNum ++;
+		}
+
+		/** អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ  */
+		$attackers = collect([]);
+		$attackerIndex = 0;
+		$attackOrgs   = $request->attack_orgs;
+		$attackGroups   = $request->attack_groups;
+		foreach($attackOrgs as $attackOrg){
+			if($attackOrg != null || $attackGroups[$attackerIndex] != null){
+				$attackers->push([
+					'attack_org'=>$attackOrg,
+					'attack_group'=>$attackGroups[$attackerIndex]
+				]);
+			}
+			$attackerIndex ++;
+		}
+
+
+		/** អ្នកដែលត្រូវបានបង្ក្រាប */
+		$suppresseds = collect([]);
+		$suppressedOrgs   = $request->suppressed_orgs;
+		$suppressedGroups   = $request->suppressed_groups;
+		$suppressedIndex = 0;
+		foreach($suppressedOrgs as $suppressedOrg){
+			if($suppressedOrg != null || $suppressedGroups[$suppressedIndex] != null){
+				$suppresseds->push([
+					'suppressed_org'=>$suppressedOrg,
+					'suppressed_group'=>$suppressedGroups[$suppressedIndex],
+				]);
+				$suppressedIndex ++;
+			}
+		}
+
+
+		/** អ្នករងគ្រោះ */
+		$victims = collect([]);
+		$victimOrgs   = $request->victim_orgs;
+		$victimGroups   = $request->victim_groups;
+		$victimIndex = 0;
+		foreach($victimOrgs as $victimOrg){
+			if($victimOrg != null || $victimGroups[$victimIndex] != null){
+				$victims->push([
+					'victim_org'=>$victimOrg,
+					'victim_group'=>$victimGroups[$victimIndex],
+				]);
+			}
+			$victimIndex ++;
+		}
+
+		/** ទីតាំងបង្ក្រាប */
+		$crackdowns = collect([]);
+		$crackdownCountries   = $request->crackdown_countries;
+		$crackdownProvinces   = $request->crackdown_provinces;
+		$crackdownAreas   = $request->crackdown_areas;
+		$crackdownIndex = 0;
+		foreach($crackdownCountries as $crackdownCountry){
+			if($crackdownCountry != null || $crackdownProvinces[$crackdownIndex] != null || $crackdownAreas[$crackdownIndex] != null){
+				$crackdowns->push([
+					'crackdown_country'=>$crackdownCountry,
+					'crackdown_province'=>$crackdownProvinces[$crackdownIndex],
+					'crackdown_area'=>$crackdownAreas[$crackdownIndex]
+				]);
+			}
+			$crackdownIndex ++;
+		}
+
+		/** ទីតាំងវាយប្រហារ */
+		$attacks = collect([]);
+		$attackedCountries   = $request->attacked_countries;
+		$attackedProvinces   = $request->attacked_provinces;
+		$attackedAreas   = $request->attacked_areas;
+		$attackIndex = 0;
+		foreach($attackedCountries as $attackedCountry){
+			if($attackedCountry != null || $attackedProvinces[$attackIndex] != null || $attackedAreas[$attackIndex] != null){
+				$attacks->push([
+					'attacked_country'=>$attackedCountry,
+					'attacked_province'=>$attackedProvinces[$attackIndex],
+					'attacked_area'=>$attackedAreas[$attackIndex]
+				]);
+			}
+			$attackIndex ++;
+		}
+
+
 			/** get case_number */
 			$caseInfo = new CaseInfoKh();
 			$caseNumber = $caseInfo->getCaseNumber();
@@ -275,6 +374,20 @@ class CaseInformationController extends Controller
 					'victim'=>$request->victim,
 					'perpetrator_name'=>$request->perpetrator_name,
 					'victim_name'=>$request->victim_name,
+
+					'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+					'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+					'migration'=>$request->migration,//ចំណាកស្រុក
+					'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+					'suppressors'=>$suppressors,//ករណីបង្កហេតុ
+					'attackers'=>$attackers,//្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+					'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+					'victims'=>$victims,// អ្នករងគ្រោះ 
+					'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+					'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+					'other_material'=>$request->other_material,
+					'other_losses'=>$request->other_losses,
+
 					'status'=>'Active'
 				]);
 			}else{
@@ -297,6 +410,20 @@ class CaseInformationController extends Controller
 					'victim'=>$request->victim,
 					'perpetrator_name'=>$request->perpetrator_name,
 					'victim_name'=>$request->victim_name,
+
+					'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+					'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+					'migration'=>$request->migration,//ចំណាកស្រុក
+					'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+					'suppressors'=>$suppressors,//ករណីបង្កហេតុ
+					'attackers'=>$attackers,//្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+					'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+					'victims'=>$victims,// អ្នករងគ្រោះ 
+					'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+					'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+					'other_material'=>$request->other_material,
+					'other_losses'=>$request->other_losses,
+					
 					'status'=>'Active'
 				]);
 
@@ -344,7 +471,106 @@ class CaseInformationController extends Controller
             'title' => 'required',
 			'original_source' => 'required',
         ]);
-		DB::transaction(function () use ($request) {
+
+		/** អ្នកបង្រ្កាប */
+		$suppressors = collect([]);
+		$suprressorNum = 0;
+		$suppressorOrgs   = $request->suppressors_orgs;
+		$suppressorGroups = $request->suppressor_groups;
+		foreach($suppressorOrgs as $suppressorOrg){
+			if($suppressorOrg != null || $suppressorGroups[$suprressorNum] != null){
+				$suppressors->push([
+					'suppressors_org'=>$suppressorOrg,
+					'suppressor_group'=>$suppressorGroups[$suprressorNum]
+				]);
+			}
+			
+			$suprressorNum ++;
+		}
+		
+		/** អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ  */
+		$attackers = collect([]);
+		$attackerIndex = 0;
+		$attackOrgs   = $request->attack_orgs;
+		$attackGroups   = $request->attack_groups;
+		foreach($attackOrgs as $attackOrg){
+			if($attackOrg != null || $attackGroups[$attackerIndex] != null){
+				$attackers->push([
+					'attack_org'=>$attackOrg,
+					'attack_group'=>$attackGroups[$attackerIndex]
+				]);
+			}
+			$attackerIndex ++;
+		}
+
+
+		/** អ្នកដែលត្រូវបានបង្ក្រាប */
+		$suppresseds = collect([]);
+		$suppressedOrgs   = $request->suppressed_orgs;
+		$suppressedGroups   = $request->suppressed_groups;
+		$suppressedIndex = 0;
+		foreach($suppressedOrgs as $suppressedOrg){
+			if($suppressedOrg != null || $suppressedGroups[$suppressedIndex] != null){
+				$suppresseds->push([
+					'suppressed_org'=>$suppressedOrg,
+					'suppressed_group'=>$suppressedGroups[$suppressedIndex],
+				]);
+				$suppressedIndex ++;
+			}
+		}
+
+
+		/** អ្នករងគ្រោះ */
+		$victims = collect([]);
+		$victimOrgs   = $request->victim_orgs;
+		$victimGroups   = $request->victim_groups;
+		$victimIndex = 0;
+		foreach($victimOrgs as $victimOrg){
+			if($victimOrg != null || $victimGroups[$victimIndex] != null){
+				$victims->push([
+					'victim_org'=>$victimOrg,
+					'victim_group'=>$victimGroups[$victimIndex],
+				]);
+			}
+			$victimIndex ++;
+		}
+
+		/** ទីតាំងបង្ក្រាប */
+		$crackdowns = collect([]);
+		$crackdownCountries   = $request->crackdown_countries;
+		$crackdownProvinces   = $request->crackdown_provinces;
+		$crackdownAreas   = $request->crackdown_areas;
+		$crackdownIndex = 0;
+		foreach($crackdownCountries as $crackdownCountry){
+			if($crackdownCountry != null || $crackdownProvinces[$crackdownIndex] != null || $crackdownAreas[$crackdownIndex] != null){
+				$crackdowns->push([
+					'crackdown_country'=>$crackdownCountry,
+					'crackdown_province'=>$crackdownProvinces[$crackdownIndex],
+					'crackdown_area'=>$crackdownAreas[$crackdownIndex]
+				]);
+			}
+			$crackdownIndex ++;
+		}
+
+		/** ទីតាំងវាយប្រហារ */
+		$attacks = collect([]);
+		$attackedCountries   = $request->attacked_countries;
+		$attackedProvinces   = $request->attacked_provinces;
+		$attackedAreas   = $request->attacked_areas;
+		$attackIndex = 0;
+		foreach($attackedCountries as $attackedCountry){
+			if($attackedCountry != null || $attackedProvinces[$attackIndex] != null || $attackedAreas[$attackIndex] != null){
+				$attacks->push([
+					'attacked_country'=>$attackedCountry,
+					'attacked_province'=>$attackedProvinces[$attackIndex],
+					'attacked_area'=>$attackedAreas[$attackIndex]
+				]);
+			}
+			$attackIndex ++;
+		}
+
+		DB::transaction(function () use ($request, $suppressors, $attackers, $suppresseds, $victims, $crackdowns, $attacks) {
+
 			/** get case_number */
 			$caseInfo = new CaseInformation();
 			$caseNumber = $caseInfo->getCaseNumber();
@@ -353,22 +579,35 @@ class CaseInformationController extends Controller
 			$case = CaseInformation::create([
 				'case_number'=>$caseNumber,
 				'related_case_number'=>$request->related_case_number,
-				'title' => $request->title,
-				'description'=>$request->original_source,//$request->description,
-				'original_source'=>$request->original_source,
-				'released_date'=>$request->released_date,
-				'actual_date'=>$request->actual_date,
-				'death'=>$request->death,
-				'injure'=>$request->injure,
-				'activities'=>$request->activities,
-				'causing_case'=>$request->causing_case,
-				'country'=>$request->country,
-				'province_city'=>$request->province_city,
-				'area'=>$request->area,
-				'provocative_group'=>$request->provocative_group,
-				'victim'=>$request->victim,
-				'perpetrator_name'=>$request->perpetrator_name,
-				'victim_name'=>$request->victim_name,
+				'title' => $request->title,//ចំណងជើង
+				'description'=>$request->original_source,//ខ្លឹមសារដើម
+				'original_source'=>$request->original_source,//ខ្លឹមសារដើម
+
+				'released_date'=>$request->released_date,//កាលបរិច្ឆេទចុះផ្សាយ
+				'actual_date'=>$request->actual_date,//កាលបរិច្ឆេទជាក់ស្តែង
+				'death'=>$request->death,//ចំនួនស្លាប់
+				'injure'=>$request->injure,//ចំនួនរបួស
+				'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+				'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+				'migration'=>$request->migration,//ចំណាកស្រុក
+				'activities'=>$request->activities,//សកម្មភាព
+				'causing_case'=>$request->causing_case,//ករណីបង្ក
+				'country'=>$request->country,//ប្រទេស
+				'province_city'=>$request->province_city,//ខេត្ត
+				'area'=>$request->area,//តំបន់
+				'provocative_group'=>$request->provocative_group,//ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ
+				'victim'=>$request->victim,//ក្រុមរងគ្រោះ
+				'perpetrator_name'=>$request->perpetrator_name,//ឈ្មោះជនបង្ក
+				'victim_name'=>$request->victim_name,//ឈ្មោះជនរងគ្រោះ
+				'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+				'suppressors'=>$suppressors,//ករណីបង្កហេតុ
+				'attackers'=>$attackers,//្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+				'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+				'victims'=>$victims,// អ្នករងគ្រោះ 
+				'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+				'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+				'other_material'=>$request->other_material,
+				'other_losses'=>$request->other_losses,
 				'is_kh'=>false,
 				'is_publish'=>true,
 				'status'=>'Active'
@@ -413,6 +652,7 @@ class CaseInformationController extends Controller
 		$caseId = Crypt::decrypt($request->id);
 		$case = CaseInformation::find($caseId);
 
+		
 		if($case->released_date){
 			$khmerMonths =['','មករា','កុម្ភៈ','មិនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
 			$date = Carbon::parse($case->released_date);
@@ -515,7 +755,13 @@ class CaseInformationController extends Controller
     {
 		$caseId = Crypt::decrypt($request->id);
 		$case = CaseInformation::find($caseId);
-
+		$suppressors = json_decode($case->suppressors, true)??[];
+		$attackers = json_decode($case->attackers, true)??[];
+		$suppresseds = json_decode($case->suppressed, true)??[];
+		$victims = json_decode($case->victims, true)??[];
+		$crackdowns = json_decode($case->crackdowns, true)??[];
+		$attackeds = json_decode($case->attackeds, true)??[];
+		
 		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
 
 		$activities = Activity::get();
@@ -524,19 +770,52 @@ class CaseInformationController extends Controller
 		$actions = Action::get();
 
 
-        return view('form/case/edit',compact('case','actions','activities','causingCases','countries','caseUploads'));
+        return view('form/case/edit',compact(
+			'case',
+			'actions',
+			'activities',
+			'causingCases',
+			'countries',
+			'caseUploads',
+			'suppressors',
+			'attackers',
+			'suppresseds',
+			'victims',
+			'crackdowns',
+			'attackeds'
+		));
     }
 
 	/** edit khmer case information */
 	public function editKhmerCase(Request $request){
 		$caseKHId = Crypt::decrypt($request->id);
 		$caseKH = CaseInfoKh::find($caseKHId);
+	
+		$suppressors = json_decode($caseKH->suppressors, true)??[];
+		$attackers = json_decode($caseKH->attackers, true)??[];
+		$suppresseds = json_decode($caseKH->suppressed, true)??[];
+		$victims = json_decode($caseKH->victims, true)??[];
+		$crackdowns = json_decode($caseKH->crackdowns, true)??[];
+		$attackeds = json_decode($caseKH->attackeds, true)??[];
+
 		$countries = Country::get();
 		$case = CaseInformation::find($caseKH->case_id);
 		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
 		$actions = Action::get();
 
-		return view('form/case/edit-khmer-case',compact('case','actions','countries','caseKH','caseUploads'));
+		return view('form/case/edit-khmer-case',compact(
+			'case',
+			'actions',
+			'countries',
+			'caseKH',
+			'caseUploads',
+			'suppressors',
+			'attackers',
+			'suppresseds',
+			'victims',
+			'crackdowns',
+			'attackeds'
+		));
 	}
 
     /**
@@ -550,24 +829,136 @@ class CaseInformationController extends Controller
         ]);
 
 		try{
+			/** អ្នកបង្រ្កាប */
+			$suppressors = collect([]);
+			$suprressorNum = 0;
+			$suppressorOrgs   = $request->suppressors_orgs;
+			$suppressorGroups = $request->suppressor_groups;
+			foreach($suppressorOrgs as $suppressorOrg){
+				if($suppressorOrg != null || $suppressorGroups[$suprressorNum] != null){
+					$suppressors->push([
+						'suppressors_org'=>$suppressorOrg,
+						'suppressor_group'=>$suppressorGroups[$suprressorNum]
+					]);
+				}
+				
+				$suprressorNum ++;
+			}
+
+			/** អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ  */
+			$attackers = collect([]);
+			$attackerIndex = 0;
+			$attackOrgs   = $request->attack_orgs;
+			$attackGroups   = $request->attack_groups;
+			foreach($attackOrgs as $attackOrg){
+				if($attackOrg != null || $attackGroups[$attackerIndex] != null){
+					$attackers->push([
+						'attack_org'=>$attackOrg,
+						'attack_group'=>$attackGroups[$attackerIndex]
+					]);
+				}
+				$attackerIndex ++;
+			}
+
+
+			/** អ្នកដែលត្រូវបានបង្ក្រាប */
+			$suppresseds = collect([]);
+			$suppressedOrgs   = $request->suppressed_orgs;
+			$suppressedGroups   = $request->suppressed_groups;
+			$suppressedIndex = 0;
+			foreach($suppressedOrgs as $suppressedOrg){
+				if($suppressedOrg != null || $suppressedGroups[$suppressedIndex] != null){
+					$suppresseds->push([
+						'suppressed_org'=>$suppressedOrg,
+						'suppressed_group'=>$suppressedGroups[$suppressedIndex],
+					]);
+					$suppressedIndex ++;
+				}
+			}
+
+
+			/** អ្នករងគ្រោះ */
+			$victims = collect([]);
+			$victimOrgs   = $request->victim_orgs;
+			$victimGroups   = $request->victim_groups;
+			$victimIndex = 0;
+			foreach($victimOrgs as $victimOrg){
+				if($victimOrg != null || $victimGroups[$victimIndex] != null){
+					$victims->push([
+						'victim_org'=>$victimOrg,
+						'victim_group'=>$victimGroups[$victimIndex],
+					]);
+				}
+				$victimIndex ++;
+			}
+
+			/** ទីតាំងបង្ក្រាប */
+			$crackdowns = collect([]);
+			$crackdownCountries   = $request->crackdown_countries;
+			$crackdownProvinces   = $request->crackdown_provinces;
+			$crackdownAreas   = $request->crackdown_areas;
+			$crackdownIndex = 0;
+			foreach($crackdownCountries as $crackdownCountry){
+				if($crackdownCountry != null || $crackdownProvinces[$crackdownIndex] != null || $crackdownAreas[$crackdownIndex] != null){
+					$crackdowns->push([
+						'crackdown_country'=>$crackdownCountry,
+						'crackdown_province'=>$crackdownProvinces[$crackdownIndex],
+						'crackdown_area'=>$crackdownAreas[$crackdownIndex]
+					]);
+				}
+				$crackdownIndex ++;
+			}
+
+			/** ទីតាំងវាយប្រហារ */
+			$attacks = collect([]);
+			$attackedCountries   = $request->attacked_countries;
+			$attackedProvinces   = $request->attacked_provinces;
+			$attackedAreas   = $request->attacked_areas;
+			$attackIndex = 0;
+			foreach($attackedCountries as $attackedCountry){
+				if($attackedCountry != null || $attackedProvinces[$attackIndex] != null || $attackedAreas[$attackIndex] != null){
+					$attacks->push([
+						'attacked_country'=>$attackedCountry,
+						'attacked_province'=>$attackedProvinces[$attackIndex],
+						'attacked_area'=>$attackedAreas[$attackIndex]
+					]);
+				}
+				$attackIndex ++;
+			}
+
+
+
 			CaseInformation::where('id',$request->id)->update([
 				'related_case_number'=>$request->related_case_number,
-				'title' => $request->title,
-				'description'=>$request->original_source,//$request->description,
-				'original_source'=>$request->original_source,
-				'released_date'=>$request->released_date,
-				'actual_date'=>$request->actual_date,
-				'death'=>$request->death,
-				'injure'=>$request->injure,
-				'activities'=>$request->activities,
-				'causing_case'=>$request->causing_case,
-				'country'=>$request->country,
-				'province_city'=>$request->province_city,
-				'area'=>$request->area,
-				'provocative_group'=>$request->provocative_group,
-				'victim'=>$request->victim,
-				'perpetrator_name'=>$request->perpetrator_name,
-				'victim_name'=>$request->victim_name,
+				'title' => $request->title,//ចំណងជើង
+				'description'=>$request->original_source,//ខ្លឹមសារដើម
+				'original_source'=>$request->original_source,//ខ្លឹមសារដើម
+				
+				'released_date'=>$request->released_date,//កាលបរិច្ឆេទចុះផ្សាយ
+				'actual_date'=>$request->actual_date,//កាលបរិច្ឆេទជាក់ស្តែង
+				'death'=>$request->death,//ចំនួនស្លាប់
+				'injure'=>$request->injure,//ចំនួនរបួស
+				'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+				'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+				'migration'=>$request->migration,//ចំណាកស្រុក
+				'activities'=>$request->activities,//សកម្មភាព
+				'causing_case'=>$request->causing_case,//ករណីបង្ក
+				'country'=>$request->country,//ប្រទេស
+				'province_city'=>$request->province_city,//ខេត្ត
+				'area'=>$request->area,//តំបន់
+				'provocative_group'=>$request->provocative_group,//ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ
+				'victim'=>$request->victim,//ក្រុមរងគ្រោះ
+				'perpetrator_name'=>$request->perpetrator_name,//ឈ្មោះជនបង្ក
+				'victim_name'=>$request->victim_name,//ឈ្មោះជនរងគ្រោះ
+				'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+				'suppressors'=>$suppressors,//ករណីបង្កហេតុ
+				'attackers'=>$attackers,//្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+				'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+				'victims'=>$victims,// អ្នករងគ្រោះ 
+				'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+				'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+				'other_material'=>$request->other_material,
+				'other_losses'=>$request->other_losses,
 				'status'=>'Active'
 			]);
 
@@ -624,6 +1015,105 @@ class CaseInformationController extends Controller
             'description' => 'required',
         ]);
 		try{
+
+
+			/** អ្នកបង្រ្កាប */
+		$suppressors = collect([]);
+		$suprressorNum = 0;
+		$suppressorOrgs   = $request->suppressors_orgs;
+		$suppressorGroups = $request->suppressor_groups;
+		foreach($suppressorOrgs as $suppressorOrg){
+			if($suppressorOrg != null || $suppressorGroups[$suprressorNum] != null){
+				$suppressors->push([
+					'suppressors_org'=>$suppressorOrg,
+					'suppressor_group'=>$suppressorGroups[$suprressorNum]
+				]);
+			}
+			
+			$suprressorNum ++;
+		}
+		
+		/** អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ  */
+		$attackers = collect([]);
+		$attackerIndex = 0;
+		$attackOrgs   = $request->attack_orgs;
+		$attackGroups   = $request->attack_groups;
+		foreach($attackOrgs as $attackOrg){
+			if($attackOrg != null || $attackGroups[$attackerIndex] != null){
+				$attackers->push([
+					'attack_org'=>$attackOrg,
+					'attack_group'=>$attackGroups[$attackerIndex]
+				]);
+			}
+			$attackerIndex ++;
+		}
+
+
+		/** អ្នកដែលត្រូវបានបង្ក្រាប */
+		$suppresseds = collect([]);
+		$suppressedOrgs   = $request->suppressed_orgs;
+		$suppressedGroups   = $request->suppressed_groups;
+		$suppressedIndex = 0;
+		foreach($suppressedOrgs as $suppressedOrg){
+			if($suppressedOrg != null || $suppressedGroups[$suppressedIndex] != null){
+				$suppresseds->push([
+					'suppressed_org'=>$suppressedOrg,
+					'suppressed_group'=>$suppressedGroups[$suppressedIndex],
+				]);
+				$suppressedIndex ++;
+			}
+		}
+
+
+		/** អ្នករងគ្រោះ */
+		$victims = collect([]);
+		$victimOrgs   = $request->victim_orgs;
+		$victimGroups   = $request->victim_groups;
+		$victimIndex = 0;
+		foreach($victimOrgs as $victimOrg){
+			if($victimOrg != null || $victimGroups[$victimIndex] != null){
+				$victims->push([
+					'victim_org'=>$victimOrg,
+					'victim_group'=>$victimGroups[$victimIndex],
+				]);
+			}
+			$victimIndex ++;
+		}
+
+		/** ទីតាំងបង្ក្រាប */
+		$crackdowns = collect([]);
+		$crackdownCountries   = $request->crackdown_countries;
+		$crackdownProvinces   = $request->crackdown_provinces;
+		$crackdownAreas   = $request->crackdown_areas;
+		$crackdownIndex = 0;
+		foreach($crackdownCountries as $crackdownCountry){
+			if($crackdownCountry != null || $crackdownProvinces[$crackdownIndex] != null || $crackdownAreas[$crackdownIndex] != null){
+				$crackdowns->push([
+					'crackdown_country'=>$crackdownCountry,
+					'crackdown_province'=>$crackdownProvinces[$crackdownIndex],
+					'crackdown_area'=>$crackdownAreas[$crackdownIndex]
+				]);
+			}
+			$crackdownIndex ++;
+		}
+
+		/** ទីតាំងវាយប្រហារ */
+		$attacks = collect([]);
+		$attackedCountries   = $request->attacked_countries;
+		$attackedProvinces   = $request->attacked_provinces;
+		$attackedAreas   = $request->attacked_areas;
+		$attackIndex = 0;
+		foreach($attackedCountries as $attackedCountry){
+			if($attackedCountry != null || $attackedProvinces[$attackIndex] != null || $attackedAreas[$attackIndex] != null){
+				$attacks->push([
+					'attacked_country'=>$attackedCountry,
+					'attacked_province'=>$attackedProvinces[$attackIndex],
+					'attacked_area'=>$attackedAreas[$attackIndex]
+				]);
+			}
+			$attackIndex ++;
+		}
+
 		CaseInfoKh::where('id',$request->kh_case_id)->update([
 			'title' => $request->title,
 			'description'=>$request->description,
@@ -640,6 +1130,20 @@ class CaseInformationController extends Controller
 			'victim'=>$request->victim,
 			'perpetrator_name'=>$request->perpetrator_name,
 			'victim_name'=>$request->victim_name,
+
+			'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+			'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+			'migration'=>$request->migration,//ចំណាកស្រុក
+			'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+			'suppressors'=>$suppressors,//ករណីបង្កហេតុ
+			'attackers'=>$attackers,//្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+			'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+			'victims'=>$victims,// អ្នករងគ្រោះ 
+			'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+			'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+			'other_material'=>$request->other_material,
+			'other_losses'=>$request->other_losses,
+
 			'status'=>'Active'
 		]);
 
@@ -658,6 +1162,20 @@ class CaseInformationController extends Controller
 			'victim'=>$request->victim,
 			'perpetrator_name'=>$request->perpetrator_name,
 			'victim_name'=>$request->victim_name,
+
+			'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+			'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+			'migration'=>$request->migration,//ចំណាកស្រុក
+			'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+			'suppressors'=>$suppressors,//ករណីបង្កហេតុ
+			'attackers'=>$attackers,//្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+			'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+			'victims'=>$victims,// អ្នករងគ្រោះ 
+			'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+			'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+			'other_material'=>$request->other_material,
+			'other_losses'=>$request->other_losses,
+			
 			'status'=>'Active'
 		]);
 

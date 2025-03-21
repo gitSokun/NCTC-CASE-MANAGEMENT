@@ -36,7 +36,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/change-password',[LoginController::class,'changePassword'])->name('change-password');
 	Route::post('/update-password',[LoginController::class,'updatePassword'])->name('update-password');
 	
-
 	Route::get('/my-profile',[UserProfileController::class,'myProfile'])->name('my-profile');
 	Route::get('download/{id}',[CaseInformationController::class,'download']);
 	Route::post('/my-profile-update',[UserProfileController::class,'update'])->name('my-profile-update');

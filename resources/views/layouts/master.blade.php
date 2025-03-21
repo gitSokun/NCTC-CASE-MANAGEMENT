@@ -259,7 +259,7 @@
 		<!-- =============================================== -->
 
 		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
+		<div class="content-wrapper Battambang">
 			<!-- Content Header (Page header) -->
 			<div class="content-header Battambang">
 				<div class="container-fluid">
