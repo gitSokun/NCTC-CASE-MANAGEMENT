@@ -76,865 +76,785 @@
 												</div>
 											</div>
 										</div>
-
-									</div>
-
-									<div class="row">
-
-										<div class="col-md-12">
-											<div class="card-header">
-												<h3 class="card-title label1" style="font-weight: 700;">អត្ថបទ</h3>
-											</div>
-											<div class="card-body">
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="form-group">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="card-header" style="padding-left: 0px; padding-right: 0px;">
+													<h3 class="card-title label1" style="font-weight: 700;">អត្ថបទ</h3>
+												</div>
+												<div class="card-body" style="padding-left: 0px; padding-right: 0px;">
+													<div class="row">
+														<div class="col-sm-12">
+															<div class="form-group">
+																<label class="label1"
+																	style="font-weight: 200;color:red;">*
+																	ចំណងជើង</label>
+																<input type="text"
+																	class="form-control @error('title') is-invalid @enderror"
+																	id="title" name="title" placeholder="input"
+																	value="{{$caseKH->title}}">
+																@if($errors->has('title'))
+																<label for="inputSkills"
+																	class="col-sm-12 col-form-label "
+																	style="color:red;">{{ $errors->first('title') }}</label>
+																@endif
+															</div>
+														</div>
+														<div class="col-sm-12">
 															<label class="label1" style="font-weight: 200;color:red;">*
-																ចំណងជើង</label>
-															<input type="text"
-																class="form-control @error('title') is-invalid @enderror"
-																id="title" name="title" placeholder="input"
-																value="{{$caseKH->title}}">
-															@if($errors->has('title'))
+																ខ្លឹមសាររួម</label>
+															<textarea id="description" name="description"
+																class="@error('description') is-invalid @enderror">{{$caseKH->description}}</textarea>
+															@if($errors->has('description'))
 															<label for="inputSkills" class="col-sm-12 col-form-label "
-																style="color:red;">{{ $errors->first('title') }}</label>
+																style="color:red;">{{ $errors->first('description') }}</label>
 															@endif
 														</div>
 													</div>
-
-
-													<div class="col-sm-12">
-														<label class="label1" style="font-weight: 200;color:red;">*
-															ខ្លឹមសាររួម</label>
-														<textarea id="description" name="description"
-															class="@error('description') is-invalid @enderror">{{$caseKH->description}}</textarea>
-														@if($errors->has('description'))
-														<label for="inputSkills" class="col-sm-12 col-form-label "
-															style="color:red;">{{ $errors->first('description') }}</label>
-														@endif
-													</div>
 												</div>
 											</div>
-										</div>
-										<!--================ new designing =============================-->
-										<!----------------- កាលបរិច្ឆេទកើតហេតុ ----------------->
-										<div class="col-md-12">
-											<div class="card-header">
-												<h2 class="card-title label1" style="font-weight: 700;">កាលបរិច្ឆេទកើតហេតុ</h2>
+											<!--======================== កាលបរិច្ឆេទកើតហេតុ =================-->
+											<div class="col-12">
+												<div style="padding-top: 10px;">
+													<h2 class="card-title label1" style="font-weight: bold;">
+														កាលបរិច្ឆេទកើតហេតុ</h2>
+													<hr style="margin-top: 1.5rem;">
+												</div>
 											</div>
-											<div class="card-body">
-												<div class="row">
-													<div class="col-sm-3">
-														<label class='label1' style="font-weight: 200;"
-															>កាលបរិច្ឆេទចុះផ្សាយ</label>
-														<div class="input-group date" id="reservationdate"
-															data-target-input="nearest">
-															<input type="text"
-																class="form-control datetimepicker-input "
-																data-target="#reservationdate" id="released_date"
-																name="released_date"
-																value="{{$caseKH->released_date}}" />
-															<div class="input-group-append"
-																data-target="#reservationdate"
-																data-toggle="datetimepicker">
-																<div class="input-group-text"><i
-																		class="fa fa-calendar"></i></div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-3">
-														<label class='label1'
-															style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង</label>
-														<div class="input-group date" id="reservationdate1"
-															data-target-input="nearest">
-															<input type="text"
-																class="form-control datetimepicker-input "
-																data-target="#reservationdate1" id="actual_date"
-																name="actual_date" value="{{$caseKH->actual_date}}" />
-															<div class="input-group-append"
-																data-target="#reservationdate1"
-																data-toggle="datetimepicker">
-																<div class="input-group-text"><i
-																		class="fa fa-calendar"></i></div>
-															</div>
+											<div class="col-sm-6">
+												<label class='label1'
+													style="font-weight: 200;">កាលបរិច្ឆេទចុះផ្សាយ</label>
+												<div class="input-group date" id="reservationdate"
+													data-target-input="nearest">
+													<input type="text" class="form-control datetimepicker-input "
+														data-target="#reservationdate" id="released_date"
+														name="released_date" value="{{$caseKH->released_date}}" />
+													<div class="input-group-append" data-target="#reservationdate"
+														data-toggle="datetimepicker">
+														<div class="input-group-text"><i class="fa fa-calendar"></i>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<!------------------ ការខាតបង់ ------------------->
-										<div class="col-md-12">
-											<div class="card-header">
-												<h3 class="card-title label1" style="font-weight: 700;">ការខាតបង់</h3>
-											</div>
-											<div class="card-body">
-												<div class="row">
-													
-													<div class="col-sm-3">
-														<label class='label1'
-															style="font-weight: 200;">ចំនួនស្លាប់</label>
-														<input type="number" class="form-control " id="death"
-															name="death" placeholder="" value="{{$caseKH->death}}">
-													</div>
-													<div class="col-sm-3">
-														<label class='label1'
-															style="font-weight: 200;">ចំនួនរបួស</label>
-														<input type="number" class="form-control " id="injure"
-															name="injure" placeholder="" value="{{$caseKH->injure}}">
-													</div>
-													<div class="col-sm-3">
-														<label class='label1'
-															style="font-weight: 200;">ចំនួនឃុំខ្លួន</label>
-														<input type="number" class="form-control " id="detention"
-															name="detention" placeholder=""
-															value="{{$caseKH->detention}}">
-													</div>
-													<div class="col-sm-3">
-														<label class='label1'
-															style="font-weight: 200;">ផ្លាស់ទីលំនៅ</label>
-														<input type="number" class="form-control " id="relocate"
-															name="relocate" placeholder=""
-															value="{{$caseKH->relocate}}">
-													</div>
-													<div class="col-sm-3">
-														<label class='label1'
-															style="font-weight: 200;">ចំណាកស្រុក</label>
-														<input type="number" class="form-control " id="migration"
-															name="migration" placeholder=""
-															value="{{$caseKH->migration}}">
+											<div class="col-sm-6">
+												<label class='label1'
+													style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង</label>
+												<div class="input-group date" id="reservationdate1"
+													data-target-input="nearest">
+													<input type="text" class="form-control datetimepicker-input "
+														data-target="#reservationdate1" id="actual_date"
+														name="actual_date" value="{{$caseKH->actual_date}}" />
+													<div class="input-group-append" data-target="#reservationdate1"
+														data-toggle="datetimepicker">
+														<div class="input-group-text"><i class="fa fa-calendar"></i>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<!----------- ករណីបង្ក -------------->
-										<div class="col-md-12">
-											<div class="card-header">
-												<h3 class="card-title label1" style="font-weight: 700;">ករណីបង្ក</h3>
+											<div class="col-sm-6">
+												<label class="label1" style="font-weight: 200;">ប្រទេស</label>
+												<div class="form-group">
+													<select class="select2" data-placeholder="" id="country"
+														name="country" style="width: 100%; height: 40%;">
+														<option> </option>
+														@foreach($countries as $country)
+														<option value="{{$country->name_eng}}"
+															{{$country->name_eng == $caseKH->country  ? 'selected' : ''}}>
+															{{$country->name_eng}}
+														</option>
+														@endforeach
+													</select>
+												</div>
 											</div>
-											<div class="card-body">
-												<div class="row">
-													<div class="col-sm-3">
-														<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
-														<select class="custom-select rounded-0 " id="activities"
-															name="activities">
-															<option> </option>
-															@foreach($actions as $action)
-															<option
-																{{$action->name == $caseKH->activities  ? 'selected' : ''}}>
-																{{$action->name}}</option>
+											<div class="col-sm-6">
+												<label class="label1" style="font-weight: 200;">ខេត្ត</label>
+												<input type="text" class="form-control " id="province_city"
+													name="province_city" placeholder=""
+													value="{{$caseKH->province_city}}">
+											</div>
+											<div class="col-sm-6">
+												<label class="label1" style="font-weight: 200;">តំបន់</label>
+												<input type="text" class="form-control " id="area" name="area"
+													placeholder="" value="{{$caseKH->area}}">
+											</div>
+											<!--======================== ការខាតបង់ =================-->
+											<div class="col-12">
+												<div class="card-header" style="padding-left: 0px; padding-right: 0px;">
+													<h2 class="card-title label1" style="font-weight: 700;">ការខាតបង់
+													</h2>
+												</div>
+												<div class="card-body" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px;">
+													<div class="row">
+														<div class="col-sm-6">
+															<label class='label1'
+																style="font-weight: 200;">ចំនួនស្លាប់</label>
+															<input type="number" class="form-control " id="death"
+																name="death" placeholder="" value="{{$caseKH->death}}">
+														</div>
+														<div class="col-sm-6">
+															<label class='label1'
+																style="font-weight: 200;">ចំនួនរបួស</label>
+															<input type="number" class="form-control " id="injure"
+																name="injure" placeholder=""
+																value="{{$caseKH->injure}}">
+														</div>
+														<div class="col-sm-6">
+															<label class='label1'
+																style="font-weight: 200;">ចំនួនឃុំខ្លួន</label>
+															<input type="number" class="form-control " id="detention"
+																name="detention" placeholder=""
+																value="{{$caseKH->detention}}">
+														</div>
+														<div class="col-sm-6">
+															<label class='label1'
+																style="font-weight: 200;">ផ្លាស់ទីលំនៅ</label>
+															<input type="number" class="form-control " id="relocate"
+																name="relocate" placeholder=""
+																value="{{$caseKH->relocate}}">
+														</div>
+														<div class="col-sm-6">
+															<label class='label1'
+																style="font-weight: 200;">ចំណាកស្រុក</label>
+															<input type="number" class="form-control " id="migration"
+																name="migration" placeholder=""
+																value="{{$caseKH->migration}}">
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--======================== សកម្មភាព =================-->
+											<div class="col-6">
+												<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
+												<select class="custom-select rounded-0 " id="activities"
+													name="activities" placeholder="">
+													<option value="show_none"></option>
+													<option value="other_case"
+														{{$caseKH->activities == 'other_case'  ? 'selected' : ''}}>
+														ផ្សេងៗ</option>
+													<option value="show_causing_case"
+														{{$caseKH->activities == 'show_causing_case'  ? 'selected' : ''}}>
+														ការវាយប្រហារ
+													</option>
+													<option value="show_crackdown_case"
+														{{$caseKH->activities == 'show_crackdown_case'  ? 'selected' : ''}}>
+														ការបង្ក្រាប
+													</option>
+												</select>
+											</div>
+											<div class="col-6">
+												<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
+												<input type="text" class="form-control " id="causing_case"
+													name="causing_case" placeholder=""
+													value="{{$caseKH->causing_case}}">
+											</div>
+											<!--======================== សកម្មភាព ផ្សេងៗ =================-->
+											<div class="col-md-12" id="other_activities_div"
+												style="{{ $caseKH->activities == 'other_case' ? 'display: block;' : 'display: none;'}}">
+												<div class="form-group" style="padding-top: 5px;">
+													<label>សកម្មភាព ផ្សេងៗ</label>
+													<textarea class="form-control" rows="3" name="other_activities"
+														placeholder="">
+													@if($caseKH->other_activities)
+														{{$caseKH->other_activities}}
+													@endif
+												</textarea>
+												</div>
+											</div>
+											<!--======================== ការវាយប្រហារ =================-->
+											<div class="col-md-12" id="causing_case_div"
+												style="{{ $caseKH->activities == 'show_causing_case' ? 'display: block;' : 'display: none;' }}">
+												<!------------------អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ------------------>
+												<div style="padding-top: 10px;">
+													<h4 class="card-title label1" style="padding-right: 10px;">
+														<button type="button" class="btn btn-success btn-xs"
+															id="btnAddMoreAttacker">
+															<i class="fas fa-plus" aria-hidden="true"></i>
+														</button>
+														<span style="font-weight: 200; font-size: 15px;">
+															អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ
+														</span>
+													</h4>
+													<table id="attackerTable" style="width:100%">
+														<tbody>
+															@if(!empty($attackers))
+															@foreach($attackers as $attacker)
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveAttacker">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attack_orgs"
+																			name="attack_orgs[]"
+																			value="{{ data_get($attacker, 'attack_org', '') }}">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attack_groups"
+																			name="attack_groups[]"
+																			value="{{ data_get($attacker, 'attack_group', '') }}">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attack_individuals"
+																			name="attack_individuals[]"
+																			value="{{ data_get($attacker, 'attack_indiv', '') }}">
+																	</div>
+																</td>
+															</tr>
 															@endforeach
-														</select>
-													</div>
-													<div class="col-sm-3">
-														<label class="label1" style="font-weight: 200;">ករណីបង្ក</label>
-														<input type="text" class="form-control " id="causing_case"
-															name="causing_case" placeholder=""
-															value="{{$caseKH->causing_case}}">
+															@else
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveAttacker">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attack_orgs"
+																			name="attack_orgs[]">
 
-													</div>
-													<div class="col-sm-3">
-														<label class="label1" style="font-weight: 200;">ប្រទេស</label>
-														<div class="form-group">
-															<select class="select2" data-placeholder="" id="country"
-																name="country" style="width: 100%; height: 40%;">
-																<option> </option>
-																@foreach($countries as $country)
-																<option value="{{$country->name_eng}}"
-																	{{$country->name_eng == $caseKH->country  ? 'selected' : ''}}>
-																	{{$country->name_eng}}
-																</option>
-																@endforeach
-															</select>
-														</div>
-													</div>
-													<div class="col-sm-3">
-														<label class="label1" style="font-weight: 200;">ខេត្ត</label>
-														<input type="text" class="form-control " id="province_city"
-															name="province_city" placeholder=""
-															value="{{$caseKH->province_city}}">
-													</div>
-													<div class="col-sm-3">
-														<label class="label1" style="font-weight: 200;">តំបន់</label>
-														<input type="text" class="form-control " id="area" name="area"
-															placeholder="" value="{{$caseKH->area}}">
-													</div>
-													<div class="col-sm-3">
-														<label class="label1"
-															style="font-weight: 200;">ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ</label>
-														<input type="text" class="form-control " id="provocative_group"
-															name="provocative_group" placeholder=""
-															value="{{$caseKH->provocative_group}}">
-													</div>
-													<div class="col-sm-3">
-														<label class="label1"
-															style="font-weight: 200;">ក្រុមរងគ្រោះ</label>
-														<input type="text" class="form-control " id="victim"
-															name="victim" placeholder="" value="{{$caseKH->victim}}">
-													</div>
-													<div class="col-sm-3">
-														<label class="label1"
-															style="font-weight: 200;">ឈ្មោះជនបង្ក</label>
-														<input type="text" class="form-control " id="perpetrator_name"
-															name="perpetrator_name" placeholder=""
-															value="{{$caseKH->perpetrator_name}}">
-													</div>
-													<div class="col-sm-3">
-														<label class="label1"
-															style="font-weight: 200;">ឈ្មោះជនរងគ្រោះ</label>
-														<input type="text" class="form-control " id="victim_name"
-															name="victim_name" placeholder=""
-															value="{{$caseKH->victim_name}}">
-													</div>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attack_groups"
+																			name="attack_groups[]">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attack_individuals"
+																			name="attack_individuals[]">
+																	</div>
+																</td>
+															</tr>
+															@endif
+														</tbody>
+													</table>
+												</div>
+												<!------------------ អ្នករងគ្រោះ ------------------>
+												<div style="padding-top: 10px;">
+													<h4 class="card-title label1" style="padding-right: 10px;">
+														<button type="button" class="btn btn-success btn-xs"
+															id="btnAddMoreVictim">
+															<i class="fas fa-plus" aria-hidden="true"></i>
+														</button>
+														<span style="font-weight: 200; font-size: 15px;">
+															អ្នករងគ្រោះ</span>
+													</h4>
+													<table id="VictimTable" style="width:100%">
+														<tbody>
+															@if(!empty($victims))
+															@foreach($victims as $victim)
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveVictim">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="victim_orgs"
+																			name="victim_orgs[]"
+																			value="{{ data_get($victim, 'victim_org', '') }}">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="victim_groups"
+																			name="victim_groups[]"
+																			value="{{ data_get($victim, 'victim_group', '') }}">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="victim_individuals"
+																			name="victim_individuals[]"
+																			value="{{ data_get($victim, 'victim_indiv', '') }}">
+
+																	</div>
+																</td>
+															</tr>
+															@endforeach
+															@else
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveVictim">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="victim_orgs"
+																			name="victim_orgs[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="victim_groups"
+																			name="victim_groups[]">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="victim_individuals"
+																			name="victim_individuals[]">
+																	</div>
+																</td>
+															</tr>
+															@endif
+														</tbody>
+													</table>
+												</div>
+												<!------------------ ទីតាំងវាយប្រហារ ------------------>
+												<div style="padding-top: 10px;">
+													<h4 class="card-title label1" style="padding-right: 10px;">
+														<button type="button" class="btn btn-success btn-xs"
+															id="btnAddMoreAttackLocation">
+															<i class="fas fa-plus" aria-hidden="true"></i>
+														</button> <span
+															style="font-weight: 200; font-size: 15px;">ទីតាំងវាយប្រហារ</span>
+													</h4>
+													<table id="AttackLocationTable" style="width:100%">
+														<tbody>
+															@if(!empty($attackeds))
+															@foreach($attackeds as $attacked)
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveAttackLocation">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ប្រទេស</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attacked_countries"
+																			name="attacked_countries[]"
+																			value="{{ data_get($attacked, 'attacked_country', '') }}">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ខេត្ត/ក្រុង</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attacked_provinces"
+																			name="attacked_provinces[]"
+																			value="{{ data_get($attacked, 'attacked_province', '') }}">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">តំបន់</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attacked_areas"
+																			name="attacked_areas[]"
+																			value="{{ data_get($attacked, 'attacked_area', '') }}">
+																	</div>
+																</td>
+															</tr>
+															@endforeach
+															@else
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveAttackLocation">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ប្រទេស</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attacked_countries"
+																			name="attacked_countries[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ខេត្ត/ក្រុង</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attacked_provinces"
+																			name="attacked_provinces[]">
+
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">តំបន់</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="attacked_areas"
+																			name="attacked_areas[]">
+																	</div>
+																</td>
+															</tr>
+															@endif
+														</tbody>
+													</table>
 												</div>
 											</div>
-										</div>
-										<!----------- ករណីបង្ក្រាប -------------->
-										<div class="col-md-12">
-											<div class="card-header">
-												<h3 class="card-title label1" style="font-weight: 700;">ករណីបង្ក្រាប
-												</h3>
-											</div>
-											<div class="card-body">
-												<div class="row">
-													<div class="col-sm-3">
-														<label class="label1"
-															style="font-weight: 200;">ករណីបង្កហេតុ</label>
-														<input type="text" class="form-control " id="provocative_case"
-															name="provocative_case" placeholder=""
-															value="{{$caseKH->provocative_case}}">
-													</div>
-													<div class="col-sm-3">
-													</div>
-													<div class="col-sm-3">
-													</div>
-													<div class="col-sm-3">
-													</div>
+											<!--======================== ករណីបង្ក្រាប =================-->
+											<div class="col-md-12" id="crackdown_case_div"
+												style="{{ $caseKH->activities == 'show_crackdown_case' ? 'display: block;' : 'display: none;' }}">
+												<!----------------អ្នកបង្រ្កាប-------------->
+												<div style="padding-top: 10px;">
+													<h4 class="card-title label1" style="padding-right: 10px;">
+														<button type="button" class="btn btn-success btn-xs"
+															id="btnAddMoreProvocative">
+															<i class="fas fa-plus" aria-hidden="true"></i>
+														</button> <span style="font-weight: 200; font-size: 15px;">
+															អ្នកបង្រ្កាប
+														</span>
+													</h4>
+													<table id="suppressorsTable" style="width:100%">
+														<tbody>
+															@if(!empty($suppressors))
+															@foreach($suppressors as $suppressor)
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveProvocative">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressors_orgs"
+																			name="suppressors_orgs[]"
+																			value="{{ data_get($suppressor, 'suppressors_org', '') }}">
 
-													<!----------------អ្នកបង្រ្កាប-------------->
-													<div class="col-sm-6">
-														<div class="card-header"
-															style="padding-left: 0px; padding-top: 30px;">
-															<h3 class="card-title label1" style="padding-right: 10px;">
-																<button type="button" class="btn btn-success btn-xs"
-																	id="btnAddMoreProvocative">
-																	<i class="fas fa-plus" aria-hidden="true"></i>
-																</button> អ្នកបង្រ្កាប
-															</h3>
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<table id="suppressorsTable" style="width:100%">
-																	<tbody>
-																	@if(!empty($suppressors))
-																		@foreach($suppressors as $suppressor)
-																			<tr>
-																				<td>
-																					<div class="input-group">
-																						<button type="button"
-																							class="btn btn-danger btn-xs"
-																							id="btnRemoveProvocative">
-																							<i class="fas fa-minus"
-																								aria-hidden="true"></i>
-																						</button>
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">អង្គភាព</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="suppressors_orgs"
-																							name="suppressors_orgs[]"
-																							value="{{$suppressor['suppressors_org']}}">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressor_groups"
+																			name="suppressor_groups[]"
+																			value="{{ data_get($suppressor, 'suppressor_group', '') }}">
 
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">បុគ្គល/ក្រុម</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="suppressor_groups"
-																							name="suppressor_groups[]"
-																							value="{{$suppressor['suppressor_group']}}">
-																					</div>
-																				</td>
-																			</tr>
-																		@endforeach
-																	@else
-																		<tr>
-																			<td>
-																				<div class="input-group">
-																					<button type="button"
-																						class="btn btn-danger btn-xs"
-																						id="btnRemoveProvocative">
-																						<i class="fas fa-minus"
-																							aria-hidden="true"></i>
-																					</button>
-																					<div class="input-group-prepend">
-																						<span
-																							class="input-group-text">អង្គភាព</span>
-																					</div>
-																					<input type="text"
-																						class="form-control"
-																						placeholder=""
-																						id="suppressors_orgs"
-																						name="suppressors_orgs[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressor_individuals"
+																			name="suppressor_individuals[]"
+																			value="{{ data_get($suppressor, 'suppressor_indiv', '') }}">
+																	</div>
+																</td>
+															</tr>
+															@endforeach
+															@else
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveProvocative">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressors_orgs"
+																			name="suppressors_orgs[]">
 
-																					<div class="input-group-prepend">
-																						<span
-																							class="input-group-text">បុគ្គល/ក្រុម</span>
-																					</div>
-																					<input type="text"
-																						class="form-control"
-																						placeholder=""
-																						id="suppressor_groups"
-																						name="suppressor_groups[]">
-																				</div>
-																			</td>
-																		</tr>
-																	@endif
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-													<!------------------អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ------------------>
-													<div class="col-sm-6">
-														<div class="card-header"
-															style="padding-left: 0px; padding-top: 30px;">
-															<h3 class="card-title label1" style="padding-right: 10px;">
-																<button type="button" class="btn btn-success btn-xs"
-																	id="btnAddMoreAttacker">
-																	<i class="fas fa-plus" aria-hidden="true"></i>
-																</button> អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ
-															</h3>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressor_groups"
+																			name="suppressor_groups[]">
 
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<table id="attackerTable" style="width:100%">
-																	<tbody>
-																		@if(!empty($attackers))
-																			@foreach($attackers as $attacker)
-																				<tr>
-																					<td>
-																						<div class="input-group">
-																							<button type="button"
-																								class="btn btn-danger btn-xs"
-																								id="btnRemoveAttacker">
-																								<i class="fas fa-minus"
-																									aria-hidden="true"></i>
-																							</button>
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">អង្គភាព</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder="" id="attack_orgs"
-																								name="attack_orgs[]"
-																								value="{{$attacker['attack_org']}}">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressor_individuals"
+																			name="suppressor_individuals[]">
+																	</div>
+																</td>
+															</tr>
+															@endif
+														</tbody>
+													</table>
+												</div>
+												<!------------------ អ្នកដែលត្រូវបានបង្ក្រាប ------------------>
+												<div style="padding-top: 10px;">
+													<h4 class="card-title label1" style="padding-right: 10px;">
+														<button type="button" class="btn btn-success btn-xs"
+															id="btnAddMoreSuppressed">
+															<i class="fas fa-plus" aria-hidden="true"></i>
+														</button> <span style="font-weight: 200; font-size: 15px;">
+															អ្នកដែលត្រូវបានបង្ក្រាប</span>
+													</h4>
+													<table id="SuppressedTable" style="width:100%">
+														<tbody>
+															@if(!empty($suppresseds))
+															@foreach($suppresseds as $suppresse)
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveSuppressed">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressed_orgs"
+																			name="suppressed_orgs[]"
+																			value="{{ data_get($suppresse, 'suppressed_org', '') }}">
 
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">បុគ្គល/ក្រុម</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="attack_groups"
-																								name="attack_groups[]"
-																								value="{{$attacker['attack_group']}}">
-																						</div>
-																					</td>
-																				</tr>
-																			@endforeach
-																		@else
-																			<tr>
-																				<td>
-																					<div class="input-group">
-																						<button type="button"
-																							class="btn btn-danger btn-xs"
-																							id="btnRemoveAttacker">
-																							<i class="fas fa-minus"
-																								aria-hidden="true"></i>
-																						</button>
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">អង្គភាព</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder="" id="attack_orgs"
-																							name="attack_orgs[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressed_groups"
+																			name="suppressed_groups[]"
+																			value="{{ data_get($suppresse, 'suppressed_group', '') }}">
 
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">បុគ្គល/ក្រុម</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="attack_groups"
-																							name="attack_groups[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressed_individuals"
+																			name="suppressed_individuals[]"
+																			value="{{ data_get($suppresse, 'suppressed_indiv', '') }}">
 
+																	</div>
+																</td>
+															</tr>
+															@endforeach
+															@else
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveSuppressed">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressed_orgs"
+																			name="suppressed_orgs[]">
 
-																					</div>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressed_groups"
+																			name="suppressed_groups[]">
 
-																				</td>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="suppressed_individuals"
+																			name="suppressed_individuals[]">
 
-																			</tr>
-																		@endif
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-													<!------------------ អ្នកដែលត្រូវបានបង្ក្រាប ------------------>
-													<div class="col-sm-6">
-														<div class="card-header"
-															style="padding-left: 0px; padding-top: 30px;">
-															<h3 class="card-title label1" style="padding-right: 10px;">
-																<button type="button" class="btn btn-success btn-xs"
-																	id="btnAddMoreSuppressed">
-																	<i class="fas fa-plus" aria-hidden="true"></i>
-																</button> អ្នកដែលត្រូវបានបង្ក្រាប
-															</h3>
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<table id="SuppressedTable" style="width:100%">
-																	<tbody>
-																		@if(!empty($suppresseds))
-																			@foreach($suppresseds as $suppressed)
-																				<tr>
-																					<td>
-																						<div class="input-group">
-																							<button type="button"
-																								class="btn btn-danger btn-xs"
-																								id="btnRemoveSuppressed">
-																								<i class="fas fa-minus"
-																									aria-hidden="true"></i>
-																							</button>
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">អង្គភាព</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="suppressed_orgs"
-																								name="suppressed_orgs[]"
-																								value="{{$suppressed['suppressed_org']}}">
+																	</div>
+																</td>
+															</tr>
+															@endif
+														</tbody>
+													</table>
+												</div>
+												<!------------------ ទីតាំងបង្ក្រាប ------------------>
+												<div style="padding-top: 10px;">
+													<h4 class="card-title label1" style="padding-right: 10px;">
+														<button type="button" class="btn btn-success btn-xs"
+															id="btnAddMoreCrackdownLocation">
+															<i class="fas fa-plus" aria-hidden="true"></i>
+														</button>
+														<span style="font-weight: 200; font-size: 15px;">
+															ទីតាំងបង្ក្រាប
+														</span>
+													</h4>
+													<table id="CrackdownLocationTable" style="width:100%">
+														<tbody>
+															@if(!empty($crackdowns))
+															@foreach($crackdowns as $crackdown)
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveCrackdownLocation">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ប្រទេស</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="crackdown_countries"
+																			name="crackdown_countries[]"
+																			value="{{$crackdown['crackdown_country']}}">
 
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">បុគ្គល/ក្រុម</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="suppressed_groups"
-																								name="suppressed_groups[]"
-																								value="{{$suppressed['suppressed_group']}}">
-																						</div>
-																					</td>
-																				</tr>
-																			@endforeach
-																		@else
-																			<tr>
-																				<td>
-																					<div class="input-group">
-																						<button type="button"
-																							class="btn btn-danger btn-xs"
-																							id="btnRemoveSuppressed">
-																							<i class="fas fa-minus"
-																								aria-hidden="true"></i>
-																						</button>
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">អង្គភាព</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="suppressed_orgs"
-																							name="suppressed_orgs[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ខេត្ត/ក្រុង</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="crackdown_provinces"
+																			name="crackdown_provinces[]"
+																			value="{{$crackdown['crackdown_province']}}">
 
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">បុគ្គល/ក្រុម</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="suppressed_groups"
-																							name="suppressed_groups[]">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">តំបន់</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="crackdown_areas"
+																			name="crackdown_areas[]"
+																			value="{{$crackdown['crackdown_area']}}">
+																	</div>
+																</td>
+															</tr>
+															@endforeach
+															@else
+															<tr>
+																<td>
+																	<div class="input-group">
+																		<button type="button"
+																			class="btn btn-danger btn-xs"
+																			id="btnRemoveCrackdownLocation">
+																			<i class="fas fa-minus"
+																				aria-hidden="true"></i>
+																		</button>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ប្រទេស</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="crackdown_countries"
+																			name="crackdown_countries[]">
 
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">ខេត្ត/ក្រុង</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="crackdown_provinces"
+																			name="crackdown_provinces[]">
 
-																					</div>
-																				</td>
-																			</tr>
-																		@endif
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-													<!------------------ អ្នករងគ្រោះ ------------------>
-													<div class="col-sm-6">
-														<div class="card-header"
-															style="padding-left: 0px; padding-top: 30px;">
-															<h3 class="card-title label1" style="padding-right: 10px;">
-																<button type="button" class="btn btn-success btn-xs"
-																	id="btnAddMoreVictim">
-																	<i class="fas fa-plus" aria-hidden="true"></i>
-																</button>
-																អ្នករងគ្រោះ
-															</h3>
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<table id="VictimTable" style="width:100%">
-																	<tbody>
-																	@if(!empty($victims))
-																			@foreach($victims as $victim)
-																				<tr>
-																					<td>
-																						<div class="input-group">
-																							<button type="button"
-																								class="btn btn-danger btn-xs"
-																								id="btnRemoveVictim">
-																								<i class="fas fa-minus"
-																									aria-hidden="true"></i>
-																							</button>
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">អង្គភាព</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder="" id="victim_orgs"
-																								name="victim_orgs[]"
-																								value="{{$victim['victim_org']}}">
-
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">បុគ្គល/ក្រុម</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="victim_groups"
-																								name="victim_groups[]"
-																								value="{{$victim['victim_group']}}">
-																						</div>
-																					</td>
-																				</tr>
-																			@endforeach
-																		@else
-																			<tr>
-																				<td>
-																					<div class="input-group">
-																						<button type="button"
-																							class="btn btn-danger btn-xs"
-																							id="btnRemoveVictim">
-																							<i class="fas fa-minus"
-																								aria-hidden="true"></i>
-																						</button>
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">អង្គភាព</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder="" id="victim_orgs"
-																							name="victim_orgs[]">
-
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">បុគ្គល/ក្រុម</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="victim_groups"
-																							name="victim_groups[]">
-
-
-																					</div>
-
-																				</td>
-
-																			</tr>
-																		@endif
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-													<!------------------ ទីតាំងបង្ក្រាប ------------------>
-													<div class="col-sm-12">
-														<div class="card-header"
-															style="padding-left: 0px; padding-top: 30px;">
-															<h3 class="card-title label1" style="padding-right: 10px;">
-																<button type="button" class="btn btn-success btn-xs"
-																	id="btnAddMoreCrackdownLocation">
-																	<i class="fas fa-plus" aria-hidden="true"></i>
-																</button>
-																ទីតាំងបង្ក្រាប
-															</h3>
-
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<table id="CrackdownLocationTable" style="width:100%">
-																	<tbody>
-																	@if(!empty($crackdowns))
-																			@foreach($crackdowns as $crackdown)
-																				<tr>
-																					<td>
-																						<div class="input-group">
-																							<button type="button"
-																								class="btn btn-danger btn-xs"
-																								id="btnRemoveCrackdownLocation">
-																								<i class="fas fa-minus"
-																									aria-hidden="true"></i>
-																							</button>
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">ប្រទេស</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="crackdown_countries"
-																								name="crackdown_countries[]"
-																								value="{{$crackdown['crackdown_country']}}">
-
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">ខេត្ត/ក្រុង</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="crackdown_provinces"
-																								name="crackdown_provinces[]"
-																								value="{{$crackdown['crackdown_province']}}">
-
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">តំបន់</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="crackdown_areas"
-																								name="crackdown_areas[]"
-																								value="{{$crackdown['crackdown_area']}}">
-																						</div>
-																					</td>
-																				</tr>
-																			@endforeach
-																		@else
-																			<tr>
-																				<td>
-																					<div class="input-group">
-																						<button type="button"
-																							class="btn btn-danger btn-xs"
-																							id="btnRemoveCrackdownLocation">
-																							<i class="fas fa-minus"
-																								aria-hidden="true"></i>
-																						</button>
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">ប្រទេស</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="crackdown_countries"
-																							name="crackdown_countries[]">
-
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">ខេត្ត/ក្រុង</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="crackdown_provinces"
-																							name="crackdown_provinces[]">
-
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">តំបន់</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="crackdown_areas"
-																							name="crackdown_areas[]">
-
-
-																					</div>
-
-																				</td>
-
-																			</tr>
-																		@endif
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-													<!------------------ ទីតាំងវាយប្រហារ ------------------>
-													<div class="col-sm-12">
-														<div class="card-header"
-															style="padding-left: 0px; padding-top: 30px;">
-															<h5 class="card-title label1" style="padding-right: 10px;">
-																<button type="button" class="btn btn-success btn-xs"
-																	id="btnAddMoreAttackLocation">
-																	<i class="fas fa-plus" aria-hidden="true"></i>
-																</button> ទីតាំងវាយប្រហារ
-															</h5>
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<table id="AttackLocationTable" style="width:100%">
-																	<tbody>
-																		@if(!empty($attackeds))
-																			@foreach($attackeds as $attacked)
-																				<tr>
-																					<td>
-																						<div class="input-group">
-																							<button type="button"
-																								class="btn btn-danger btn-xs"
-																								id="btnRemoveAttackLocation">
-																								<i class="fas fa-minus"
-																									aria-hidden="true"></i>
-																							</button>
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">ប្រទេស</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="attacked_countries"
-																								name="attacked_countries[]"
-																								value="{{$attacked['attacked_country']}}">
-
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">ខេត្ត/ក្រុង</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="attacked_provinces"
-																								name="attacked_provinces[]"
-																								value="{{$attacked['attacked_province']}}">
-
-																							<div class="input-group-prepend">
-																								<span
-																									class="input-group-text">តំបន់</span>
-																							</div>
-																							<input type="text"
-																								class="form-control"
-																								placeholder=""
-																								id="attacked_areas"
-																								name="attacked_areas[]"
-																								value="{{$attacked['attacked_area']}}">
-																						</div>
-																					</td>
-																				</tr>
-																			@endforeach
-																		@else
-																			<tr>
-																				<td>
-																					<div class="input-group">
-																						<button type="button"
-																							class="btn btn-danger btn-xs"
-																							id="btnRemoveAttackLocation">
-																							<i class="fas fa-minus"
-																								aria-hidden="true"></i>
-																						</button>
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">ប្រទេស</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="attacked_countries"
-																							name="attacked_countries[]">
-
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">ខេត្ត/ក្រុង</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="attacked_provinces"
-																							name="attacked_provinces[]">
-
-																						<div class="input-group-prepend">
-																							<span
-																								class="input-group-text">តំបន់</span>
-																						</div>
-																						<input type="text"
-																							class="form-control"
-																							placeholder=""
-																							id="attacked_areas"
-																							name="attacked_areas[]">
-
-
-																					</div>
-
-																				</td>
-
-																			</tr>
-																		@endif
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-
-													<div class="col-sm-6">
-														<div class="form-group" style="padding-top: 30px;">
-															<label>សម្ភារៈផ្សេងទៀត</label>
-															<textarea class="form-control" rows="3"
-																name="other_material"
-																placeholder="">{{$caseKH->other_material}}</textarea>
-														</div>
-													</div>
-													<div class="col-sm-6">
-														<div class="form-group" style="padding-top: 30px;">
-															<label>ការខាតបង់ផ្សេងទៀត</label>
-															<textarea class="form-control" rows="3" name="other_losses"
-																placeholder="">{{$caseKH->other_losses}}</textarea>
-														</div>
-													</div>
+																		<div class="input-group-prepend">
+																			<span class="input-group-text"
+																				style="font-weight: 200; font-size: 15px;">តំបន់</span>
+																		</div>
+																		<input type="text" class="form-control"
+																			placeholder="" id="crackdown_areas"
+																			name="crackdown_areas[]">
+																	</div>
+																</td>
+															</tr>
+															@endif
+														</tbody>
+													</table>
 												</div>
 											</div>
-										</div>
-										<!--================ end new designing =============================-->
-										<div class="col-md-12">
-											<div class="card-footer">
-												<div class="btn-group" style="float: right;">
-													<button type="button" class="btn btn-danger"
-														onclick="window.location='{{route('CaseList')}}'">
-														<i class="fas fa-arrow-circle-left" aria-hidden="true"></i>
-														ត្រលប់ក្រោយ
-													</button>
-													<button type="submit" class="btn btn-success toastrDefaultSuccess">
-														<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
-													</button>
+											<!--==================================-->
+											<div class="col-sm-6">
+												<div class="form-group" style="padding-top: 5px;">
+													<label>សម្ភារៈផ្សេងទៀត</label>
+													<textarea class="form-control" rows="3" name="other_material"
+														placeholder="">{{$caseKH->other_material}}</textarea>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group" style="padding-top: 5px;">
+													<label>ការខាតបង់ផ្សេងទៀត</label>
+													<textarea class="form-control" rows="3" name="other_losses"
+														placeholder="">{{$caseKH->other_losses}}</textarea>
+												</div>
+											</div>
+											<!--================ end new designing =============================-->
+											<div class="col-md-12">
+												<div class="card-footer">
+													<div class="btn-group" style="float: right;">
+														<button type="button" class="btn btn-danger"
+															onclick="window.location='{{route('CaseList')}}'">
+															<i class="fas fa-arrow-circle-left" aria-hidden="true"></i>
+															ត្រលប់ក្រោយ
+														</button>
+														<button type="submit"
+															class="btn btn-success toastrDefaultSuccess">
+															<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
+														</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -1011,208 +931,281 @@
 </div>
 @endsection
 @section('script')
+
 <script>
-$(document).ready(function() {
-	//<!------------------ ទីតាំងវាយប្រហារ ------------------>
-	$("#btnAddMoreAttackLocation").click(function() {
-		var newRow =
-			'<tr>' +
-			'<td>' +
-			'<div class="input-group">' +
-			'<button type="button" class="btn btn-danger btn-xs" id="btnRemoveAttackLocation">' +
-			'<i class="fas fa-minus" aria-hidden="true"></i>' +
-			'</button>' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">ប្រទេស</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="attacked_countries" name="attacked_countries[]">' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">ខេត្ត/ក្រុង</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="attacked_provinces" name="attacked_provinces[]">' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">តំបន់</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="attacked_areas" name="attacked_areas[]">' +
+	$(document).ready(function() {
+		//----------------- even of select box ------------
+		$('#activities').change(function() {
+			var value = $(this).val();
 
-			'</div>' +
-			'</td>' +
-			'</tr>';
-		$("#AttackLocationTable tbody").append(newRow);
-	});
+			if (value == 'other_case') {
+				$('#other_activities_div').show();
+				$('#causing_case_div').hide();
+				$('#crackdown_case_div').hide();
+			}
 
-	// Remove row button click event
-	$(document).on("click", "#btnRemoveAttackLocation", function() {
-		$(this).closest("tr").remove();
-	});
-	//<!------------------ ទីតាំងបង្ក្រាប ------------------>
-	$("#btnAddMoreCrackdownLocation").click(function() {
-		var newRow =
-			'<tr>' +
-			'<td>' +
-			'<div class="input-group">' +
-			'<button type="button" class="btn btn-danger btn-xs" id="btnRemoveCrackdownLocation">' +
-			'<i class="fas fa-minus" aria-hidden="true"></i>' +
-			'</button>' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">ប្រទេស</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="crackdown_countries" name="crackdown_countries[]">' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">ខេត្ត/ក្រុង</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="crackdown_provinces" name="crackdown_provinces[]">' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">តំបន់</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="crackdown_areas" name="crackdown_areas[]">' +
+			if (value == 'show_none') {
+				$('#other_activities_div').hide();
+				$('#causing_case_div').hide();
+				$('#crackdown_case_div').hide();
+			}
 
-			'</div>' +
-			'</td>' +
-			'</tr>';
-		$("#CrackdownLocationTable tbody").append(newRow);
-	});
-	// Remove row button click event
-	$(document).on("click", "#btnRemoveCrackdownLocation", function() {
-		$(this).closest("tr").remove();
-	});
+			if (value === 'show_causing_case') {
+				$('#other_activities_div').hide();
+				$('#causing_case_div').show();
+				$('#crackdown_case_div').hide();
+			}
 
-	//<!------------------ អ្នករងគ្រោះ ------------------>
-	$("#btnAddMoreVictim").click(function() {
-		var newRow =
-			'<tr>' +
-			'<td>' +
-			'<div class="input-group">' +
-			'<button type="button" class="btn btn-danger btn-xs" id="btnRemoveVictim">' +
-			'<i class="fas fa-minus" aria-hidden="true"></i>' +
-			'</button>' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">អង្គភាព</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="victim_orgs" name="victim_orgs[]">' +
-			'<div class="input-group-prepend">' +
-			'	<span class="input-group-text">បុគ្គល/ក្រុម</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="victim_groups" name="victim_groups[]">' +
+			if (value === 'show_crackdown_case') {
+				$('#other_activities_div').hide();
+				$('#causing_case_div').hide();
+				$('#crackdown_case_div').show();
+			}
+		});
 
-			'</div>' +
-			'</div>' +
-			'</td>' +
-			'</tr>';
-		$("#VictimTable tbody").append(newRow);
-	});
-	// Remove row button click event
-	$(document).on("click", "#btnRemoveVictim", function() {
-		$(this).closest("tr").remove();
-	});
+		//--------------------ការវាយប្រហារ----------------
+		//<!------------------អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ------------------>
+		$("#btnAddMoreAttacker").click(function() {
+			var newRow = `
+				<tr>
+					<td>
+						<div class="input-group">
+							<button type="button" class="btn btn-danger btn-xs" id="btnRemoveAttacker">
+								<i class="fas fa-minus" aria-hidden="true"></i>
+							</button>
+							<div class="input-group-prepend">
+								<span class="input-group-text" style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+							</div>
+							<input type="text" class="form-control" placeholder="" id="attack_orgs" name="attack_orgs[]">
+							<div class="input-group-prepend">
+								<span class="input-group-text" style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+							</div>
+							<input type="text" class="form-control" placeholder="" id="attack_groups" name="attack_groups[]">
+							<div class="input-group-prepend">
+								<span class="input-group-text" style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+							</div>
+							<input type="text" class="form-control" placeholder="" id="attack_individuals" name="attack_individuals[]">
+						</div>
+					</td>
+				</tr>`;
+			$("#attackerTable tbody").append(newRow);
+		});
+		// Remove row button click event
+		$(document).on("click", "#btnRemoveAttacker", function() {
+			$(this).closest("tr").remove();
+		});
+		//<!------------------ អ្នករងគ្រោះ ------------------>
+		$("#btnAddMoreVictim").click(function() {
+			var newRow = `
+			<tr>
+				<td>
+					<div class="input-group">
+						<button type="button" class="btn btn-danger btn-xs" id="btnRemoveVictim">
+							<i class="fas fa-minus" aria-hidden="true"></i>
+						</button>
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+						</div>
+						<input type="text" class="form-control" placeholder="" id="victim_orgs" name="victim_orgs[]">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+						</div>
+						<input type="text" class="form-control" placeholder="" id="victim_groups" name="victim_groups[]">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+						</div>
+						<input type="text" class="form-control" placeholder="" id="victim_individuals" name="victim_individuals[]">
+					</div>
+				</td>
+			</tr>`;
+			$("#VictimTable tbody").append(newRow);
+		});
+		// Remove row button click event
+		$(document).on("click", "#btnRemoveVictim", function() {
+			$(this).closest("tr").remove();
+		});
 
-	//===============  អ្នកដែលត្រូវបានបង្ក្រាប  =================
-	$("#btnAddMoreSuppressed").click(function() {
-		var newRow =
-			'<tr>' +
-			'<td>' +
-			'<div class="input-group">' +
-			'<button type="button" class="btn btn-danger btn-xs" id="btnRemoveSuppressed">' +
-			'<i class="fas fa-minus" aria-hidden="true"></i>' +
-			'</button>' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">អង្គភាព</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="suppressed_orgs" name="suppressed_orgs[]">' +
-			'<div class="input-group-prepend">' +
-			'	<span class="input-group-text">បុគ្គល/ក្រុម</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="suppressed_groups" name="suppressed_groups[]">' +
+		//<!------------------ ទីតាំងវាយប្រហារ ------------------>
+		$("#btnAddMoreAttackLocation").click(function() {
+			var newRow = `
+				<tr>
+					<td>
+						<div class="input-group">
+							<button type="button" class="btn btn-danger btn-xs"
+								id="btnRemoveAttackLocation">
+								<i class="fas fa-minus" aria-hidden="true"></i>
+							</button>
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">ប្រទេស</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="attacked_countries"
+								name="attacked_countries[]">
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">ខេត្ត/ក្រុង</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="attacked_provinces"
+								name="attacked_provinces[]">
 
-			'</div>' +
-			'</div>' +
-			'</td>' +
-			'</tr>';
-		$("#SuppressedTable tbody").append(newRow);
-	});
-	// Remove row button click event
-	$(document).on("click", "#btnRemoveSuppressed", function() {
-		$(this).closest("tr").remove();
-	});
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">តំបន់</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="attacked_areas"
+								name="attacked_areas[]">
+						</div>
+					</td>
+				</tr>`;
+			$("#AttackLocationTable tbody").append(newRow);
+		});
+		// Remove row button click event
+		$(document).on("click", "#btnRemoveAttackLocation", function() {
+			$(this).closest("tr").remove();
+		});
+		//<!----------------អ្នកបង្រ្កាប-------------->
+		$("#btnAddMoreProvocative").click(function() {
+			var newRow = `
+				<tr>
+					<td>
+						<div class="input-group">
+							<button type="button" class="btn btn-danger btn-xs"
+								id="btnRemoveProvocative">
+								<i class="fas fa-minus" aria-hidden="true"></i>
+							</button>
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="suppressors_orgs"
+								name="suppressors_orgs[]">
 
-	//===============្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ============
-	$("#btnAddMoreAttacker").click(function() {
-		var newRow =
-			'<tr>' +
-			'<td>' +
-			'<div class="input-group">' +
-			'<button type="button" class="btn btn-danger btn-xs" id="btnRemoveAttacker">' +
-			'<i class="fas fa-minus" aria-hidden="true"></i>' +
-			'</button>' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">អង្គភាព</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="attack_orgs" name="attack_orgs[]">' +
-			'<div class="input-group-prepend">' +
-			'	<span class="input-group-text">បុគ្គល/ក្រុម</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="attack_groups" name="attack_groups[]">' +
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="suppressor_groups"
+								name="suppressor_groups[]">
 
-			'</div>' +
-			'</div>' +
-			'</td>' +
-			'</tr>';
-		$("#attackerTable tbody").append(newRow);
-	});
-	// Remove row button click event
-	$(document).on("click", "#btnRemoveAttacker", function() {
-		$(this).closest("tr").remove();
-	});
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="suppressor_individuals"
+								name="suppressor_individuals[]">
+						</div>
+					</td>
+				</tr>
+			`;
+			$("#suppressorsTable tbody").append(newRow);
+		});
+		// Remove row button click event
+		$(document).on("click", "#btnRemoveProvocative", function() {
+			$(this).closest("tr").remove();
+		});
 
-	//<!----------------អ្នកបង្រ្កាប-------------->
-	$("#btnAddMoreProvocative").click(function() {
-		var newRow =
-			'<tr>' +
-			'<td>' +
-			'<div class="input-group">' +
-			'<button type="button" class="btn btn-danger btn-xs" id="btnRemoveProvocative">' +
-			'<i class="fas fa-minus" aria-hidden="true"></i>' +
-			'</button>' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">អង្គភាព</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="suppressors_orgs" name="suppressors_orgs[]">' +
-			'<div class="input-group-prepend">' +
-			'<span class="input-group-text">បុគ្គល/ក្រុម</span>' +
-			'</div>' +
-			'<input type="text" class="form-control" placeholder="" id="suppressor_groups" name="suppressor_groups[]">' +
 
-			'</div>' +
-			'</td>' +
-			'</tr>';
-		$("#suppressorsTable tbody").append(newRow);
-	});
-	// Remove row button click event
-	$(document).on("click", "#btnRemoveProvocative", function() {
-		$(this).closest("tr").remove();
-	});
+		//<!------------------ ទីតាំងបង្ក្រាប ------------------>
+		$("#btnAddMoreCrackdownLocation").click(function() {
+			var newRow = `
+				<tr>
+					<td>
+						<div class="input-group">
+							<button type="button" class="btn btn-danger btn-xs"
+								id="btnRemoveCrackdownLocation">
+								<i class="fas fa-minus" aria-hidden="true"></i>
+							</button>
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">ប្រទេស</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="crackdown_countries"
+								name="crackdown_countries[]">
 
-	// Add row button click event
-	$("#addRowBtn").click(function() {
-		var newRow =
-			"<tr>" +
-			'<td><input type="text" class="form-control" placeholder="" id="" name="provocative_case[]"></td>' +
-			'<td><button class="removeBtn">Remove</button></td>' +
-			"</tr>";
-		$("#myTable tbody").append(newRow);
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">ខេត្ត/ក្រុង</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="crackdown_provinces"
+								name="crackdown_provinces[]">
+
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">តំបន់</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="crackdown_areas"
+								name="crackdown_areas[]">
+						</div>
+					</td>
+				</tr>
+			`;
+			$("#CrackdownLocationTable tbody").append(newRow);
+		});
+		// Remove row button click event
+		$(document).on("click", "#btnRemoveCrackdownLocation", function() {
+			$(this).closest("tr").remove();
+		});
+		//<!------------------ អ្នកដែលត្រូវបានបង្ក្រាប ------------------>
+		$("#btnAddMoreSuppressed").click(function() {
+			var newRow = `
+				<tr>
+					<td>
+						<div class="input-group">
+							<button type="button" class="btn btn-danger btn-xs"
+								id="btnRemoveSuppressed">
+								<i class="fas fa-minus" aria-hidden="true"></i>
+							</button>
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">អង្គភាព</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="suppressed_orgs"
+								name="suppressed_orgs[]">
+
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">ក្រុម</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="suppressed_groups"
+								name="suppressed_groups[]">
+
+							<div class="input-group-prepend">
+								<span class="input-group-text"
+									style="font-weight: 200; font-size: 15px;">បុគ្គល</span>
+							</div>
+							<input type="text" class="form-control"
+								placeholder="" id="suppressed_individuals"
+								name="suppressed_individuals[]">
+
+						</div>
+					</td>
+				</tr>
+			`;
+			$("#SuppressedTable tbody").append(newRow);
+		});
+		// Remove row button click event
+		$(document).on("click", "#btnRemoveSuppressed", function() {
+			$(this).closest("tr").remove();
+		});
 	});
-	// Remove row button click event
-	$(document).on("click", ".removeBtn", function() {
-		$(this).closest("tr").remove();
-	});
-});
 </script>
+
+
 <script>
 $(function() {
 	$('#description').summernote();
 	$('#original_source').summernote()
-
-
 });
 </script>
 

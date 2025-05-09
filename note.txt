@@ -1,31 +1,141 @@
-1. create migration
-sail artisan make:migration create_flights_table
-
-2. run migration
-sail artisan migrate
-
-3. create model
-sail artisan make:model Flight
-
-
 $request->validate([
             'title' => 'required',
 			'original_source' => 'required',
         ]);
 
 		/** ករណីបង្ក្រាប -> អ្នកបង្រ្កាប */
-		
+		$suppressors = collect([]);
+		$suprressorNum = 0;
+		$suppressorOrgs   = $request->suppressors_orgs;//អង្គភាព
+		$suppressorGroups = $request->suppressor_groups;//ក្រុម
+		$suppressorIndividuals = $request->suppressor_individuals;//បុគ្គល
 
-		
+		foreach($suppressorOrgs as $suppressorOrg){
+			if($suppressorOrg != null || $suppressorGroups[$suprressorNum] != null){
+				$suppressors->push([
+					'suppressors_org'	=>	$suppressorOrg,
+					'suppressor_group'	=>	$suppressorGroups[$suprressorNum],
+					'suppressor_indiv'	=>	$suppressorIndividuals[$suprressorNum]
+				]);
+			}
+			
+			$suprressorNum ++;
+		}
 
-		
-		
-		
+		/** ករណីបង្ក្រាប ->  អ្នកដែលត្រូវបានបង្ក្រាប */
+		$suppresseds = collect([]);
+		$suppressedOrgs   = $request->suppressed_orgs;//អង្គភាព
+		$suppressedGroups   = $request->suppressed_groups;//ក្រុម
+		$suppressedIndividuals = $request->suppressed_individuals;//បុគ្គល
 
+		$suppressedIndex = 0;
+		foreach($suppressedOrgs as $suppressedOrg){
+			if($suppressedOrg != null || $suppressedGroups[$suppressedIndex] != null){
+				$suppresseds->push([
+					'suppressed_org'	=>	$suppressedOrg,
+					'suppressed_group'	=>	$suppressedGroups[$suppressedIndex],
+					'suppressed_indiv'	=>	$suppressedIndividuals[$suppressedIndex],
+				]);
+				$suppressedIndex ++;
+			}
+		}
 
+		/** ករណីបង្ក្រាប -> ទីតាំងបង្ក្រាប */
+		$crackdowns = collect([]);
+		$crackdownCountries   = $request->crackdown_countries;
+		$crackdownProvinces   = $request->crackdown_provinces;
+		$crackdownAreas   = $request->crackdown_areas;
 
+		$crackdownIndex = 0;
+		foreach($crackdownCountries as $crackdownCountry){
+			if($crackdownCountry != null || $crackdownProvinces[$crackdownIndex] != null || $crackdownAreas[$crackdownIndex] != null){
+				$crackdowns->push([
+					'crackdown_country'	=>	$crackdownCountry,
+					'crackdown_province'=>	$crackdownProvinces[$crackdownIndex],
+					'crackdown_area'	=>	$crackdownAreas[$crackdownIndex]
+				]);
+			}
+			$crackdownIndex ++;
+		}
 		
+		/**  ករណីបង្ក -> អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ  */
+		$attackers = collect([]);
+		$attackerIndex = 0;
+		$attackOrgs   = $request->attack_orgs;//អង្គភាព
+		$attackGroups   = $request->attack_groups;//ក្រុម
+		$attackIndividuals = $request->attack_individuals;//បុគ្គល
 
+		foreach($attackOrgs as $attackOrg){
+			if($attackOrg != null || $attackGroups[$attackerIndex] != null){
+				$attackers->push([
+					'attack_org'	=>	$attackOrg,
+					'attack_group'	=>	$attackGroups[$attackerIndex],
+					'attack_indiv'	=>	$attackIndividuals[$attackerIndex]
+				]);
+			}
+			$attackerIndex ++;
+		}
+
+		/** ករណីបង្ក -> អ្នករងគ្រោះ */
+		$victims = collect([]);
+		$victimOrgs   = $request->victim_orgs;//អង្គភាព
+		$victimGroups   = $request->victim_groups;//ក្រុម
+		$victimIndividuals = $request->victim_individuals;//បុគ្គល
+
+		$victimIndex = 0;
+		foreach($victimOrgs as $victimOrg){
+			if($victimOrg != null || $victimGroups[$victimIndex] != null){
+				$victims->push([
+					'victim_org'	=>	$victimOrg,
+					'victim_group'	=>	$victimGroups[$victimIndex],
+					'victim_indiv' 	=> 	$victimIndividuals[$victimIndex]
+				]);
+			}
+			$victimIndex ++;
+		}
+
+		/** ករណីបង្ក -> ទីតាំងវាយប្រហារ */
+		$attacks = collect([]);
+		$attackedCountries   = $request->attacked_countries;
+		$attackedProvinces   = $request->attacked_provinces;
+		$attackedAreas   = $request->attacked_areas;
+		$attackIndex = 0;
+		foreach($attackedCountries as $attackedCountry){
+			if($attackedCountry != null || $attackedProvinces[$attackIndex] != null || $attackedAreas[$attackIndex] != null){
+				$attacks->push([
+					'attacked_country'	=>	$attackedCountry,
+					'attacked_province'	=>	$attackedProvinces[$attackIndex],
+					'attacked_area'		=>	$attackedAreas[$attackIndex]
+				]);
+			}
+			$attackIndex ++;
+		}
+
+		//----- clean សកម្មភាព -----
+		$activity = '';
+		if($request->activities == 'other_case'){ //ផ្សេងៗ
+			$activity = 'ផ្សេងៗ';
+			$suppressors = collect([]);// អ្នកបង្រ្កាប
+			$suppresseds = collect([]);// អ្នកដែលត្រូវបានបង្ក្រាប 
+			$crackdowns  = collect([]);// ទីតាំងបង្ក្រាប 
+
+			$attackers   = collect([]);// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+			$victims     = collect([]);// អ្នករងគ្រោះ 
+			$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
+
+		}elseif($request->activities == 'show_causing_case'){//ការវាយប្រហារ
+			$activity = 'ការវាយប្រហារ';
+			$suppressors = collect([]);// អ្នកបង្រ្កាប
+			$suppresseds = collect([]);// អ្នកដែលត្រូវបានបង្ក្រាប 
+			$crackdowns  = collect([]);// ទីតាំងបង្ក្រាប 
+
+		}elseif($request->activities == 'show_crackdown_case'){//ការបង្ក្រាប
+			$activity = 'ការបង្ក្រាប';
+			$attackers   = collect([]);// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+			$victims     = collect([]);// អ្នករងគ្រោះ 
+			$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
+
+		}
 
 
 		DB::transaction(function () use ($request, $suppressors, $attackers, $suppresseds, $victims, $crackdowns, $attacks) {

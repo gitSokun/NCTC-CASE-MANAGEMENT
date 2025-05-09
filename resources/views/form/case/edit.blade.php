@@ -187,7 +187,6 @@
 							value="{{$case->causing_case}}">
 					</div>
 					<!--=========div សកម្មភាព ផ្សេងៗ ========-->
-					
 					<div class="col-md-12" id="other_activities_div" 
 					style="{{ $case->activities == 'other_case' ? 'display: block;' : 'display: none;'}}">
 						<div class="form-group" style="padding-top: 5px;">
@@ -200,8 +199,6 @@
 								</textarea>
 						</div>
 					</div>
-					
-					
 					<!--=========div ការវាយប្រហារ ========-->
 					<div class="col-md-12" id="causing_case_div" style="{{ $case->activities == 'show_causing_case' ? 'display: block;' : 'display: none;' }}" >
 						<!------------------អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ------------------>
