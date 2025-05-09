@@ -58,8 +58,12 @@
 							<a href="{{ url('/user/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">
 									<div class="col-auto">
-										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}"
-											alt="Photo" style="max-height: 100px;">
+										@if($case->file_path)
+										   <img class="img-fluid" src="{{ url('case-file/' . $case->file_path) }}"  alt="Photo" style="max-height: 100px;">
+										@else
+										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}" alt="Photo"
+											style="max-height: 100px;">
+										@endif
 									</div>
 									<div class="col px-4">
 										<div>
@@ -81,8 +85,12 @@
 							<a href="{{ url('/user/case-information-show/' . Crypt::encrypt($case->id)) }}">
 								<div class="row">
 									<div class="col-auto">
-										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}"
-											alt="Photo" style="max-height: 100px;">
+										@if($case->file_path)
+										   <img class="img-fluid" src="{{ url('case-file/' . $case->file_path) }}"  alt="Photo" style="max-height: 100px;">
+										@else
+										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}" alt="Photo"
+											style="max-height: 100px;">
+										@endif
 									</div>
 									<div class="col px-4">
 										<div>

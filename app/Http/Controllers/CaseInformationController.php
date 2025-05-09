@@ -1351,6 +1351,12 @@ class CaseInformationController extends Controller
 			'case_info_khs.case_number as case_number_kh',
 			'case_info_khs.description as description_kh'
 			)
+			->addSelect([
+				'file_path' => DB::table('case_uploads')
+					->select('file_path')
+					->whereColumn('case_uploads.case_number', 'case_information.case_number')
+					->limit(1)
+			])
 		->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
 		->where('case_information.status','=','Active')
 		->orderBy('created_at', 'DESC')
@@ -1398,6 +1404,12 @@ class CaseInformationController extends Controller
 				'case_info_khs.case_number as case_number_kh',
 				'case_info_khs.description as description_kh'
 				)
+				->addSelect([
+					'file_path' => DB::table('case_uploads')
+						->select('file_path')
+						->whereColumn('case_uploads.case_number', 'case_information.case_number')
+						->limit(1)
+				])
 			->leftJoin('case_info_khs', 'case_information.id', '=', 'case_info_khs.case_id')
 			->where('case_information.status','=','Active')
 

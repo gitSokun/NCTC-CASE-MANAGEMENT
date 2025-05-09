@@ -70,6 +70,16 @@ Route::group(['middleware' => ['auth','allow-role-admin']], function () {
 	Route::post('/action/store',[ActionController::class,'store'])->name('store-action');
 	Route::post('/action/update',[ActionController::class,'update'])->name('update-action');
 
+	Route::get('/case-file/{case}/{filename}', function ($case, $filename) {
+		$path = storage_path("app/{$case}/{$filename}");
+	
+		if (!file_exists($path)) {
+			abort(404);
+		}
+	
+		return response()->file($path);
+	});
+
 });
 
 /** allow both role as Admin and Reporter */
