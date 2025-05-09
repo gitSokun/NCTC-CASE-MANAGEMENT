@@ -6,3 +6,76 @@ sail artisan migrate
 
 3. create model
 sail artisan make:model Flight
+
+
+$request->validate([
+            'title' => 'required',
+			'original_source' => 'required',
+        ]);
+
+		/** ករណីបង្ក្រាប -> អ្នកបង្រ្កាប */
+		
+
+		
+
+		
+		
+		
+
+
+
+		
+
+
+
+		DB::transaction(function () use ($request, $suppressors, $attackers, $suppresseds, $victims, $crackdowns, $attacks) {
+
+			/** get case_number */
+			$caseInfo = new CaseInformation();
+			$caseNumber = $caseInfo->getCaseNumber();
+
+			/** create case information */
+			$case = CaseInformation::create([
+				'case_number'=>$caseNumber,
+				'related_case_number'=>$request->related_case_number,
+				'title' => $request->title,//ចំណងជើង
+				'description'=>$request->original_source,//ខ្លឹមសារដើម
+				'original_source'=>$request->original_source,//ខ្លឹមសារដើម
+				'released_date'=>$request->released_date,//កាលបរិច្ឆេទចុះផ្សាយ
+				'actual_date'=>$request->actual_date,//កាលបរិច្ឆេទជាក់ស្តែង
+				'death'=>$request->death,//ចំនួនស្លាប់
+				'injure'=>$request->injure,//ចំនួនរបួស
+				'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+				'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+				'migration'=>$request->migration,//ចំណាកស្រុក
+				'activities'=>$request->activities,//សកម្មភាព
+				'causing_case'=>$request->causing_case,//ករណីបង្ក
+				'country'=>$request->country,//ប្រទេស
+				'province_city'=>$request->province_city,//ខេត្ត
+				'area'=>$request->area,//តំបន់
+				'provocative_group'=>$request->provocative_group,//ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ
+				'victim'=>$request->victim,//ក្រុមរងគ្រោះ
+				'perpetrator_name'=>$request->perpetrator_name,//ឈ្មោះជនបង្ក
+				'victim_name'=>$request->victim_name,//ឈ្មោះជនរងគ្រោះ
+				'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+
+				//------------ករណីបង្ក្រាប------------
+				'suppressors'=>$suppressors,//អ្នកបង្រ្កាប
+				'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+				'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+
+				//------------ករណីបង្ក---------------
+				'attackers'=>$attackers,// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+				'victims'=>$victims,// អ្នករងគ្រោះ 
+				'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+
+				//-------------សកម្មភាព ផ្សេងៗ -------
+				'other_activities'=>$request->other_activities,//សកម្មភាព ផ្សេងៗ
+
+				'other_material'=>$request->other_material,//សម្ភារៈផ្សេងទៀត
+				'other_losses'=>$request->other_losses,//ការខាតបង់ផ្សេងទៀត
+				'is_kh'=>false,
+				'is_publish'=>true,
+				'status'=>'Active'
+
+			]);

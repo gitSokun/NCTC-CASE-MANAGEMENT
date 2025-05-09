@@ -117,16 +117,16 @@
 											</div>
 										</div>
 										<!--================ new designing =============================-->
-										<!------------------ ការខាតបង់ ------------------->
+										<!----------------- កាលបរិច្ឆេទកើតហេតុ ----------------->
 										<div class="col-md-12">
 											<div class="card-header">
-												<h3 class="card-title label1" style="font-weight: 700;">ការខាតបង់</h3>
+												<h2 class="card-title label1" style="font-weight: 700;">កាលបរិច្ឆេទកើតហេតុ</h2>
 											</div>
 											<div class="card-body">
 												<div class="row">
 													<div class="col-sm-3">
 														<label class='label1' style="font-weight: 200;"
-															s>កាលបរិច្ឆេទចុះផ្សាយ</label>
+															>កាលបរិច្ឆេទចុះផ្សាយ</label>
 														<div class="input-group date" id="reservationdate"
 															data-target-input="nearest">
 															<input type="text"
@@ -159,6 +159,17 @@
 															</div>
 														</div>
 													</div>
+												</div>
+											</div>
+										</div>
+										<!------------------ ការខាតបង់ ------------------->
+										<div class="col-md-12">
+											<div class="card-header">
+												<h3 class="card-title label1" style="font-weight: 700;">ការខាតបង់</h3>
+											</div>
+											<div class="card-body">
+												<div class="row">
+													
 													<div class="col-sm-3">
 														<label class='label1'
 															style="font-weight: 200;">ចំនួនស្លាប់</label>

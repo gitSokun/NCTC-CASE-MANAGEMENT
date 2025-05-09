@@ -26,16 +26,15 @@ class CaseInformation extends Model
 	//ទីតាំងវាយប្រហារ: [attacked_countries,attacked_provinces,attacked_areas] json
 
 	protected $fillable = [
-		'case_number',
-		'related_case_number',
-        'title',
+		'case_number', //លេខសំគាល់ ព្រឹត្តិការណ៍
+		'related_case_number',//លេខសំគាល់ ព្រឹត្តិការណ៍​ពាក់ព័ន្ធ
+        'title',//ចំណងជើង
 		'description',
-		'original_source',
-		'released_date',
-		'actual_date',
-		'death',
-		'injure',
-		'activities',
+		'original_source',//ខ្លឹមសារដើម
+		'released_date',//កាលបរិច្ឆេទចុះផ្សាយ
+		'actual_date',//កាលបរិច្ឆេទជាក់ស្តែង
+		'death',//ចំនួនស្លាប់
+		'injure',//ចំនួនរបួស
 		'causing_case',
 		'country',
 		'province_city',//ខេត្ត
@@ -45,19 +44,30 @@ class CaseInformation extends Model
 		'perpetrator_name',//ឈ្មោះជនបង្ក
 		'victim_name',//ឈ្មោះជនរងគ្រោះ
 		'status',
-		'detention',
-		'relocate',
-		'migration',
+		'detention',//ចំនួនឃុំខ្លួន
+		'relocate',//ផ្លាស់ទីលំនៅ
+		'migration',//ចំណាកស្រុក
+		'activities',//សកម្មភាព
+		'other_activities',//សកម្មភាព ផ្សេងៗ
+
+        // -----------------ករណីបង្ក្រាប--------------
+		'suppressors',//អ្នកបង្រ្កាប
+		'suppressed',// អ្នកដែលត្រូវបានបង្ក្រាប 
+		'crackdowns',//ទីតាំងបង្ក្រាប 
+
+		// -----------------ករណីបង្ក--------------
+		'attackers',// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+		'victims',// អ្នករងគ្រោះ 
+		'attackeds',//ទីតាំងវាយប្រហារ 
+
+		'other_activities',//សកម្មភាព ផ្សេងៗ 
+		'other_material',//សម្ភារៈផ្សេងទៀត
+		'other_losses',//ការខាតបង់ផ្សេងទៀត
+
 		'provocative_case',
-		'other_material',
-		'other_losses',
-		'suppressors',
-		'attackers',
-		'suppressed',
-		'victims',
 		'crackdowns',
-		'attackeds',
 		'created_at'
+		
     ];
 
 	protected $casts = [

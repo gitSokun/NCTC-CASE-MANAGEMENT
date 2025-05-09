@@ -60,6 +60,7 @@
 									<div class="col-auto">
 										<img class="img-fluid" src="{{asset('dist/img/default-150x150.png')}}" alt="Photo"
 											style="max-height: 100px;">
+										
 									</div>
 									<div class="col px-4">
 										<div>
