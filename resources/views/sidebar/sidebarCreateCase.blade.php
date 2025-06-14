@@ -74,7 +74,7 @@
 	</a>
 	<ul class="nav nav-treeview">
 		<li class="nav-item">
-			<a href="user-report.html" class="nav-link ">
+			<a href="{{ route('report-user-query') }}"  class="nav-link ">
 				<i class="far fa-minus-square nav-icon"></i>
 				<p>របាយការណ៍ អ្នក​ប្រើប្រាស់</p>
 			</a>

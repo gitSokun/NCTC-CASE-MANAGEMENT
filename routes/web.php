@@ -8,6 +8,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CaseInformationController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ActionController;
+use App\Http\Controllers\ReportController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,10 @@ Route::group(['middleware' => ['auth','allow-role-admin']], function () {
 	
 		return response()->file($path);
 	});
+
+	/** របាយការណ៍អ្នកប្រើប្រាស់ */
+	Route::GET('/report/user',[ReportController::class,'userReport'])->name('report-user-query');
+	Route::POST('/report/user/search',[ReportController::class,'searchUserReport'])->name('report-user-search');
 
 });
 
