@@ -1,8 +1,18 @@
 @extends('layouts.master')
 @section('sidebar')
-@include('sidebar.sidebarReportUser')
+@include('sidebar.sidebarSummaryCaseReport')
 <style>
-table {
+.select2-container .select2-selection--single {
+	box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	height: 35px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+</style>
+<style>
+	table {
 		border-collapse: collapse;
 		width: 100%;
 	}
@@ -13,9 +23,17 @@ table {
 		font-weight: bold;
 		font-size: 15px;
 		/* text-align: center; */
-		background-color: #3f6791 !important;
+		background-color: #3f6791;
 		color: white;
 		text-align: center;
+	}
+	.th-group-header {
+		font-weight: bold;
+		font-size: 15px;
+		/* text-align: center; */
+		background-color: #fd7e143b !important;
+		color: black;
+	
 	}
 	.total_tr {
 		background-color: #80808094 !important;
@@ -107,7 +125,7 @@ table {
 						style="width: 100%; object-fit: contain;">
 					</td>
 					<td style="text-align: center; border: none;">
-						<h2>របាយការណ៍ករណី អ្នកប្រើប្រាស់</h2>
+						<h2>របាយការណ៍ បូកសរុបករណី</h2>
 					</td>
 				</tr>
 			</table>
@@ -117,23 +135,53 @@ table {
 		<table style="border: none;">
 			<tr style="border: none;">
 				<td style="border: none;"> 
-				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span><span> </span>
+				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> <span> </span>
 				ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
 				</td>
 			</tr>
 		</table>
-		<table id="tableUserReport" class="table table-bordered table-striped">
+		<!--'show_causing_case'){//ការវាយប្រហារ-->
+		<table id="tableShowCausingCase" class="table table-bordered table-striped">
+		    <tr class="th-group-header">
+				<td colspan="6">សកម្មភាព ៖ ការវាយប្រហារ</td>
+			</tr>
 			<tr class="th-header">
 				<td>ល.រ</td>
-				<td>នាមត្រកូល</td>
-				<td>ឈ្មោះ</td>
-				<td>ភេទ</td>
-				<td>ជំនាញ</td>
-				<td>ការអប់រំ</td>
-				<td>សរុបមិនទាន់បកប្រែ</td>
-				<td>សរុបបកប្រែរួច</td>
+				<td>ករណី</td>
+				<td>ចំនួនករណីសរុប</td>
+				<td>ចំនួនស្លាប់សរុប</td>
+				<td>ចំនួនរបួសសរុប</td>
 			</tr>
-			<tbody id="tbodyUser"></tbody>
+			<tbody id="tbodyCausingCase"></tbody>
+
+			<!--show_crackdown_case-->
+			<tr class="th-group-header">
+				<td colspan="6">សកម្មភាព ៖ ការបង្ក្រាប</td>
+			</tr>
+			<tr class="th-header ">
+				<td>ល.រ</td>
+				<td>ករណី</td>
+				<td>ចំនួនករណីសរុប</td>
+				<td>ចំនួនស្លាប់សរុប</td>
+				<td>ចំនួនរបួសសរុប</td>
+			</tr>
+			<tbody id="tbodyCrackdownCase">
+				
+			</tbody>
+			<!--other_case-->
+			<tr class="th-group-header">
+				<td colspan="6">សកម្មភាព ៖ ផ្សេងៗ</td>
+			</tr>
+			<tr class="th-header ">
+				<td>ល.រ</td>
+				<td>ករណី</td>
+				<td>ចំនួនករណីសរុប</td>
+				<td>ចំនួនស្លាប់សរុប</td>
+				<td>ចំនួនរបួសសរុប</td>
+			</tr>
+			<tbody id="tbodyOtherCase">
+				
+			</tbody>
 		</table>
 	</div>
 </div>
@@ -167,15 +215,34 @@ function printDiv(divId) {
 				font-size: 15px;
 				background-color: #3f6791 !important;
 				color: white;
-				text-align: center; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+				text-align: center;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.th-group-header {
+				font-weight: bold;
+				font-size: 15px;
+				background-color: #fd7e143b !important;
+				color: black;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 			.total_tr {
 				background-color: #80808094 !important;
 				font-weight: bold;
-				text-align: right; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+				text-align: right;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 			.text_align_right {
-				text-align: right;-webkit-print-color-adjust: exact; print-color-adjust: exact;
+				text-align: right;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.text_align_center {
+				text-align: center;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 		</style>
 	`);
@@ -210,12 +277,14 @@ $(document).ready(function() {
 	$('#frmQueryUserReport').submit(function(e) {
 		e.preventDefault();
 
-		$('#tbodyUser').empty();
+		$('#tbodyCausingCase').empty();
+		$('#tbodyCrackdownCase').empty();
+		$('#tbodyOtherCase').empty();
 
 		var formData = new FormData(this);
 
 		$.ajax({
-			url: "{{ route('report-user-search')}}", // Laravel route
+			url: "{{ route('report-summary-case-search')}}", // Laravel route
 			method: "POST",
 			data: formData, //$(this).serialize(), // Serialize form data
 			processData: false, // Don't let jQuery process the data
@@ -226,38 +295,84 @@ $(document).ready(function() {
 			},
 			success: function(response) {
 				console.log(response);
-				if (response.users) {
-					var users = response.users;
-				    let fromDate = response.fromDate;
-					let toDate = response.toDate;
+				let fromDate = response.fromDate;
+				let toDate = response.toDate;
 
-					$('#spnFromDate').text(fromDate);
-					$('#spnToDate').text(toDate);
+				$('#spnFromDate').text(fromDate);
+				$('#spnToDate').text(toDate);
 
-					$.each(users, function(index, record) {
+				//'show_causing_case' -- ការវាយប្រហារ
+				var causingCases = response.causingCases;
+				if (causingCases.length > 0){
+					$.each(causingCases, function(index, record) {
 						let rowNumber = index + 1;
-						let rows = `
+						let row = `
 						<tr>
-							<td>${rowNumber}</td>
-							<td>${record.first_name}</td>
-							<td>${record.last_name}</td>
-							<td>${record.gender}</td>
-							<td>${record.skill}</td>
-							<td>${record.education}</td>
-							<td class="text_align_right">${record.total_case_yet_to_translate}</td>
-							<td class="text_align_right">${record.total_translate_kh}</td>
+							<td class="text_align_center ">${rowNumber}</td>
+							<td>${record.causing_case}</td>
+							<td class = "text_align_right">${record.total_case}</td>
+							<td class = "text_align_right">${record.total_death}</td>
+							<td class = "text_align_right">${record.total_injure}</td>
 						</tr>`;
-						$('#tbodyUser').append(rows);
+						$('#tbodyCausingCase').append(row);
 					});
-
-					$('#tbodyUser').append(`
-					<tr class="total_tr">
-						<td colspan="6">ចំនួនសរុប </td>
-						<td>${response.totalNotYetKH}</td>
-						<td>${response.totalTranslated}</td>
-					</tr>
+					$('#tbodyCausingCase').append(`
+						<tr class="total_tr">
+							<td colspan="2">សរុប ការវាយប្រហារ</td>
+							<td>${response.totalAllCase}</td>
+							<td>${response.totalAllDeath}</td>
+							<td>${response.totalAllInjure}</td>
+						</tr>
 					`);
-					
+				}
+
+				//'show_crackdown_case -- ការបង្ក្រាប
+				var crackDownCases = response.crackDownCases;
+				if(crackDownCases.length > 0){
+					$.each(crackDownCases, function(index, record) {
+						let rowNumber = index + 1;
+						let row = `
+						<tr>
+							<td class="text_align_center ">${rowNumber}</td>
+							<td>${record.causing_case}</td>
+							<td class = "text_align_right">${record.total_case}</td>
+							<td class = "text_align_right">${record.total_death}</td>
+							<td class = "text_align_right">${record.total_injure}</td>
+						</tr>`;
+						$('#tbodyCrackdownCase').append(row);
+					});
+					$('#tbodyCrackdownCase').append(`
+						<tr class="total_tr">
+							<td colspan="2">សរុប ការបង្ក្រាប</td>
+							<td>${response.totalAllSupressorCase}</td>
+							<td>${response.totalAllSupressorDeath}</td>
+							<td>${response.totalAllSupressorInjure}</td>
+						</tr>
+					`);
+				}
+				//'show_crackdown_case -- ផ្សេងៗ
+				var otherCases = response.otherCases;
+				if(otherCases.length > 0){
+					$.each(otherCases, function(index, record) {
+						let rowNumber = index + 1;
+						let row = `
+						<tr>
+							<td class="text_align_center ">${rowNumber}</td>
+							<td>${record.causing_case}</td>
+							<td class = "text_align_right">${record.total_case}</td>
+							<td class = "text_align_right">${record.total_death}</td>
+							<td class = "text_align_right">${record.total_injure}</td>
+						</tr>`;
+						$('#tbodyOtherCase').append(row);
+					});
+					$('#tbodyOtherCase').append(`
+						<tr class="total_tr">
+							<td colspan="2">សរុប ផ្សេងៗ</td>
+							<td>${response.totalAllSupressorCase}</td>
+							<td>${response.totalAllSupressorDeath}</td>
+							<td>${response.totalAllSupressorInjure}</td>
+						</tr>
+					`);
 				}
 
 				$('#loadingModal').modal('hide');

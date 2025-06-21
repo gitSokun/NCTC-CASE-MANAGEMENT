@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('sidebar')
-@include('sidebar.sidebarReportUser')
+@include('sidebar.sidebarReportCase')
 <style>
 .select2-container .select2-selection--single {
 	box-sizing: border-box;
@@ -17,19 +17,40 @@ table {
 	width: 100%;
 }
 
-th,
-td {
-	text-align: left;
-	padding: 0px;
+table td {
+	padding: .20rem !important;
 }
 
-tr:nth-child(even) {
-	background-color: white;
-}
-
-th {
+.th-header {
+	font-weight: bold;
+	font-size: 15px;
+	/* text-align: center; */
 	background-color: #3f6791;
 	color: white;
+	text-align: center;
+}
+
+.th-group-header {
+	font-weight: bold;
+	font-size: 15px;
+	/* text-align: center; */
+	background-color: #fd7e143b !important;
+	color: black;
+
+}
+
+.total_tr {
+	background-color: #80808094 !important;
+	font-weight: bold;
+	text-align: right;
+}
+
+.text_align_right {
+	text-align: right;
+}
+
+.text_align_center {
+	text-align: center;
 }
 </style>
 @endsection
@@ -46,7 +67,7 @@ th {
 							<div class="col-sm-6">
 								<div class="row">
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">From Date</label>
+										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទ</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#fromDate" id="from_date" name="from_date" />
@@ -57,7 +78,7 @@ th {
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">To Date</label>
+										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទ</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#toDate" id="to_date" name="to_date" />
@@ -73,7 +94,7 @@ th {
 							<div class="col-sm-6">
 								<div class="btn-group" style="padding-top: 5.5%;">
 									<button type="button" class="btn btn-success toastrDefaultSuccess" id="submit_form">
-										<i class="fas fa-save" aria-hidden="true"></i> Search
+										<i class="fas fa-save" aria-hidden="true"></i> ស្វែងរក
 									</button>
 								</div>
 								<div class="btn-group" style="padding-top: 5.5%;">
@@ -93,26 +114,57 @@ th {
 	</div>
 </div>
 <div id="printDiv" style=" padding-right: 10px; padding-left: 10px;">
-	<div class="row">
+	<div class="row" style="text-align: center; padding-bottom: 10px;">
 		<div class="col-12" style="text-align: center;">
-			<h4>REPORT USER</h4>
+			<table style="width: 100%; border: none;">
+				<tr style="border: none;">
+					<td style="width: 100px; height: 100px; text-align: center; border: none;">
+						@php
+						$imagePath = public_path('dist/img/icon_nctc.png'); // Adjust path if needed
+						$imageData = base64_encode(file_get_contents($imagePath));
+						$imageSrc = 'data:image/png;base64,' . $imageData;
+						@endphp
+
+						<img src="{{ $imageSrc }}" alt="Case management" class="brand-image img-circle elevation-3"
+							style="width: 100%; object-fit: contain;">
+					</td>
+					<td style="text-align: center; border: none;">
+						<h2>របាយការណ៍ ករណី</h2>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 	<div class="row">
-		<table id="tableUserReport" class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th>No</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Gender</th>
-					<th>Skill</th>
-					<th>Education</th>
-					<th>Total cases</th>
-					<th>Total Translated Case</th>
-				</tr>
-			</thead>
-			<tbody> </tbody>
+		<table style="border: none;">
+			<tr style="border: none;">
+				<td style="border: none;">
+					ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> <span> </span>
+					ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
+				</td>
+			</tr>
+		</table>
+		<!--'show_causing_case'){//ការវាយប្រហារ-->
+		<table id="tblReportCase" class="table table-bordered table-striped">
+			<tr class="th-header" style="font-weight: bold;
+					font-size: 15px;
+					/* text-align: center; */
+					background-color: #3f6791;
+					color: white;
+					text-align: center;"
+				>
+				<td>ល.រ</td>
+				<td>ព្រឹត្តិការណ៍</td>
+				<td>កាលបរិច្ឆេទ</td>
+				<td>សកម្មភាព</td>
+				<td>ករណី</td>
+				<td>ប្រទេស</td>
+				<td>ខេត្ត</td>
+				<td>តំបន់</td>
+				<td>ចំនួនស្លាប់</td>
+				<td>ចំនួនរបួស</td>
+			</tr>
+			<tbody id="tbodyCase"></tbody>
 		</table>
 	</div>
 </div>
@@ -141,6 +193,40 @@ function printDiv(divId) {
 			table { width: 100%; border-collapse: collapse; }
 			table, th, td { border: 1px solid black; padding: 5px; }
 			th { background-color: #3f6791; color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact;}
+			.th-header {
+				font-weight: bold;
+				font-size: 15px;
+				background-color: #3f6791 !important;
+				color: white;
+				text-align: center;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.th-group-header {
+				font-weight: bold;
+				font-size: 15px;
+				background-color: #fd7e143b !important;
+				color: black;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.total_tr {
+				background-color: #80808094 !important;
+				font-weight: bold;
+				text-align: right;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.text_align_right {
+				text-align: right;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.text_align_center {
+				text-align: center;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
 		</style>
 	`);
 	printWindow.document.write('</head><body>');
@@ -174,12 +260,14 @@ $(document).ready(function() {
 	$('#frmQueryUserReport').submit(function(e) {
 		e.preventDefault();
 
-		$('#tableUserReport tbody').empty();
+		$('#tbodyCausingCase').empty();
+		$('#tbodyCrackdownCase').empty();
+		$('#tbodyOtherCase').empty();
 
 		var formData = new FormData(this);
 
 		$.ajax({
-			url: "{{ route('report-user-search')}}", // Laravel route
+			url: "{{ route('report-case-search')}}", // Laravel route
 			method: "POST",
 			data: formData, //$(this).serialize(), // Serialize form data
 			processData: false, // Don't let jQuery process the data
@@ -189,36 +277,31 @@ $(document).ready(function() {
 					'content') // Include CSRF token
 			},
 			success: function(response) {
-				console.log(response);
-				if (response.users) {
-					var users = response.users;
 				
+				let fromDate = response.fromDate;
+				let toDate = response.toDate;
 
-					$.each(users, function(index, record) {
-						let rowNumber = index + 1;
-						let rows = `
+				$('#spnFromDate').text(fromDate);
+				$('#spnToDate').text(toDate);
+
+				$.each(response.list, function(index, record) {
+					let rowNumber = index + 1;
+					let row = `
 						<tr>
 							<td>${rowNumber}</td>
-							<td>${record.first_name}</td>
-							<td>${record.last_name}</td>
-							<td>${record.gender}</td>
-							<td>${record.skill}</td>
-							<td>${record.education}</td>
-							<td>${record.total_case_yet_to_translate}</td>
-							<td>${record.total_translate_kh}</td>
-						</tr>`;
-						$('#tableUserReport tbody').append(rows);
-					});
-
-					$('#tableUserReport tbody').append(`
-					<tr>
-						<td colspan="6">Total</td>
-						<td>${response.totalNotYetKH}</td>
-						<td>${response.totalTranslated}</td>
-					</tr>
-					`);
-					
-				}
+							<td>${record.title}</td>
+							<td>${record.released_date}</td>
+							<td>${record.activities}</td>
+							<td>${record.causing_case}</td>
+							<td>${record.country}</td>
+							<td>${record.province_city}</td>
+							<td>${record.area}</td>
+							<td>${record.death}</td>
+							<td>${record.injure}</td>
+						</tr>
+					`;
+					$('#tblReportCase').append(row);
+				});
 
 				$('#loadingModal').modal('hide');
 			},

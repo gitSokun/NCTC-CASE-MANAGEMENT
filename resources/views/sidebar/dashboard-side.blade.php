@@ -80,9 +80,21 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="news-report.htm" class="nav-link">
+			<a href="{{ route('report-summary-case-query') }}" class="nav-link">
 				<i class="far fa-minus-square nav-icon"></i>
-				<p>របាយការណ៍ ព្រឹត្តិការណ៍</p>
+				<p>របាយការណ៍ បូកសរុបករណី</p>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="{{ route('report-summary-case-by-country-query') }}" class="nav-link ">
+				<i class="far fa-minus-square nav-icon"></i>
+				<p>របាយការណ៍ បូកសរុបករណីតាមប្រទេស</p>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="{{ route('report-case-query') }}" class="nav-link">
+				<i class="far fa-minus-square nav-icon"></i>
+				<p>របាយការណ៍ ករណី</p>
 			</a>
 		</li>
 

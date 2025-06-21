@@ -85,6 +85,19 @@ Route::group(['middleware' => ['auth','allow-role-admin']], function () {
 	Route::GET('/report/user',[ReportController::class,'userReport'])->name('report-user-query');
 	Route::POST('/report/user/search',[ReportController::class,'searchUserReport'])->name('report-user-search');
 
+	/** របាយការណ៍ បូកសរុបករណី */
+	Route::GET('/report/summary-case-report',[ReportController::class,'summaryCaseReport'])->name('report-summary-case-query');
+	Route::POST('/report/summary-case-report/search',[ReportController::class,'searchSummaryCaseReport'])->name('report-summary-case-search');
+
+	/** របាយការណ៍ បូកសរុបករណីតាមប្រទេស */
+	Route::GET('/report/case-by-country',[ReportController::class,'summaryCaseReportByCountry'])->name('report-summary-case-by-country-query');
+	Route::POST('/report/case-by-country/search',[ReportController::class,'searchCaseByCountry'])->name('report-summary-case-by-country-search');
+
+	/** របាយការណ៍ ករណី */
+	Route::GET('/report/report-case-query',[ReportController::class,'caseReportQuery'])->name('report-case-query');
+	Route::POST('/report/report-case/search',[ReportController::class,'caseReportSearch'])->name('report-case-search');
+
+
 });
 
 /** allow both role as Admin and Reporter */

@@ -1,33 +1,57 @@
 @extends('layouts.master')
 @section('sidebar')
-@include('sidebar.sidebarReportUser')
+@include('sidebar.sidebarReportCaseByCountry')
+<style>
+.select2-container .select2-selection--single {
+	box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	height: 35px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+</style>
 <style>
 table {
-		border-collapse: collapse;
-		width: 100%;
-	}
-	table td {
-		padding: .20rem !important;
-	}
-	.th-header {
-		font-weight: bold;
-		font-size: 15px;
-		/* text-align: center; */
-		background-color: #3f6791 !important;
-		color: white;
-		text-align: center;
-	}
-	.total_tr {
-		background-color: #80808094 !important;
-		font-weight: bold;
-		text-align: right;
-	}
-	.text_align_right {
-		text-align: right;
-	}
-	.text_align_center {
-		text-align: center;
-	}
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table td {
+	padding: .20rem !important;
+}
+
+.th-header {
+	font-weight: bold;
+	font-size: 15px;
+	/* text-align: center; */
+	background-color: #3f6791;
+	color: white;
+	text-align: center;
+}
+
+.th-group-header {
+	font-weight: bold;
+	font-size: 15px;
+	/* text-align: center; */
+	background-color: #fd7e143b !important;
+	color: black;
+
+}
+
+.total_tr {
+	background-color: #80808094 !important;
+	font-weight: bold;
+	text-align: right;
+}
+
+.text_align_right {
+	text-align: right;
+}
+
+.text_align_center {
+	text-align: center;
+}
 </style>
 @endsection
 @section('content')
@@ -42,7 +66,7 @@ table {
 
 							<div class="col-sm-6">
 								<div class="row">
-									<div class="col-sm-6">
+									<div class="col-sm-4">
 										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទ</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
@@ -53,7 +77,7 @@ table {
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
+									<div class="col-sm-4">
 										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទ</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
@@ -63,6 +87,16 @@ table {
 												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 											</div>
 										</div>
+									</div>
+									<div class="col-sm-4">
+										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
+										<select class="custom-select rounded-0 " id="country" name="country"
+											placeholder="">
+											<option></option>
+											@foreach($countries as $country)
+											<option>{{$country->name_eng}}</option>
+											@endforeach
+										</select>
 									</div>
 								</div>
 							</div>
@@ -95,19 +129,17 @@ table {
 			<table style="width: 100%; border: none;">
 				<tr style="border: none;">
 					<td style="width: 100px; height: 100px; text-align: center; border: none;">
-					@php
+						@php
 						$imagePath = public_path('dist/img/icon_nctc.png'); // Adjust path if needed
 						$imageData = base64_encode(file_get_contents($imagePath));
 						$imageSrc = 'data:image/png;base64,' . $imageData;
-					@endphp
+						@endphp
 
-					<img src="{{ $imageSrc }}" 
-						alt="Case management" 
-						class="brand-image img-circle elevation-3" 
-						style="width: 100%; object-fit: contain;">
+						<img src="{{ $imageSrc }}" alt="Case management" class="brand-image img-circle elevation-3"
+							style="width: 100%; object-fit: contain;">
 					</td>
 					<td style="text-align: center; border: none;">
-						<h2>របាយការណ៍ករណី អ្នកប្រើប្រាស់</h2>
+						<h2>របាយការណ៍ <br> បូកសរុបករណីតាមប្រទេស</h2>
 					</td>
 				</tr>
 			</table>
@@ -116,24 +148,21 @@ table {
 	<div class="row">
 		<table style="border: none;">
 			<tr style="border: none;">
-				<td style="border: none;"> 
-				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span><span> </span>
-				ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
+				<td style="border: none;">
+					ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> <span> </span>
+					ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
 				</td>
 			</tr>
 		</table>
-		<table id="tableUserReport" class="table table-bordered table-striped">
-			<tr class="th-header">
-				<td>ល.រ</td>
-				<td>នាមត្រកូល</td>
-				<td>ឈ្មោះ</td>
-				<td>ភេទ</td>
-				<td>ជំនាញ</td>
-				<td>ការអប់រំ</td>
-				<td>សរុបមិនទាន់បកប្រែ</td>
-				<td>សរុបបកប្រែរួច</td>
-			</tr>
-			<tbody id="tbodyUser"></tbody>
+		<!--'show_causing_case'){//ការវាយប្រហារ-->
+		<table id="tableShowCausingCase" class="table table-bordered table-striped">
+
+			<thead>
+				<!-- Header can be static or generated dynamically -->
+			</thead>
+			<tbody>
+				<!-- jQuery will append rows here -->
+			</tbody>
 		</table>
 	</div>
 </div>
@@ -167,15 +196,34 @@ function printDiv(divId) {
 				font-size: 15px;
 				background-color: #3f6791 !important;
 				color: white;
-				text-align: center; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+				text-align: center;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.th-group-header {
+				font-weight: bold;
+				font-size: 15px;
+				background-color: #fd7e143b !important;
+				color: black;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 			.total_tr {
 				background-color: #80808094 !important;
 				font-weight: bold;
-				text-align: right; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+				text-align: right;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 			.text_align_right {
-				text-align: right;-webkit-print-color-adjust: exact; print-color-adjust: exact;
+				text-align: right;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+			.text_align_center {
+				text-align: center;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 		</style>
 	`);
@@ -210,12 +258,14 @@ $(document).ready(function() {
 	$('#frmQueryUserReport').submit(function(e) {
 		e.preventDefault();
 
-		$('#tbodyUser').empty();
+		$('#tbodyCausingCase').empty();
+		$('#tbodyCrackdownCase').empty();
+		$('#tbodyOtherCase').empty();
 
 		var formData = new FormData(this);
 
 		$.ajax({
-			url: "{{ route('report-user-search')}}", // Laravel route
+			url: "{{ route('report-summary-case-by-country-search')}}", // Laravel route
 			method: "POST",
 			data: formData, //$(this).serialize(), // Serialize form data
 			processData: false, // Don't let jQuery process the data
@@ -225,40 +275,68 @@ $(document).ready(function() {
 					'content') // Include CSRF token
 			},
 			success: function(response) {
-				console.log(response);
-				if (response.users) {
-					var users = response.users;
-				    let fromDate = response.fromDate;
-					let toDate = response.toDate;
+				
+				let fromDate = response.fromDate;
+				let toDate = response.toDate;
 
-					$('#spnFromDate').text(fromDate);
-					$('#spnToDate').text(toDate);
+				$('#spnFromDate').text(fromDate);
+				$('#spnToDate').text(toDate);
 
-					$.each(users, function(index, record) {
+				let tableBody = '';
+
+				$.each(response.groupedData, function(country, cases) {
+					console.log(country);
+					tableBody += `
+						<tr class="th-group-header">
+							<td colspan="6">ប្រទេស ៖ ${country}<span></span></td>
+						</tr>
+						<tr style="
+								font-weight: bold;
+								font-size: 15px;
+								/* text-align: center; */
+								background-color: #3f6791;
+								color: white;
+								text-align: center;
+							" class="th-header">
+							<td>ល.រ</td>
+							<td>សកម្មភាព</td>
+							<td>ករណី</td>
+							<td>ចំនួនករណីសរុប</td>
+							<td>ចំនួនស្លាប់សរុប</td>
+							<td>ចំនួនរបួសសរុប</td>
+						</tr>
+					`;
+					// Loop through cases
+					let totalCausingCase = 0;
+					let totalDeath = 0;
+					let totalInjure = 0;
+					$.each(cases, function(index, item) {
 						let rowNumber = index + 1;
-						let rows = `
-						<tr>
-							<td>${rowNumber}</td>
-							<td>${record.first_name}</td>
-							<td>${record.last_name}</td>
-							<td>${record.gender}</td>
-							<td>${record.skill}</td>
-							<td>${record.education}</td>
-							<td class="text_align_right">${record.total_case_yet_to_translate}</td>
-							<td class="text_align_right">${record.total_translate_kh}</td>
-						</tr>`;
-						$('#tbodyUser').append(rows);
-					});
-
-					$('#tbodyUser').append(`
+						tableBody += `
+							<tr>
+								<td>${rowNumber}</td>
+								<td>${item.activities_description}</td>
+								<td>${item.causing_case}</td>
+								<td style="text-align: right;">${item.total_causing_case}</td>
+								<td style="text-align: right;">${item.total_death}</td>
+								<td style="text-align: right;">${item.total_injure}</td>
+							</tr>
+						`;
+						totalCausingCase += parseInt(item.total_causing_case);
+						totalDeath += parseInt(item.total_death);
+						totalInjure += parseInt(item.total_injure);
+					}); 
+					tableBody += `
 					<tr class="total_tr">
-						<td colspan="6">ចំនួនសរុប </td>
-						<td>${response.totalNotYetKH}</td>
-						<td>${response.totalTranslated}</td>
-					</tr>
-					`);
-					
-				}
+							<td colspan="3">សរុប </td>
+							<td>${totalCausingCase}</td>
+							<td>${totalDeath}</td>
+							<td>${totalInjure}</td>
+						</tr>
+						`;
+				});
+
+				$('#tableShowCausingCase tbody').html(tableBody);
 
 				$('#loadingModal').modal('hide');
 			},
