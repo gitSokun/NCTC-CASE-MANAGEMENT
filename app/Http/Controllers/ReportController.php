@@ -10,7 +10,20 @@ use App\Models\Country;
 
 class ReportController extends Controller
 {
-    public function userReport(Request $request){
+    //public function userReport(Request $request){
+	//	return view('form/report/userReport');
+	//}
+	//public function summaryCaseReportByCountry(Request $request){
+	//	$countries = Country::get();
+	//	return view('form/report/reportCaseByCountry',compact('countries'));
+	//}
+	//public function summaryCaseReport(Request $request){
+	//	return view('form/report/summaryCaseReport');
+	//}
+	//public function caseReportQuery(Request $request){
+	//	return view('form/report/reportCase');
+	//}
+	public function userReport(Request $request){
 		return view('form/report/userReport');
 	}
 	public function summaryCaseReportByCountry(Request $request){
