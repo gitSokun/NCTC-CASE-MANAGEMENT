@@ -1,6 +1,6 @@
 <li class="nav-item">
 	<a href="{{ route('dashboard') }}" class="nav-link ">
-		<i class="fa fa-university nav-icon"></i>
+		<i class="fa fa-search nav-icon"></i>
 		<p>
 			ទំព័រដើម
 		</p>
@@ -31,7 +31,7 @@
 
 <li class="nav-item Battambang">
 	<a href="#" class="nav-link">
-		<i class="fa fa-university nav-icon"></i>
+		<i class="fa fa-cog nav-icon"></i>
 		<p>
 			គ្រប់គ្រងប្រព័ន្ធ
 			<i class="right fas fa-angle-left"></i>
@@ -66,7 +66,7 @@
 </li>
 <li class="nav-item Battambang">
 	<a href="#" class="nav-link active">
-		<i class="fa fa-university nav-icon"></i>
+		<i class="fa fa-chart-bar nav-icon"></i>
 		<p>
 			របាយការណ៍
 			<i class="right fas fa-angle-left"></i>
