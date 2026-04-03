@@ -20,15 +20,42 @@ class UserProfileController extends Controller
      */
     public function index()
     {
+		//total all user exclude admin
+		$totalAllUser = User::where('email','<>','admin@gmail.com')->count();
+		//total all active user exclude admin
+		$totalAllUserActive = User::where('email','<>','admin@gmail.com')->where('status','active')->count();
+		//total REPORTER
+		$totalAllUserActiveREPORTER = User::where('email','<>','admin@gmail.com')
+		->where('role','REPORTER')
+		->where('status','active')
+		->count();
+		//total USER
+		$totalAllUserActiveUSER = User::where('email','<>','admin@gmail.com')
+		->where('role','USER')
+		->where('status','active')
+		->count();
+
 		/** exclude admin from the list */
 		$user = User::where('email','admin@gmail.com')->first();
 		if($user){
 			$userProfiles = UserProfile::where('id','<>',$user->profileable_id)->paginate(10);
-			return view('form/user_profile/index',compact('userProfiles'));
+			return view('form/user_profile/index',compact(
+				'userProfiles',
+				'totalAllUser',
+				'totalAllUserActive',
+				'totalAllUserActiveREPORTER',
+				'totalAllUserActiveUSER'
+			));
 		}
 
 		$userProfiles = UserProfile::where('','<>','Admin')->paginate(10);
-		return view('form/user_profile/index',compact('userProfiles'));
+		return view('form/user_profile/index',compact(
+			'userProfiles',
+			'totalAllUser',
+			'totalAllUserActive',
+			'totalAllUserActiveREPORTER',
+			'totalAllUserActiveUSER'
+		));
 		
     }
 

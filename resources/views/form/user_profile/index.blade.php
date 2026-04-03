@@ -21,7 +21,7 @@
 
 						<div class="info-box-content">
 							<span class="info-box-text">អ្នកប្រើប្រាស់សរុប</span>
-							<span class="info-box-number">300</span>
+							<span class="info-box-number">{{$totalAllUser}}</span>
 						</div>
 						<!-- /.info-box-content -->
 					</div>
@@ -34,7 +34,7 @@
 
 						<div class="info-box-content">
 							<span class="info-box-text">អ្នកប្រើប្រាស់សកម្មសរុប</span>
-							<span class="info-box-number">300</span>
+							<span class="info-box-number">{{$totalAllUserActive}}</span>
 						</div>
 						<!-- /.info-box-content -->
 					</div>
@@ -47,7 +47,7 @@
 
 						<div class="info-box-content">
 							<span class="info-box-text">អ្នករាយការណ៍សរុប</span>
-							<span class="info-box-number">100</span>
+							<span class="info-box-number">{{$totalAllUserActiveREPORTER}}</span>
 						</div>
 						<!-- /.info-box-content -->
 					</div>
@@ -60,7 +60,7 @@
 
 						<div class="info-box-content">
 							<span class="info-box-text">អ្នកប្រើប្រាស់ធម្មតាសរុប</span>
-							<span class="info-box-number">200</span>
+							<span class="info-box-number">{{$totalAllUserActiveUSER}}</span>
 						</div>
 						<!-- /.info-box-content -->
 					</div>
