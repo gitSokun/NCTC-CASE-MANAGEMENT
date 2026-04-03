@@ -117,7 +117,9 @@ class UserProfileController extends Controller
 				'last_name' => $request->last_name,
 				'skill' => $request->skill,
 				'education'  => $request->education,
-				'remark'  => $request->remark
+				'remark'  => $request->remark,
+				'file_name'=>'default',
+				'file_path'=>'default'
 				
 			]);
 
