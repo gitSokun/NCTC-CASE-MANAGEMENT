@@ -15,7 +15,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<!-- ./col -->
-		
+
 		<!-- /.col (LEFT) -->
 		<div class="col-lg-3 col-6">
 			<!-- small box -->
@@ -25,7 +25,7 @@
 					<p>សរុប ការបង្ក្រាប: {{$totalCrackdownCase}}</p>
 					<p>សរុប ផ្សេងៗ: {{$totalOtherCase}}</p>
 				</div>
-				
+
 			</div>
 		</div>
 		<!-- ./col -->
@@ -42,7 +42,8 @@
 					<!--<i class="ion ion-bag"></i>-->
 					<i class="ion ion-stats-bars"></i>
 				</div>
-				<a href="{{ route('CaseList') }}" class="small-box-footer">ព័ត៌មាន​បន្ថែម <i class="fas fa-arrow-circle-right"></i></a>
+				<a href="{{ route('CaseList') }}" class="small-box-footer">ព័ត៌មាន​បន្ថែម <i
+						class="fas fa-arrow-circle-right"></i></a>
 			</div>
 		</div>
 		<!-- ./col -->
@@ -57,7 +58,8 @@
 				<div class="icon">
 					<i class="ion ion-stats-bars"></i>
 				</div>
-				<a href="{{ route('CaseList') }}" class="small-box-footer">ព័ត៌មាន​បន្ថែម <i class="fas fa-arrow-circle-right"></i></a>
+				<a href="{{ route('CaseList') }}" class="small-box-footer">ព័ត៌មាន​បន្ថែម <i
+						class="fas fa-arrow-circle-right"></i></a>
 			</div>
 		</div>
 		<!-- ./col -->
@@ -73,7 +75,8 @@
 					<!--<i class="ion ion-stats-bars"></i>-->
 					<!--<i class="ion ion-person-add"></i>-->
 				</div>
-				<a href="{{ route('CaseList') }}" class="small-box-footer">ព័ត៌មាន​បន្ថែម <i class="fas fa-arrow-circle-right"></i></a>
+				<a href="{{ route('CaseList') }}" class="small-box-footer">ព័ត៌មាន​បន្ថែម <i
+						class="fas fa-arrow-circle-right"></i></a>
 			</div>
 		</div>
 
@@ -83,21 +86,48 @@
 			<!-- /.card -->
 
 			<!-- BAR CHART -->
-			<div class="card card-success">
-				<div class="card-header">
-					<h3 class="card-title">ចំនួនព្រឹត្តិការណ៍ និង អ្នកប្រើប្រាស់ ប្រចាំ​ឆ្នាំ {{ date('Y') }}</h3>
-
-					<div class="card-tools">
-						<button type="button" class="btn btn-tool" data-card-widget="collapse">
-							<i class="fas fa-minus"></i>
-						</button>
-						<button type="button" class="btn btn-tool" data-card-widget="remove">
-							<i class="fas fa-times"></i>
+			<form method="GET" action="{{ route('dashboard-search-by-year') }}">
+				{{ csrf_field() }}
+				<label class='label1' style="font-weight: 200;">ចំនួនព្រឹត្តិការណ៍ ប្រចាំ​ឆ្នាំ</label>
+				<div class="input-group date input-group-lg" id="reservationdate" data-target-input="nearest"
+					style="max-width: 400px;padding-bottom: 10px;">
+					<input type="text" class="form-control datetimepicker-input " data-target="#reservationdate"
+						id="chart_date" name="chart_date" value="{{$currentYear}}"/>
+					<div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+						<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+					</div>
+					<div class="input-group-append">
+						<button type="submit" class="btn btn-lg btn-info">
+							<i class="fa fa-search" style="font-size: 14px;"> ស្វែងរកព្រឹត្តិការណ៍</i>
 						</button>
 					</div>
 				</div>
-				<div class="card-body">
-					<div class="chart">
+
+			</form>
+
+
+			<div class="chart">
+				<div class="card card-success">
+					<div class="card-header">
+						<h3 class="card-title d-flex align-items-center justify-content-between">
+							<p class="mb-0">
+								ចំនួនព្រឹត្តិការណ៍ ប្រចាំ​ឆ្នាំ {{$currentYear}}
+							</p>
+
+
+
+						</h3>
+
+						<div class="card-tools">
+							<button type="button" class="btn btn-tool" data-card-widget="collapse">
+								<i class="fas fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-tool" data-card-widget="remove">
+								<i class="fas fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
 						<canvas id="barChart"
 							style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
 					</div>
@@ -106,10 +136,10 @@
 			</div>
 			<!-- /.card -->
 
-			
+
 
 		</div>
-		
+
 		<!-- /.col (RIGHT) -->
 	</div>
 	<!-- /.row -->
@@ -117,10 +147,10 @@
 @endsection
 @section('script')
 <script>
- var monthlyTotals = @json($monthlyCases);
- var monthlyOtherCases = @json($monthlyOtherCases);
- var monthlyCausingCases = @json($monthlyCausingCases);
- var monthlyCrackdownCase = @json($monthlyCrackdownCase);
+var monthlyTotals = @json($monthlyCases);
+var monthlyOtherCases = @json($monthlyOtherCases);
+var monthlyCausingCases = @json($monthlyCausingCases);
+var monthlyCrackdownCase = @json($monthlyCrackdownCase);
 $(function() {
 	/* ChartJS
 	 * -------
@@ -232,6 +262,17 @@ $(function() {
 		data: barChartData,
 		options: barChartOptions
 	})
+
+
+})
+
+$(function() {
+	//Date picker
+	$('#reservationdate').datetimepicker({
+		format: 'YYYY',
+		viewMode: 'years',
+		minViewMode: 'years'
+	});
 
 
 })

@@ -103,6 +103,9 @@ Route::group(['middleware' => ['auth','allow-role-admin']], function () {
 /** allow both role as Admin and Reporter */
 Route::group(['middleware' => ['auth','allow-role-admin-reporter']], function () {
     Route::get('/dashboard',[LoginController::class,'dashboard'])->name('dashboard');
+	Route::get('/dashboard/search-by-year',[LoginController::class,'dashboardSearchByYear'])->name('dashboard-search-by-year');
+
+
 	Route::get('/dashboard-reporter',[LoginController::class,'dashboardReporter'])->name('dashboard-reporter');
     
 	/** none translate to khmer */

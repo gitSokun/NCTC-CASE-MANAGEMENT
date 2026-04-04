@@ -72,8 +72,11 @@ class LoginController extends Controller
 		for ($i = 1; $i <= 12; $i++) {
 			$monthlyCrackdownCase[] = $CrackdownCase[$i] ?? 0;
 		}
+		//--current year
+		$currentYear = date('Y');
 
 		return view('form/dashboard',compact(
+			'currentYear',
 			'totalOtherCase',
 			'totalCausingCase',
 			'totalCrackdownCase',
@@ -86,6 +89,156 @@ class LoginController extends Controller
 			'monthlyCrackdownCase'//ចំនួនការបង្ក្រាប
 		));
 	}
+	public function dashboardSearchByYear(Request $request){
+		if($request->chart_date){
+			//other_case: ផ្សេងៗ / show_none: ''
+			$totalOtherCase = CaseInformation::whereIn('activities',['other_case','show_none'])->count();
+			//show_causing_case: ការវាយប្រហារ
+			$totalCausingCase = CaseInformation::whereIn('activities',['show_causing_case'])->count();
+			//show_crackdown_case: ការបង្ក្រាប
+			$totalCrackdownCase = CaseInformation::whereIn('activities',['show_crackdown_case'])->count();
+			//ចំនួនព្រឹត្តិការណ៍សរុប
+			$totalCases = $totalOtherCase+$totalCausingCase+$totalCrackdownCase;
+			//ចំនួនព្រឹត្តិការណ៍មិនទាន់បកប្រែ
+			$totalOriginalCase = CaseInformation::whereNotIn('id', function ($query) {
+				$query->select('case_id')
+					->from('case_info_khs');
+			})->count();
+			//ចំនួនព្រឹត្តិការណ៍បកប្រែរួចរាល់
+			$totalCaseTranslated=CaseInfoKh::count();
+			//============= query for chart ============
+			//------------ ចំនួនព្រឹត្តិការណ៍ --------------
+			$data = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', $request->chart_date)
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyCases = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyCases[] = $data[$i] ?? 0;
+			}
+			//------------ ចំនួនផ្សេងៗ --------------
+			$otherCases = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', $request->chart_date)
+			->whereIn('activities',['other_case','show_none'])
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyOtherCases = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyOtherCases[] = $otherCases[$i] ?? 0;
+			}
+			//------------ ចំនួនការវាយប្រហារ --------------
+			$CausingCases = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', $request->chart_date)
+			->whereIn('activities',['show_causing_case'])
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyCausingCases = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyCausingCases[] = $CausingCases[$i] ?? 0;
+			}
+			//------------ ចំនួនការបង្ក្រាប --------------
+			$CrackdownCase = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', $request->chart_date)
+			->whereIn('activities',['show_causing_case'])
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyCrackdownCase = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyCrackdownCase[] = $CrackdownCase[$i] ?? 0;
+			}
+			//--current year
+			$currentYear = $request->chart_date;
+
+			return view('form/dashboard',compact(
+				'currentYear',
+				'totalOtherCase',
+				'totalCausingCase',
+				'totalCrackdownCase',
+				'totalCases',
+				'totalOriginalCase',
+				'totalCaseTranslated',
+				'monthlyCases',//ចំនួនព្រឹត្តិការណ៍
+				'monthlyOtherCases',//ចំនួនផ្សេងៗ
+				'monthlyCausingCases',//ចំនួនការវាយប្រហារ
+				'monthlyCrackdownCase'//ចំនួនការបង្ក្រាប
+			));
+
+		}else{
+			//other_case: ផ្សេងៗ / show_none: ''
+			$totalOtherCase = CaseInformation::whereIn('activities',['other_case','show_none'])->count();
+			//show_causing_case: ការវាយប្រហារ
+			$totalCausingCase = CaseInformation::whereIn('activities',['show_causing_case'])->count();
+			//show_crackdown_case: ការបង្ក្រាប
+			$totalCrackdownCase = CaseInformation::whereIn('activities',['show_crackdown_case'])->count();
+			//ចំនួនព្រឹត្តិការណ៍សរុប
+			$totalCases = $totalOtherCase+$totalCausingCase+$totalCrackdownCase;
+			//ចំនួនព្រឹត្តិការណ៍មិនទាន់បកប្រែ
+			$totalOriginalCase = CaseInformation::whereNotIn('id', function ($query) {
+				$query->select('case_id')
+					->from('case_info_khs');
+			})->count();
+			//ចំនួនព្រឹត្តិការណ៍បកប្រែរួចរាល់
+			$totalCaseTranslated=CaseInfoKh::count();
+			//============= query for chart ============
+			//------------ ចំនួនព្រឹត្តិការណ៍ --------------
+			$data = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', date('Y'))
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyCases = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyCases[] = $data[$i] ?? 0;
+			}
+			//------------ ចំនួនផ្សេងៗ --------------
+			$otherCases = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', date('Y'))
+			->whereIn('activities',['other_case','show_none'])
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyOtherCases = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyOtherCases[] = $otherCases[$i] ?? 0;
+			}
+			//------------ ចំនួនការវាយប្រហារ --------------
+			$CausingCases = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', date('Y'))
+			->whereIn('activities',['show_causing_case'])
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyCausingCases = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyCausingCases[] = $CausingCases[$i] ?? 0;
+			}
+			//------------ ចំនួនការបង្ក្រាប --------------
+			$CrackdownCase = CaseInformation::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+			->whereYear('created_at', date('Y'))
+			->whereIn('activities',['show_causing_case'])
+			->groupByRaw('MONTH(created_at)')
+			->pluck('total', 'month');
+			$monthlyCrackdownCase = [];
+			for ($i = 1; $i <= 12; $i++) {
+				$monthlyCrackdownCase[] = $CrackdownCase[$i] ?? 0;
+			}
+			//--current year
+			$currentYear = date('Y');
+
+			return view('form/dashboard',compact(
+				'currentYear',
+				'totalOtherCase',
+				'totalCausingCase',
+				'totalCrackdownCase',
+				'totalCases',
+				'totalOriginalCase',
+				'totalCaseTranslated',
+				'monthlyCases',//ចំនួនព្រឹត្តិការណ៍
+				'monthlyOtherCases',//ចំនួនផ្សេងៗ
+				'monthlyCausingCases',//ចំនួនការវាយប្រហារ
+				'monthlyCrackdownCase'//ចំនួនការបង្ក្រាប
+			));
+		}
+
+	}
+
 	public function dashboardReporter(){
 		return view('form/dashboard-reporter');
 	}
