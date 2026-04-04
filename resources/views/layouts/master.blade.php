@@ -71,6 +71,7 @@
 		text-overflow: ellipsis;
 		color: darkblue;
 	}
+
 	.str_limit_body {
 		display: block;
 		width: 600px;
@@ -148,24 +149,28 @@
 						<i class="fas fa-expand-arrows-alt"></i>
 					</a>
 				</li>
-				
+
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item dropdown">
 					<a href="#" class="brand-link" data-toggle="dropdown">
-						
-							@if(Auth::check())
-							  @if(Auth::user()->profile->file_path)
-							  <img src="{{asset('avatar/'.Auth::user()->profile->file_path)}}" class="brand-image img-circle elevation-3"
-							  style="opacity: .8">
-							  @else
-							  <img src="{{asset('dist/img/default-150x150.png')}}" class="brand-image img-circle elevation-3"
-							  style="opacity: .8">
-							  @endif
-							
-						    <span class="brand-text" style="color: #343a40;font-weight: bold;font-size: 15px;">
+
+						@if(Auth::check())
+						@if(Auth::user()->profile->file_path)
+						<img src="{{asset('avatar/'.Auth::user()->profile->file_path)}}"
+							class="brand-image img-circle elevation-3" style="opacity: .8; min-height: 45px;
+    max-width: 45px;
+    max-height: 45px;">
+						@else
+						<img src="{{asset('dist/img/default-150x150.png')}}" class="brand-image img-circle elevation-3"
+							style="opacity: .8; min-height: 45px;
+    max-width: 45px;
+    max-height: 45px;">
+						@endif
+
+						<span class="brand-text" style="color: #343a40;font-weight: bold;font-size: 15px;">
 							{{ Auth::user()->profile->first_name}}
-							{{ Auth::user()->profile->last_name}}							
+							{{ Auth::user()->profile->last_name}}
 							@endif </span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -173,14 +178,14 @@
 							style="font-weight: bold; color: #343a40; padding-bottom: 0px;background-color: #007bff33;">
 							@if(Auth::check())
 							{{ Auth::user()->profile->first_name}}
-							{{ Auth::user()->profile->last_name}}	
-							@endif 
+							{{ Auth::user()->profile->last_name}}
+							@endif
 						</span>
 						<span class="dropdown-item dropdown-header"
 							style="padding-top: 0px;background-color: #007bff33;">
 							@if(Auth::check())
 							{{ Auth::user()->email}}
-							@endif 
+							@endif
 						</span>
 						<div class="dropdown-divider"></div>
 
@@ -188,7 +193,7 @@
 						<a href="{{ url('my-profile') }}" class="dropdown-item">
 							<i class="fas fa-users mr-2"></i>ព័ត៌មានផ្ទាល់ខ្លួន (Profile)
 						</a>
-						
+
 						<div class="dropdown-divider"></div>
 						<a href="{{ url('change-password') }}" class="nav-link dropdown-item " method="GET">
 							@csrf
@@ -333,7 +338,7 @@
 	<script src="{{asset('plugins/codemirror/mode/css/css.js')}}"></script>
 	<script src="{{asset('plugins/codemirror/mode/xml/xml.js')}}"></script>
 	<script src="{{asset('plugins/codemirror/mode/htmlmixed/htmlmixed.js')}}"></script>
-	
+
 	<!-- Select2 -->
 	<script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 	<!-- Bootstrap4 Duallistbox -->
@@ -353,12 +358,11 @@
 	<script src="{{asset('plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
 	<!-- dropzonejs -->
 	<script src="{{asset('plugins/dropzone/min/dropzone.min.js')}}"></script>
- 
+
 	<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 	<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-	
+
 	@yield('script')
 </body>
 
 </html>
-

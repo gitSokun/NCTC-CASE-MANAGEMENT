@@ -85,6 +85,7 @@
 									<th>លេខសម្គាល់</th>
 									<th>ភេទ</th>
 									<th>ឈ្មោះ</th>
+									<th>Role</th>
 									<th>ជំនាញ</th>
 									<th>ការអប់រំ</th>
 									<th>សកម្មភាព</th>
@@ -108,6 +109,9 @@
 									<td>
 										<p style="font-weight: 100;">{{$userProfile->first_name}}
 											{{ $userProfile->last_name}}</p>
+									</td>
+									<td>
+										<p style="font-weight: 100;">{{$userProfile->user->role}}</p>
 									</td>
 									<td>
 										<p style="font-weight: 100;">{{$userProfile->skill}}</p>

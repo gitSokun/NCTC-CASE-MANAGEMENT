@@ -95,7 +95,7 @@
 				<div class="card-body box-profile">
 					<div class="text-center">
 							<img class="profile-user-img img-fluid img-circle" src="{{asset('avatar/'.$userProfile->file_path)}}"
-							alt="User profile picture">
+							alt="User profile picture" id="profile_preview">
 					</div>
 					<form class="form-horizontal" enctype="multipart/form-data" id="updateMyProfile" method="POST" action="{{ route('upload-my-profile') }}">
 						{{ csrf_field() }}

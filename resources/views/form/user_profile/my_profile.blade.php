@@ -101,12 +101,13 @@
 			<div class="card card-primary card-outline">
 				<div class="card-body box-profile">
 					<div class="text-center">
+
 						@if($userProfile->file_path)
-						<img class="profile-user-img img-fluid img-circle"
-							src="{{asset('avatar/'.$userProfile->file_path)}}" alt="User profile picture">
+						<img class="profile-user-img img-fluid " id="profile_preview"
+							src="{{asset('avatar/'.$userProfile->file_path)}}" alt="User profile picture" style="width: 224px;">
 						@else
-						<img class="profile-user-img img-fluid img-circle"
-							src="{{asset('dist/img/default-150x150.png')}}" alt="User profile picture">
+						<img class="profile-user-img img-fluid " id="profile_preview"
+							src="{{asset('dist/img/default-150x150.png')}}" alt="User profile picture" style="width: 224px;">
 						@endif
 
 
@@ -117,7 +118,7 @@
 						<input class="form-control " id="profile_id" name="profile_id" value="{{$userProfile->id}}"
 							placeholder="" hidden>
 						<div style="padding-top: 3%;">
-							<input type="file" class="form-control" name="profile_image" id="profile_image"
+							<input type="file" class="form-control" name="profile_image" id ="profile_image"
 								style="padding-top: 1%;padding-left: 1%;" accept="image/png, image/gif, image/jpeg" />
 						</div>
 						<div class="text-center" style="padding-top: 3%;">
@@ -180,4 +181,21 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('script')
+<script>
+	document.getElementById('profile_image').addEventListener('change', function(e) {
+		const file = e.target.files[0];
+
+		if (file) {
+			const reader = new FileReader();
+
+			reader.onload = function(event) {
+				document.getElementById('profile_preview').src = event.target.result;
+			};
+
+			reader.readAsDataURL(file);
+		}
+	});
+</script>
 @endsection

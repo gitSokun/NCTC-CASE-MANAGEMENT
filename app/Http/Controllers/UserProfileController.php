@@ -48,7 +48,7 @@ class UserProfileController extends Controller
 			));
 		}
 
-		$userProfiles = UserProfile::where('','<>','Admin')->paginate(10);
+		$userProfiles = UserProfile::paginate(10);
 		return view('form/user_profile/index',compact(
 			'userProfiles',
 			'totalAllUser',
@@ -183,7 +183,8 @@ class UserProfileController extends Controller
     {
         $profileId = Crypt::decrypt($request->id);
 		$userProfile = UserProfile::find($profileId);
-        return view('form/user_profile/edit',compact('userProfile'));
+		$user= User::firstWhere('profileable_id',$profileId);
+        return view('form/user_profile/edit',compact('userProfile','user'));
     }
 
     /**
@@ -200,6 +201,7 @@ class UserProfileController extends Controller
 			'remark'=>'max:1000',
         ]);
 
+		//---- Update user profile
 		$userProfile = UserProfile::where('id',$request->id)->update([
 			'gender'  => $request->gender,
 			'first_name' => $request->first_name,
@@ -208,14 +210,24 @@ class UserProfileController extends Controller
 			'education'  => $request->education,
 			'remark'  => $request->remark,
 		]);
-
-		$user = Auth::user();
-		$userProfile = $user->profile;
-
-		if($user->role == 'USER'){
-			return view('form/user_profile/my_profile_user_role',compact('userProfile'));
+		//--- update user role
+		$user = User::firstWhere('profileable_id',$request->id);
+		if($user){
+			$user->role = $request->role;
+			$user->update();
 		}
-		return view('form/user_profile/my_profile',compact('userProfile'));
+
+
+		$profileId = $request->id;
+		$userProfile = UserProfile::find($profileId);
+        return view('form/user_profile/edit',compact('userProfile','user'));
+		//$user = Auth::user();
+		//$userProfile = $user->profile;
+
+		//if($user->role == 'USER' || $user->role == 'REPORTER'){
+		//	return view('form/user_profile/my_profile_user_role',compact('userProfile'));
+		//}
+		//return view('form/user_profile/my_profile',compact('userProfile'));
     }
 
     /**

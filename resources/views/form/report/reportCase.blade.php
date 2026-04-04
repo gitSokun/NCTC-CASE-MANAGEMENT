@@ -146,25 +146,30 @@ table td {
 		</table>
 		<!--'show_causing_case'){//ការវាយប្រហារ-->
 		<table id="tblReportCase" class="table table-bordered table-striped">
-			<tr class="th-header" style="font-weight: bold;
+			<thead>
+				<tr class="th-header" style="font-weight: bold;
 					font-size: 15px;
 					/* text-align: center; */
 					background-color: #3f6791;
 					color: white;
-					text-align: center;"
-				>
-				<td>ល.រ</td>
-				<td>ព្រឹត្តិការណ៍</td>
-				<td>កាលបរិច្ឆេទ</td>
-				<td>សកម្មភាព</td>
-				<td>ករណី</td>
-				<td>ប្រទេស</td>
-				<td>ខេត្ត</td>
-				<td>តំបន់</td>
-				<td>ចំនួនស្លាប់</td>
-				<td>ចំនួនរបួស</td>
-			</tr>
-			<tbody id="tbodyCase"></tbody>
+					text-align: center;">
+
+					<td>ល.រ</td>
+					<td>ព្រឹត្តិការណ៍</td>
+					<td>កាលបរិច្ឆេទ</td>
+					<td>សកម្មភាព</td>
+					<td>ករណី</td>
+					<td>ប្រទេស</td>
+					<td>ខេត្ត</td>
+					<td>តំបន់</td>
+					<td>ចំនួនស្លាប់</td>
+					<td>ចំនួនរបួស</td>
+				</tr>
+			</thead>
+
+			<tbody>
+
+			</tbody>
 		</table>
 	</div>
 </div>
@@ -277,21 +282,36 @@ $(document).ready(function() {
 					'content') // Include CSRF token
 			},
 			success: function(response) {
-				
+
 				let fromDate = response.fromDate;
 				let toDate = response.toDate;
 
 				$('#spnFromDate').text(fromDate);
 				$('#spnToDate').text(toDate);
 
+				$('#tblReportCase tbody').empty();
+
 				$.each(response.list, function(index, record) {
 					let rowNumber = index + 1;
+
+					let activities = record.activities;
+					if (record.activities == 'other_case') {
+						activities = 'ផ្សេងៗ';
+					}
+					if (record.activities == 'show_causing_case') {
+						activities = 'ការវាយប្រហារ';
+					}
+					if (record.activities == 'show_crackdown_case') {
+						activities = 'ការបង្ក្រាប';
+					}
+
+
 					let row = `
 						<tr>
 							<td>${rowNumber}</td>
 							<td>${record.title}</td>
 							<td>${record.released_date}</td>
-							<td>${record.activities}</td>
+							<td>${activities}</td>
 							<td>${record.causing_case}</td>
 							<td>${record.country}</td>
 							<td>${record.province_city}</td>
@@ -300,7 +320,7 @@ $(document).ready(function() {
 							<td>${record.injure}</td>
 						</tr>
 					`;
-					$('#tblReportCase').append(row);
+					$('#tblReportCase tbody').append(row);
 				});
 
 				$('#loadingModal').modal('hide');

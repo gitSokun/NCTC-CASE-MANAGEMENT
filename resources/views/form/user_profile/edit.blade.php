@@ -149,9 +149,9 @@
 							<div class="col-sm-10">
 								<select class="custom-select rounded-1" id="role" name="role">
 								   <option value="empty"></option>
-									<option value="ADMIN">ADMIN</option>
-									<option value="REPORTER">REPORTER</option>
-									<option value="USER">USER</option>
+									<option value="ADMIN" {{ $user->role == 'ADMIN' ? 'selected' : '' }} >ADMIN</option>
+									<option value="REPORTER" {{ $user->role == 'REPORTER' ? 'selected' : '' }}>REPORTER</option>
+									<option value="USER" {{ $user->role == 'USER' ? 'selected' : '' }}>USER</option>
 								</select>
 							</div>
 						</div>
@@ -170,11 +170,11 @@
 					<div class="text-center">
 
 						@if($userProfile->file_path)
-						<img class="profile-user-img img-fluid img-circle"
-							src="{{asset('avatar/'.$userProfile->file_path)}}" alt="User profile picture">
+						<img class="profile-user-img img-fluid "
+							src="{{asset('avatar/'.$userProfile->file_path)}}" alt="User profile picture" style="width: 224px;">
 						@else
-						<img class="profile-user-img img-fluid img-circle" src="{{asset('dist/img/default-150x150.png')}}"
-							alt="User profile picture">
+						<img class="profile-user-img img-fluid " src="{{asset('dist/img/default-150x150.png')}}"
+							alt="User profile picture" style="width: 224px;">
 						@endif
 
 					</div>
