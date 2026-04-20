@@ -96,7 +96,7 @@
 			<!-- Left navbar links -->
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a href="#" class="brand-link">
+					<a href="{{ route('user-search-case') }}" class="brand-link">
 						<img src="{{asset('dist/img/icon_nctc.png')}}" alt="Case management"
 							class="brand-image img-circle elevation-3" style="opacity: .8">
 						<span class="brand-text font-weight-light" style="color: #007bff;">ព្រឹត្តិការណ៍ </span>
@@ -149,7 +149,7 @@
 						
 							@if(Auth::check())
 							<img src="{{asset('avatar/'.Auth::user()->profile->file_path)}}" class="brand-image img-circle elevation-3"
-							style="opacity: .8">
+							style="opacity: .8; min-height: 30px; max-width: 30px; max-height: 30px;">
 						    <span class="brand-text" style="color: #343a40;font-weight: bold;font-size: 15px;">
 							{{ Auth::user()->profile->first_name}}
 							{{ Auth::user()->profile->last_name}}							
@@ -222,6 +222,25 @@
 
 		<!-- =============================================== -->
 		<div class="content-wrapper" style="margin-left:0px;">
+		<!-- Content Header (Page header) -->
+		<div class="content-header Battambang">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0">
+								@yield('title_page')
+							</h1>
+						</div><!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right Battambang">
+								@yield('breadcrumbs')
+							</ol>
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+			
 			<div class="content">
 				@yield('content')
 			</div>

@@ -1,4 +1,8 @@
 @extends('layouts.master_search')
+@section('breadcrumbs')
+<li class="breadcrumb-item"><a href="{{ route('user-search-case') }}">ទំព័រដើម</a></li>
+<li class="breadcrumb-item"><a href="#">ផ្លាស់ប្តូរពាក្យសម្ងាត់</a></li>
+@endsection
 @section('content')
 <div class="container-fluid">
 	<div class="row" style="padding-top: 1%;">
@@ -9,7 +13,7 @@
 			<div class="card card-primary card-outline">
 				<div class="card-body box-profile">
 					<div class="text-center">
-						<img class="profile-user-img img-fluid img-circle"
+						<img class="profile-user-img img-fluid "
 							src="{{asset('avatar/'.$userProfile->file_path)}}" alt="User profile picture">
 					</div>
 

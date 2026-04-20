@@ -158,14 +158,10 @@
 						@if(Auth::check())
 						@if(Auth::user()->profile->file_path)
 						<img src="{{asset('avatar/'.Auth::user()->profile->file_path)}}"
-							class="brand-image img-circle elevation-3" style="opacity: .8; min-height: 45px;
-    max-width: 45px;
-    max-height: 45px;">
+							class="brand-image img-circle elevation-3" style="opacity: .8; min-height: 30px; max-width: 30px; max-height: 30px;">
 						@else
 						<img src="{{asset('dist/img/default-150x150.png')}}" class="brand-image img-circle elevation-3"
-							style="opacity: .8; min-height: 45px;
-    max-width: 45px;
-    max-height: 45px;">
+							style="opacity: .8; min-height: 30px; max-width: 30px; max-height: 30px;">
 						@endif
 
 						<span class="brand-text" style="color: #343a40;font-weight: bold;font-size: 15px;">
@@ -239,7 +235,7 @@
 		<!-- Main Sidebar Container -->
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
-			<a href="#" class="brand-link">
+			<a href="{{ route('search-case-information') }}" class="brand-link">
 				<img src="{{asset('dist/img/icon_nctc.png')}}" alt="Case management"
 					class="brand-image img-circle elevation-3" style="opacity: .8">
 				<span class="brand-text font-weight-light">CASE MANAGEMENT</span>

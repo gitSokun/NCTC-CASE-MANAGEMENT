@@ -1,4 +1,10 @@
 @extends('layouts.master_search')
+
+@section('breadcrumbs')
+<li class="breadcrumb-item"><a href="{{ route('user-search-case') }}">ទំព័រដើម</a></li>
+<li class="breadcrumb-item"><a href="#">ព័ត៌មានផ្ទាល់ខ្លួន</a></li>
+@endsection
+
 @section('content')
 <div class="container-fluid">
 	<div class="row" style="padding-top: 1%;">
@@ -94,8 +100,8 @@
 			<div class="card card-primary card-outline">
 				<div class="card-body box-profile">
 					<div class="text-center">
-							<img class="profile-user-img img-fluid img-circle" src="{{asset('avatar/'.$userProfile->file_path)}}"
-							alt="User profile picture" id="profile_preview">
+							<img class="profile-user-img img-fluid" src="{{asset('avatar/'.$userProfile->file_path)}}"
+							alt="User profile picture" id="profile_preview" style="width: 224px;">
 					</div>
 					<form class="form-horizontal" enctype="multipart/form-data" id="updateMyProfile" method="POST" action="{{ route('upload-my-profile') }}">
 						{{ csrf_field() }}
@@ -165,4 +171,21 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('script')
+<script>
+	document.getElementById('profile_image').addEventListener('change', function(e) {
+		const file = e.target.files[0];
+
+		if (file) {
+			const reader = new FileReader();
+
+			reader.onload = function(event) {
+				document.getElementById('profile_preview').src = event.target.result;
+			};
+
+			reader.readAsDataURL(file);
+		}
+	});
+</script>
 @endsection
