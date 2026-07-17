@@ -70,7 +70,33 @@ class DatabaseSeeder extends Seeder
 				'status' => 'active',
 			]);
 			
-        });
+			/** updat case infornation for new change */
+			DB::table('case_information')
+				->whereIn('activities', ['ការវាយប្រហារ','វាយប្រហារ'])
+				->update([
+					'activities' => 'show_causing_case'
+				]);
+
+			DB::table('case_information')
+				->where('activities', 'បង្ក្រាប')
+				->update([
+					'activities' => 'show_crackdown_case'
+				]);
+
+			DB::table('case_information')
+				->where('activities', 'ផ្សេងៗ')
+				->update([
+					'activities' => 'show_none'
+				]);
+
+			DB::table('case_information')
+				->whereNull('activities')
+				->update([
+					'activities' => 'show_none'
+				]);
+
+
+		});		
     }
 	private function seedCountries(){
 			/** Create country */
