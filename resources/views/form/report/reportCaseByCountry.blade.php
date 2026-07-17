@@ -58,6 +58,7 @@ table td {
 <div class="container-fluid Battambang" style="padding-top: 0px;">
 	<div class="row">
 		<div class="col-12">
+		<h4>កាលបរិច្ឆេទចុះបញ្ជី</h4>
 			<div class="card">
 				<div class="card-header">
 					<form class="form-horizontal" enctype="multipart/form-data" id="frmQueryUserReport">
@@ -67,7 +68,7 @@ table td {
 							<div class="col-sm-6">
 								<div class="row">
 									<div class="col-sm-4">
-										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទ</label>
+										<label class='label1' style="font-weight: 200;">ចាប់ពី</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#fromDate" id="from_date" name="from_date" />
@@ -78,7 +79,7 @@ table td {
 										</div>
 									</div>
 									<div class="col-sm-4">
-										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទ</label>
+										<label class='label1' style="font-weight: 200;">ទៅដល់</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#toDate" id="to_date" name="to_date" />
@@ -89,14 +90,20 @@ table td {
 										</div>
 									</div>
 									<div class="col-sm-4">
-										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
+									    <label class='label1' style="font-weight: 200;">ឈ្មោះប្រទេស</label>
+										<div class="input-group" id="user-group">
+											<input type="text" class="form-control" id="country" name="country">
+										</div>
+
+										<!--<label class="label1" style="font-weight: 200;">ប្រទេស</label>
 										<select class="custom-select rounded-0 " id="country" name="country"
 											placeholder="">
 											<option></option>
 											@foreach($countries as $country)
 											<option>{{$country->name_eng}}</option>
 											@endforeach
-										</select>
+										</select>-->
+
 									</div>
 								</div>
 							</div>
@@ -150,7 +157,8 @@ table td {
 			<tr style="border: none;">
 				<td style="border: none;">
 					ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> <span> </span>
-					ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
+					ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span><span> </span>
+					ចំនួនករណីសរុប ៖ <span id="spnTotalCase"></span>
 				</td>
 			</tr>
 		</table>
@@ -278,9 +286,12 @@ $(document).ready(function() {
 				
 				let fromDate = response.fromDate;
 				let toDate = response.toDate;
+				let totalCausingCase = response.totalCausingCase;
 
 				$('#spnFromDate').text(fromDate);
 				$('#spnToDate').text(toDate);
+				$('#spnTotalCase').text(totalCausingCase);
+				
 
 				let tableBody = '';
 
@@ -315,11 +326,11 @@ $(document).ready(function() {
 						tableBody += `
 							<tr>
 								<td>${rowNumber}</td>
-								<td>${item.activities_description}</td>
-								<td>${item.causing_case}</td>
-								<td style="text-align: right;">${item.total_causing_case}</td>
-								<td style="text-align: right;">${item.total_death}</td>
-								<td style="text-align: right;">${item.total_injure}</td>
+								<td style="width: 10%;" >${item.activities_description}</td>
+								<td>${item.causing_case ?? 'N/A'}</td>
+								<td style="text-align: right; width: 10%;">${item.total_causing_case}</td>
+								<td style="text-align: right; width: 10%;">${item.total_death}</td>
+								<td style="text-align: right; width: 10%;">${item.total_injure}</td>
 							</tr>
 						`;
 						totalCausingCase += parseInt(item.total_causing_case);

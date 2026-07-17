@@ -177,50 +177,66 @@ class ReportController extends Controller
 
 	}
 	public function searchCaseByCountry(Request $request){
-		$fromDate = $request->from_date;
-		$toDate = $request->to_date;
-		$country =  $request->country;
 
-		$query = "
-			select 
+		$fromDate = $request->from_date;
+		$toDate   = $request->to_date;
+		$country  = $request->country;
+	
+		$where = ["a.id is not null"];
+		$params = [];
+	
+		if (!empty($fromDate)) {
+			$where[] = "DATE(a.created_at) >= ?";
+			$params[] = Carbon::parse($fromDate)->format('Y-m-d');
+		}
+	
+		if (!empty($toDate)) {
+			$where[] = "DATE(a.created_at) <= ?";
+			$params[] = Carbon::parse($toDate)->format('Y-m-d');
+		}
+	
+		if (!empty($country)) {
+			//$where[] = "a.country = ?";
+			//$params[] = $country;
+			$where[] = "a.country LIKE ?";
+			$params[] = "%{$country}%";
+		}
+	
+		$sql = "
+			SELECT
 				a.country,
 				a.activities,
-				CASE 
-				WHEN a.activities = 'show_crackdown_case' THEN 'ការបង្ក្រាប'
-				WHEN a.activities = 'show_causing_case' THEN 'ការវាយប្រហារ'
-				ELSE 'ផ្សេងៗ'
-				END activities_description,
+				CASE
+					WHEN a.activities = 'show_crackdown_case' THEN 'ការបង្ក្រាប'
+					WHEN a.activities = 'show_causing_case' THEN 'ការវាយប្រហារ'
+					ELSE 'ផ្សេងៗ'
+				END AS activities_description,
 				a.causing_case,
-				count(a.causing_case) total_causing_case,
-				sum(a.death) as total_death,
-				sum(a.injure) as total_injure
-			from case_information a 
-			where a.country is not null
+				COUNT(*) AS total_causing_case,
+				IFNULL(SUM(a.death), 0) AS total_death,
+				IFNULL(SUM(a.injure), 0) AS total_injure
+			FROM case_information a
+			WHERE " . implode(' AND ', $where) . "
+			GROUP BY
+				a.country,
+				a.activities,
+				a.causing_case
+			ORDER BY
+				a.country,
+				a.activities,
+				a.causing_case
 		";
-        $params = [];
-		$formatFromDate = '';
-		$formatToDate = '';
-		if($fromDate && $toDate){
-			$formatFromDate = Carbon::parse($fromDate)->format('Y-m-d');
-			$formatToDate = Carbon::parse($toDate)->format('Y-m-d');
+	
+		$records = DB::select($sql, $params);
+		$totalCausingCase = collect($records)->sum('total_causing_case');
 
-			$query .= " AND DATE(a.created_at) BETWEEN ? AND ? ";
-			$params[] = $formatFromDate;
-			$params[] = $formatToDate;
-		}
-		if($country){
-			$query .= " AND a.country = ? ";
-			$params[] = $country;
-		}
-		$query .= " group by a.country,a.activities,a.causing_case order by a.country; ";
-		$records = DB::select($query, $params);
-		$groupedData = collect($records)->groupBy('country');
 
 		return response()->json([
-			'groupedData'=>$groupedData,
-			'fromDate'=>$formatFromDate,
-			'toDate'=>$formatToDate
-		]);	
+			'totalCausingCase' => $totalCausingCase,
+			'groupedData' => collect($records)->groupBy('country'),
+			'fromDate'    => $fromDate,
+			'toDate'      => $toDate,
+		]);
 	}
 	public function caseReportSearch(Request $request){
 		
