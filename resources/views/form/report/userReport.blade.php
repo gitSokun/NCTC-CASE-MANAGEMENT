@@ -40,14 +40,15 @@ table td {
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
+			
 				<div class="card-header">
 					<form class="form-horizontal" enctype="multipart/form-data" id="frmQueryUserReport">
 						{{ csrf_field() }}
 						<div class="row">
-
-							<div class="col-sm-6">
+						   
+							<div class="col-sm-12">
 								<div class="row">
-									<div class="col-sm-6">
+									<div class="col-sm-4">
 										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទបង្កើត</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
@@ -58,7 +59,7 @@ table td {
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
+									<div class="col-sm-4">
 										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទបង្កើត</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
@@ -69,8 +70,8 @@ table td {
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">អ្នកប្រើប្រាស់</label>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">ឈ្មោះអ្នកប្រើប្រាស់</label>
 										<div class="input-group" id="user-group">
 											<input type="text" class="form-control" id="user" name="user">
 										</div>
@@ -78,7 +79,7 @@ table td {
 								</div>
 							</div>
 
-							<div class="col-sm-6">
+							<div class="col-sm-12">
 								<div class="btn-group" style="padding-top: 5.5%;">
 									<button type="button" class="btn btn-success toastrDefaultSuccess" id="submit_form">
 										<i class="fas fa-save" aria-hidden="true"></i> ស្វែងរក
