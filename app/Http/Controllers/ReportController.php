@@ -40,67 +40,69 @@ class ReportController extends Controller
 	public function searchUserReport(Request $request){
 		$fromDate = $request->from_date;
 		$toDate = $request->to_date;
+		$user = $request->user;
 
-		if($fromDate && $toDate ){
-			$formatFromDate = Carbon::parse($fromDate)->format('Y-m-d');
-			$formatToDate = Carbon::parse($toDate)->format('Y-m-d');
-			$users = DB::SELECT("
-				SELECT 
-				a.role,
-				IFNULL(a.email,'') as email,
-				case b.gender
-					when 'M' then 'ប្រុស'
-					else 'ស្រី'
-				end gender,
-				IFNULL(b.first_name,'') as first_name,
-				IFNULL(b.last_name,'') as last_name,
-				IFNULL(b.skill,'') as skill,
-				IFNULL(b.education,'') as education,
-				(select count(*) from case_information ci where ci.created_by = a.id and ci.id not in (select case_id from case_info_khs))  as total_case_yet_to_translate,
-				(select count(*) from case_info_khs kh where kh.created_by = a.id) as total_translate_kh
-				FROM users a
-				inner join user_profiles b on b.id = a.profileable_id
-				where a.created_at BETWEEN ? AND ?
-			",[$formatFromDate,$formatToDate]);
-
-			$totalNotYetKH = collect($users)->sum('total_case_yet_to_translate');
-			$totalTranslated = collect($users)->sum('total_translate_kh');
-			return response()->json([
-				'users' => $users,
-				'totalNotYetKH'=>$totalNotYetKH,
-				'totalTranslated'=>$totalTranslated,
-				'fromDate'=>$formatFromDate,
-				'toDate'=>$formatToDate
-				]);
-		}else{
-			$users = DB::SELECT("
-				SELECT 
-				a.role,
-				IFNULL(a.email,'') as email,
-				case b.gender
-					when 'M' then 'ប្រុស'
-					else 'ស្រី'
-				end gender,
-				IFNULL(b.first_name,'') as first_name,
-				IFNULL(b.last_name,'') as last_name,
-				IFNULL(b.skill,'') as skill,
-				IFNULL(b.education,'') as education,
-				(select count(*) from case_information ci where ci.created_by = a.id and ci.id not in (select case_id from case_info_khs))  as total_case_yet_to_translate,
-				(select count(*) from case_info_khs kh where kh.created_by = a.id) as total_translate_kh
-				FROM users a
-				inner join user_profiles b on b.id = a.profileable_id
-			");
-
-			$totalNotYetKH = collect($users)->sum('total_case_yet_to_translate');
-			$totalTranslated = collect($users)->sum('total_translate_kh');
-			return response()->json([
-				'users' => $users,
-				'totalNotYetKH'=>$totalNotYetKH,
-				'totalTranslated'=>$totalTranslated,
-				'fromDate'=>'',
-				'toDate'=>''
-				]);
+		$where = [];
+		$params = [];
+		if (!empty($fromDate)) {
+			$where[] = "DATE(a.created_at) >= ?";
+			$params[] = Carbon::parse($fromDate)->format('Y-m-d');
 		}
+	
+		if (!empty($toDate)) {
+			$where[] = "DATE(a.created_at) <= ?";
+			$params[] = Carbon::parse($toDate)->format('Y-m-d');
+		}
+	
+		if (!empty($user)) {
+			$where[] = "(b.first_name LIKE ? OR b.last_name LIKE ?)";
+			$params[] = "%{$user}%";
+			$params[] = "%{$user}%";
+		}
+		$sql = "
+			SELECT
+				a.id,
+				a.role,
+				IFNULL(a.email,'') AS email,
+				CASE b.gender
+					WHEN 'M' THEN 'ប្រុស'
+					ELSE 'ស្រី'
+				END AS gender,
+				IFNULL(b.first_name,'') AS first_name,
+				IFNULL(b.last_name,'') AS last_name,
+				IFNULL(b.skill,'') AS skill,
+				IFNULL(b.education,'') AS education,
+				(
+					SELECT COUNT(*)
+					FROM case_information ci
+					WHERE ci.created_by = a.id
+					AND ci.id NOT IN (SELECT case_id FROM case_info_khs)
+				) AS total_case_yet_to_translate,
+				(
+					SELECT COUNT(*)
+					FROM case_info_khs kh
+					WHERE kh.created_by = a.id
+				) AS total_translate_kh,
+				a.created_at
+			FROM users a
+			INNER JOIN user_profiles b
+				ON b.id = a.profileable_id
+		";
+
+		if (!empty($where)) {
+			$sql .= " WHERE " . implode(" AND ", $where);
+		}
+
+		$users = DB::select($sql, $params);
+		$totalNotYetKH = collect($users)->sum('total_case_yet_to_translate');
+		$totalTranslated = collect($users)->sum('total_translate_kh');
+
+		return response()->json([
+			'users' => $users,
+			'totalNotYetKH' => $totalNotYetKH,
+			'totalTranslated' => $totalTranslated,
+		]);
+
 	}
 	public function searchSummaryCaseReport(Request $request){
 		$fromDate = $request->from_date;

@@ -3,31 +3,36 @@
 @include('sidebar.sidebarReportUser')
 <style>
 table {
-		border-collapse: collapse;
-		width: 100%;
-	}
-	table td {
-		padding: .20rem !important;
-	}
-	.th-header {
-		font-weight: bold;
-		font-size: 15px;
-		/* text-align: center; */
-		background-color: #3f6791 !important;
-		color: white;
-		text-align: center;
-	}
-	.total_tr {
-		background-color: #80808094 !important;
-		font-weight: bold;
-		text-align: right;
-	}
-	.text_align_right {
-		text-align: right;
-	}
-	.text_align_center {
-		text-align: center;
-	}
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table td {
+	padding: .20rem !important;
+}
+
+.th-header {
+	font-weight: bold;
+	font-size: 15px;
+	/* text-align: center; */
+	background-color: #3f6791 !important;
+	color: white;
+	text-align: center;
+}
+
+.total_tr {
+	background-color: #80808094 !important;
+	font-weight: bold;
+	text-align: right;
+}
+
+.text_align_right {
+	text-align: right;
+}
+
+.text_align_center {
+	text-align: center;
+}
 </style>
 @endsection
 @section('content')
@@ -43,7 +48,7 @@ table {
 							<div class="col-sm-6">
 								<div class="row">
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទ</label>
+										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទបង្កើត</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#fromDate" id="from_date" name="from_date" />
@@ -54,7 +59,7 @@ table {
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទ</label>
+										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទបង្កើត</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#toDate" id="to_date" name="to_date" />
@@ -62,6 +67,12 @@ table {
 												data-toggle="datetimepicker">
 												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<label class='label1' style="font-weight: 200;">អ្នកប្រើប្រាស់</label>
+										<div class="input-group" id="user-group">
+											<input type="text" class="form-control" id="user" name="user">
 										</div>
 									</div>
 								</div>
@@ -95,16 +106,14 @@ table {
 			<table style="width: 100%; border: none;">
 				<tr style="border: none;">
 					<td style="width: 100px; height: 100px; text-align: center; border: none;">
-					@php
+						@php
 						$imagePath = public_path('dist/img/icon_nctc.png'); // Adjust path if needed
 						$imageData = base64_encode(file_get_contents($imagePath));
 						$imageSrc = 'data:image/png;base64,' . $imageData;
-					@endphp
+						@endphp
 
-					<img src="{{ $imageSrc }}" 
-						alt="Case management" 
-						class="brand-image img-circle elevation-3" 
-						style="width: 100%; object-fit: contain;">
+						<img src="{{ $imageSrc }}" alt="Case management" class="brand-image img-circle elevation-3"
+							style="width: 100%; object-fit: contain;">
 					</td>
 					<td style="text-align: center; border: none;">
 						<h2>របាយការណ៍ករណី អ្នកប្រើប្រាស់</h2>
@@ -116,9 +125,9 @@ table {
 	<div class="row">
 		<table style="border: none;">
 			<tr style="border: none;">
-				<td style="border: none;"> 
-				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span><span> </span>
-				ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
+				<td style="border: none;">
+					ពីកាលបរិច្ឆេទបង្កើត ៖ <span id="spnFromDate"></span><span> </span>
+					ទៅកាលបរិច្ឆេទបង្កើត ៖ <span id="spnToDate"></span>
 				</td>
 			</tr>
 		</table>
@@ -130,6 +139,7 @@ table {
 				<td>ភេទ</td>
 				<td>ជំនាញ</td>
 				<td>ការអប់រំ</td>
+				<td>កាលបរិច្ឆេទបង្កើត</td>
 				<td>សរុបមិនទាន់បកប្រែ</td>
 				<td>សរុបបកប្រែរួច</td>
 			</tr>
@@ -207,6 +217,17 @@ $(document).ready(function() {
 
 		$("#frmQueryUserReport").submit();
 	});
+
+	function formatDate(dateString) {
+		const date = new Date(dateString);
+
+		const day = String(date.getDate()).padStart(2, '0');
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const year = date.getFullYear();
+
+		return `${day}-${month}-${year}`;
+	}
+
 	$('#frmQueryUserReport').submit(function(e) {
 		e.preventDefault();
 
@@ -228,7 +249,7 @@ $(document).ready(function() {
 				console.log(response);
 				if (response.users) {
 					var users = response.users;
-				    let fromDate = response.fromDate;
+					let fromDate = response.fromDate;
 					let toDate = response.toDate;
 
 					$('#spnFromDate').text(fromDate);
@@ -236,6 +257,8 @@ $(document).ready(function() {
 
 					$.each(users, function(index, record) {
 						let rowNumber = index + 1;
+						let createdDate = formatDate(record.created_at);
+
 						let rows = `
 						<tr>
 							<td>${rowNumber}</td>
@@ -244,6 +267,7 @@ $(document).ready(function() {
 							<td>${record.gender}</td>
 							<td>${record.skill}</td>
 							<td>${record.education}</td>
+							<td>${createdDate}</td>
 							<td class="text_align_right">${record.total_case_yet_to_translate}</td>
 							<td class="text_align_right">${record.total_translate_kh}</td>
 						</tr>`;
@@ -252,12 +276,12 @@ $(document).ready(function() {
 
 					$('#tbodyUser').append(`
 					<tr class="total_tr">
-						<td colspan="6">ចំនួនសរុប </td>
+						<td colspan="7">ចំនួនសរុប </td>
 						<td>${response.totalNotYetKH}</td>
 						<td>${response.totalTranslated}</td>
 					</tr>
 					`);
-					
+
 				}
 
 				$('#loadingModal').modal('hide');
