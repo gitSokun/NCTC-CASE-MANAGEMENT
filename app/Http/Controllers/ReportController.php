@@ -119,7 +119,7 @@ class ReportController extends Controller
 					sum(a.death) as total_death,
 					sum(a.injure) as total_injure
 				from case_information a 
-				where a.activities = 'show_causing_case'
+				where a.activities = 'show_causing_case',
 				and DATE(a.updated_at) BETWEEN ? AND ?
 				group by a.causing_case
 			",[$formatFromDate,$formatToDate]);
@@ -179,28 +179,72 @@ class ReportController extends Controller
 				'fromDate'=>$fromDate,
 				'toDate'=>$toDate
 			]);
-		}else{
-			return response()->json([
-				// ការវាយប្រហារ
-				'causingCases' => [],
-				'totalAllCase'=>0,
-				'totalAllDeath'=>0,
-				'totalAllInjure'=>0,
-				//ការបង្ក្រាប
-				'crackDownCases'=>[],
-				'totalAllSupressorCase'=>0,
-				'totalAllSupressorDeath'=>0,
-				'totalAllSupressorInjure'=>0,
-				//ផ្សេងៗ
-				'otherCases'=>[],
-				'totalOtherCase'=>0,
-				'totalOtherDeath'=>0,
-				'totalOtherInjure'=>0,
+		}//'show_causing_case' -- ការវាយប្រហារ
 
-				'fromDate'=>$fromDate,
-				'toDate'=>$toDate
-			]);
-		}
+		$causingCases = DB::SELECT("
+			select 
+				a.causing_case,
+				count(a.causing_case) as total_case,
+				sum(a.death) as total_death,
+				sum(a.injure) as total_injure
+			from case_information a 
+			where a.activities = 'show_causing_case'
+			group by a.causing_case
+		");
+		$totalAllCase = collect($causingCases)->sum('total_case');
+		$totalAllDeath = collect($causingCases)->sum('total_death');
+		$totalAllInjure = collect($causingCases)->sum('total_injure');
+
+		//'show_crackdown_case'){//ការបង្ក្រាប
+		$crackDownCases = DB::SELECT("
+			select 
+				a.causing_case,
+				count(a.causing_case) as total_case,
+				sum(a.death) as total_death,
+				sum(a.injure) as total_injure
+			from case_information a 
+			where a.activities = 'show_crackdown_case'
+			group by a.causing_case
+		");
+		$totalAllSupressorCase = collect($crackDownCases)->sum('total_case');
+		$totalAllSupressorDeath = collect($crackDownCases)->sum('total_death');
+		$totalAllSupressorInjure = collect($crackDownCases)->sum('total_injure');
+
+		//'other_case'-- ផ្សេងៗ
+		$otherCases = DB::SELECT("
+			select 
+				a.causing_case,
+				count(a.causing_case) as total_case,
+				sum(a.death) as total_death,
+				sum(a.injure) as total_injure
+			from case_information a 
+			where a.activities = 'other_case'
+			group by a.causing_case
+		");
+		$totalOtherCase = collect($otherCases)->sum('total_case');
+		$totalOtherDeath = collect($otherCases)->sum('total_death');
+		$totalOtherInjure = collect($otherCases)->sum('total_injure');
+
+		return response()->json([
+			// ការវាយប្រហារ
+			'causingCases' => $causingCases,
+			'totalAllCase'=>$totalAllCase,
+			'totalAllDeath'=>$totalAllDeath,
+			'totalAllInjure'=>$totalAllInjure,
+			//ការបង្ក្រាប
+			'crackDownCases'=>$crackDownCases,
+			'totalAllSupressorCase'=>$totalAllSupressorCase,
+			'totalAllSupressorDeath'=>$totalAllSupressorDeath,
+			'totalAllSupressorInjure'=>$totalAllSupressorInjure,
+			//ផ្សេងៗ
+			'otherCases'=>$otherCases,
+			'totalOtherCase'=>$totalOtherCase,
+			'totalOtherDeath'=>$totalOtherDeath,
+			'totalOtherInjure'=>$totalOtherInjure,
+
+			'fromDate'=>$fromDate,
+			'toDate'=>$toDate
+		]);
 
 	}
 	public function searchCaseByCountry(Request $request){

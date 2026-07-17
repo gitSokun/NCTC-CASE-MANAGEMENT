@@ -52,16 +52,16 @@
 <div class="container-fluid Battambang" style="padding-top: 0px;">
 	<div class="row">
 		<div class="col-12">
+		<h4>កាលបរិច្ឆេទចុះបញ្ជី</h4>
 			<div class="card">
 				<div class="card-header">
 					<form class="form-horizontal" enctype="multipart/form-data" id="frmQueryUserReport">
 						{{ csrf_field() }}
 						<div class="row">
-
 							<div class="col-sm-6">
 								<div class="row">
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទ</label>
+										<label class='label1' style="font-weight: 200;">ចាប់ពី</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#fromDate" id="from_date" name="from_date" />
@@ -72,7 +72,7 @@
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ទៅកាលបរិច្ឆេទ</label>
+										<label class='label1' style="font-weight: 200;">ដល់</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#toDate" id="to_date" name="to_date" />
