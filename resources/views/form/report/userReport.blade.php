@@ -46,7 +46,7 @@ table td {
 						{{ csrf_field() }}
 						<div class="row">
 						   
-							<div class="col-sm-12">
+							<div class="col-sm-8">
 								<div class="row">
 									<div class="col-sm-4">
 										<label class='label1' style="font-weight: 200;">ពីកាលបរិច្ឆេទបង្កើត</label>
@@ -79,13 +79,13 @@ table td {
 								</div>
 							</div>
 
-							<div class="col-sm-12">
-								<div class="btn-group" style="padding-top: 5.5%;">
+							<div class="col-sm-4">
+								<div class="btn-group" style="padding-top: 7.5%;">
 									<button type="button" class="btn btn-success toastrDefaultSuccess" id="submit_form">
 										<i class="fas fa-save" aria-hidden="true"></i> ស្វែងរក
 									</button>
 								</div>
-								<div class="btn-group" style="padding-top: 5.5%;">
+								<div class="btn-group" style="padding-top: 7.5%;">
 									<button type="button" onclick="printDiv('printDiv')" class="btn btn-info"
 										id="print">
 										<i class="fas fa-print" aria-hidden="true"></i> Print / Save as PDF
