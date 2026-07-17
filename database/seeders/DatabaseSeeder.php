@@ -63,7 +63,12 @@ class DatabaseSeeder extends Seeder
 			
 
 			/** Setup countries */
-			$this->seedCountries();
+			//$this->seedCountries();
+
+			/** update active status */
+			DB::table('users')->update([
+				'status' => 'active',
+			]);
 			
         });
     }

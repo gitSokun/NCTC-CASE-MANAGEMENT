@@ -88,7 +88,9 @@
 									<th>Role</th>
 									<th>ជំនាញ</th>
 									<th>ការអប់រំ</th>
+									<th>Status</th>
 									<th>សកម្មភាព</th>
+									
 								</tr>
 							</thead>
 							<tbody>
@@ -118,6 +120,9 @@
 									</td>
 									<td>
 										<p style="font-weight: 100;">{{$userProfile->education}}</p>
+									</td>
+									<td>
+										<p style="font-weight: 100;">{{$userProfile->user->status}}</p>
 									</td>
 									<td>
 										<div class="btn-group" style="float: right;">

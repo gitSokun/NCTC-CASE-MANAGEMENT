@@ -118,7 +118,7 @@ class ReportController extends Controller
 					sum(a.injure) as total_injure
 				from case_information a 
 				where a.activities = 'show_causing_case'
-				and DATE(a.created_at) BETWEEN ? AND ?
+				and DATE(a.updated_at) BETWEEN ? AND ?
 				group by a.causing_case
 			",[$formatFromDate,$formatToDate]);
 			$totalAllCase = collect($causingCases)->sum('total_case');
