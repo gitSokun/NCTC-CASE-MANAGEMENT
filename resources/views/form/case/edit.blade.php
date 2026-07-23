@@ -23,7 +23,7 @@
 		action="{{ route('case-information-update') }}">
 		{{ csrf_field() }}
 		<div class="card">
-			<input class="form-control " id="id" name="id" value="{{$case->id}}" placeholder="" hidden>
+			<input class="form-control " id="case_id" name="case_id" value="{{$case->id}}" placeholder="" hidden>
 			<div class="card-header">
 				<div class="btn-group" style="float: right;">
 					<button type="button" class="btn btn-danger" onclick="window.location='{{ route('CaseList')}}'">

@@ -373,19 +373,20 @@ class CaseInformationController extends Controller
 			$victims     = collect([]);// អ្នករងគ្រោះ 
 			$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
 
-		}elseif($request->activities == 'show_causing_case'){//ការវាយប្រហារ
-			$activity = 'show_causing_case';
-			$suppressors = collect([]);// អ្នកបង្រ្កាប
-			$suppresseds = collect([]);// អ្នកដែលត្រូវបានបង្ក្រាប 
-			$crackdowns  = collect([]);// ទីតាំងបង្ក្រាប 
-
-		}elseif($request->activities == 'show_crackdown_case'){//ការបង្ក្រាប
-			$activity = 'show_crackdown_case';
-			$attackers   = collect([]);// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
-			$victims     = collect([]);// អ្នករងគ្រោះ 
-			$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
-
 		}
+		//elseif($request->activities == 'show_causing_case'){//ការវាយប្រហារ
+		//	$activity = 'show_causing_case';
+		//	$suppressors = collect([]);// អ្នកបង្រ្កាប
+		//	$suppresseds = collect([]);// អ្នកដែលត្រូវបានបង្ក្រាប 
+		//	$crackdowns  = collect([]);// ទីតាំងបង្ក្រាប 
+
+		//}elseif($request->activities == 'show_crackdown_case'){//ការបង្ក្រាប
+		//	$activity = 'show_crackdown_case';
+		//	$attackers   = collect([]);// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+		//	$victims     = collect([]);// អ្នករងគ្រោះ 
+		//	$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
+
+		//}
 
 
 			/** get case_number */
@@ -923,6 +924,7 @@ class CaseInformationController extends Controller
      */
     public function update(Request $request)
     {
+
 		$request->validate([
             'title' => 'required',
             'original_source' => 'required',
@@ -1000,6 +1002,7 @@ class CaseInformationController extends Controller
 				}
 				$attackerIndex ++;
 			}
+			
 			/** ករណីបង្ក -> អ្នករងគ្រោះ */
 			$victims = collect([]);
 			$victimOrgs   = $request->victim_orgs;//អង្គភាព
@@ -1045,21 +1048,9 @@ class CaseInformationController extends Controller
 				$victims     = collect([]);// អ្នករងគ្រោះ 
 				$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
 
-			}elseif($request->activities == 'show_causing_case'){//ការវាយប្រហារ
-				$activity = 'show_causing_case';
-				$suppressors = collect([]);// អ្នកបង្រ្កាប
-				$suppresseds = collect([]);// អ្នកដែលត្រូវបានបង្ក្រាប 
-				$crackdowns  = collect([]);// ទីតាំងបង្ក្រាប 
-
-			}elseif($request->activities == 'show_crackdown_case'){//ការបង្ក្រាប
-				$activity = 'show_crackdown_case';
-				$attackers   = collect([]);// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
-				$victims     = collect([]);// អ្នករងគ្រោះ 
-				$attacks     = collect([]);//ទីតាំងវាយប្រហារ 
-
 			}
 
-			CaseInformation::where('id',$request->id)->update([
+			CaseInformation::where('id',$request->case_id)->update([
 				'related_case_number'=>$request->related_case_number,
 				'title' => $request->title,//ចំណងជើង
 				'description'=>$request->original_source,//ខ្លឹមសារដើម
@@ -1102,7 +1093,7 @@ class CaseInformationController extends Controller
 			]);
 
 			/** upload file for case */
-			$case = CaseInformation::find($request->id);
+			$case = CaseInformation::find($request->case_id);
 			if($request->hasFile('photos')){
 				$dt = Carbon::now();
 				$date_time = $dt->toDayDateTimeString();
@@ -1159,11 +1150,13 @@ class CaseInformationController extends Controller
 			$suprressorNum = 0;
 			$suppressorOrgs   = $request->suppressors_orgs;
 			$suppressorGroups = $request->suppressor_groups;
+			$suppressorIndividuals = $request->suppressor_individuals;//បុគ្គល
 			foreach($suppressorOrgs as $suppressorOrg){
 				if($suppressorOrg != null || $suppressorGroups[$suprressorNum] != null){
 					$suppressors->push([
 						'suppressors_org'=>$suppressorOrg,
-						'suppressor_group'=>$suppressorGroups[$suprressorNum]
+						'suppressor_group'=>$suppressorGroups[$suprressorNum],
+						'suppressor_indiv'	=>	$suppressorIndividuals[$suprressorNum],
 					]);
 				}
 				
@@ -1175,11 +1168,13 @@ class CaseInformationController extends Controller
 			$attackerIndex = 0;
 			$attackOrgs   = $request->attack_orgs;
 			$attackGroups   = $request->attack_groups;
+			$attackIndividuals = $request->attack_individuals;//បុគ្គល
 			foreach($attackOrgs as $attackOrg){
 				if($attackOrg != null || $attackGroups[$attackerIndex] != null){
 					$attackers->push([
 						'attack_org'=>$attackOrg,
-						'attack_group'=>$attackGroups[$attackerIndex]
+						'attack_group'=>$attackGroups[$attackerIndex],
+						'attack_indiv'	=>	$attackIndividuals[$attackerIndex]
 					]);
 				}
 				$attackerIndex ++;
@@ -1191,11 +1186,14 @@ class CaseInformationController extends Controller
 			$suppressedOrgs   = $request->suppressed_orgs;
 			$suppressedGroups   = $request->suppressed_groups;
 			$suppressedIndex = 0;
+			$suppressedIndividuals = $request->suppressed_individuals;//បុគ្គល
+
 			foreach($suppressedOrgs as $suppressedOrg){
 				if($suppressedOrg != null || $suppressedGroups[$suppressedIndex] != null){
 					$suppresseds->push([
 						'suppressed_org'=>$suppressedOrg,
 						'suppressed_group'=>$suppressedGroups[$suppressedIndex],
+						'suppressed_indiv'	=>	$suppressedIndividuals[$suppressedIndex]
 					]);
 					$suppressedIndex ++;
 				}
@@ -1206,12 +1204,14 @@ class CaseInformationController extends Controller
 			$victims = collect([]);
 			$victimOrgs   = $request->victim_orgs;
 			$victimGroups   = $request->victim_groups;
+			$victimIndividuals = $request->victim_individuals;//បុគ្គល
 			$victimIndex = 0;
 			foreach($victimOrgs as $victimOrg){
 				if($victimOrg != null || $victimGroups[$victimIndex] != null){
 					$victims->push([
 						'victim_org'=>$victimOrg,
 						'victim_group'=>$victimGroups[$victimIndex],
+						'victim_indiv' 	=> 	$victimIndividuals[$victimIndex]
 					]);
 				}
 				$victimIndex ++;
@@ -1318,7 +1318,9 @@ class CaseInformationController extends Controller
 
 			return redirect()->route('CaseList')->with('success', "case information data created successfully");
 		}catch (Exception $e) {
-			abort(404);
+			//abort(404);
+			$ssss = $e;
+			return view('form/case/edit-khmer-case',compact('ssss'));
 		}
     }
 
