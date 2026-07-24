@@ -227,7 +227,7 @@
 												<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
 												<select class="custom-select rounded-0 " id="activities"
 													name="activities" placeholder="">
-													<option value="show_none"></option>
+													<!--<option value="show_none"></option>-->
 													<option value="other_case"
 														{{$caseKH->activities == 'other_case'  ? 'selected' : ''}}>
 														ផ្សេងៗ</option>
