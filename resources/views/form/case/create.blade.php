@@ -223,10 +223,13 @@ th {
 										<label class="label1" style="font-weight: 200;">សកម្មភាព</label>
 										<select class="custom-select rounded-0 " id="activities" name="activities"
 											placeholder="">
-											<!--<option value="show_none"></option>-->
+											<option value="show_none"></option>
 											<option value="other_case">ផ្សេងៗ</option>
 											<option value="show_causing_case">ការវាយប្រហារ</option>
 											<option value="show_crackdown_case">ការបង្ក្រាប</option>
+											@foreach($actions as $action)
+												<option value="{{ 'show_action_' . $action->id }}">{{$action->name}}</option>
+											@endforeach
 										</select>
 									</div>
 									<div class="col-sm-6">
