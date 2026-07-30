@@ -179,6 +179,12 @@
 							<option value="show_crackdown_case"
 								{{$case->activities == 'show_crackdown_case'  ? 'selected' : ''}}>ការបង្ក្រាប
 							</option>
+							
+							@foreach($actions as $action)
+								<option value="{{ $action->id }}"
+								{{$case->activities == $action ->id ? 'selected' : ''}}
+								>{{$action->name}}</option>
+							@endforeach
 						</select>
 					</div>
 					<div class="col-6">
@@ -813,7 +819,11 @@ $(document).ready(function() {
 			$('#causing_case_div').hide();
 			$('#crackdown_case_div').hide();
 		}
-
+		if(value != 'show_none' && value != 'show_causing_case' && value != 'show_crackdown_case' ){
+			$('#other_activities_div').show();
+			$('#causing_case_div').hide();
+			$('#crackdown_case_div').hide();
+		}
 		if (value == 'show_none') {
 			$('#other_activities_div').hide();
 			$('#causing_case_div').hide();

@@ -228,7 +228,7 @@ th {
 											<option value="show_causing_case">ការវាយប្រហារ</option>
 											<option value="show_crackdown_case">ការបង្ក្រាប</option>
 											@foreach($actions as $action)
-												<option value="{{ 'show_action_' . $action->id }}">{{$action->name}}</option>
+												<option value="{{ $action->id }}">{{$action->name}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -731,6 +731,12 @@ $(document).ready(function() {
 		var value = $(this).val();
 
 		if (value == 'other_case') {
+			$('#other_activities_div').show();
+			$('#causing_case_div').hide();
+			$('#crackdown_case_div').hide();
+		}
+		
+		if(value != 'show_none' && value != 'show_causing_case' && value != 'show_crackdown_case' ){
 			$('#other_activities_div').show();
 			$('#causing_case_div').hide();
 			$('#crackdown_case_div').hide();

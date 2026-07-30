@@ -230,6 +230,9 @@
 															<option value="other_case">ផ្សេងៗ</option>
 															<option value="show_causing_case">ការវាយប្រហារ</option>
 															<option value="show_crackdown_case">ការបង្ក្រាប</option>
+															@foreach($actions as $action)
+																<option value="{{ $action->id }}">{{$action->name}}</option>
+															@endforeach
 														</select>
 													</div>
 													<div class="col-sm-6">
@@ -732,7 +735,11 @@
 				$('#causing_case_div').hide();
 				$('#crackdown_case_div').hide();
 			}
-
+			if(value != 'show_none' && value != 'show_causing_case' && value != 'show_crackdown_case' ){
+				$('#other_activities_div').show();
+				$('#causing_case_div').hide();
+				$('#crackdown_case_div').hide();
+		    }
 			if (value == 'show_none') {
 				$('#other_activities_div').hide();
 				$('#causing_case_div').hide();

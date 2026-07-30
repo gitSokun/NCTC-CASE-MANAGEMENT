@@ -140,6 +140,7 @@ class ReportController extends Controller
 		$causingCases = $this->getCaseSummaryCaseReport('show_causing_case', $fromDate, $toDate);
 		$crackDownCases = $this->getCaseSummaryCaseReport('show_crackdown_case', $fromDate, $toDate);
 		$otherCases = $this->getCaseSummaryCaseReport('other_case', $fromDate, $toDate);
+		$noneCase = $this->getCaseSummaryCaseReport('show_none', $fromDate, $toDate);
 
 		//'show_causing_case' -- ការវាយប្រហារ
 		$totalAllCase = collect($causingCases)->sum('total_case');
@@ -153,6 +154,10 @@ class ReportController extends Controller
 		$totalOtherCase = collect($otherCases)->sum('total_case');
 		$totalOtherDeath = collect($otherCases)->sum('total_death');
 		$totalOtherInjure = collect($otherCases)->sum('total_injure');
+		//'show_none'-- បង្ហាញថាគ្មាន
+		$totalNoneCase = collect($noneCase)->sum('total_case');
+		$totalNoneDeath = collect($noneCase)->sum('total_death');
+		$totalNoneInjure = collect($noneCase)->sum('total_injure');
 
 		return response()->json([
 			// ការវាយប្រហារ
@@ -160,16 +165,21 @@ class ReportController extends Controller
 			'totalAllCase'=>$totalAllCase,
 			'totalAllDeath'=>$totalAllDeath,
 			'totalAllInjure'=>$totalAllInjure,
-			//ការបង្ក្រាប
+			// ការបង្ក្រាប
 			'crackDownCases'=>$crackDownCases,
 			'totalAllSupressorCase'=>$totalAllSupressorCase,
 			'totalAllSupressorDeath'=>$totalAllSupressorDeath,
 			'totalAllSupressorInjure'=>$totalAllSupressorInjure,
-			//ផ្សេងៗ
+			// ផ្សេងៗ
 			'otherCases'=>$otherCases,
 			'totalOtherCase'=>$totalOtherCase,
 			'totalOtherDeath'=>$totalOtherDeath,
 			'totalOtherInjure'=>$totalOtherInjure,
+			// បង្ហាញថាគ្មាន
+			'noneCase'=>$noneCase,
+			'totalNoneCase'=>$totalNoneCase,
+			'totalNoneDeath'=>$totalNoneDeath,
+			'totalNoneInjure'=>$totalNoneInjure,
 
 			'fromDate'=>$fromDate,
 			'toDate'=>$toDate

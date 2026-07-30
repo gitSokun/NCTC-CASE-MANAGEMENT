@@ -182,6 +182,21 @@
 			<tbody id="tbodyOtherCase">
 				
 			</tbody>
+
+			<!--none_case-->
+			<tr class="th-group-header">
+				<td colspan="6">សកម្មភាព ៖ N/A</td>
+			</tr>
+			<tr class="th-header ">
+				<td>ល.រ</td>
+				<td>ករណី</td>
+				<td>ចំនួនករណីសរុប</td>
+				<td>ចំនួនស្លាប់សរុប</td>
+				<td>ចំនួនរបួសសរុប</td>
+			</tr>
+			<tbody id="tbodyNoneCase">
+				
+			</tbody>
 		</table>
 	</div>
 </div>
@@ -280,6 +295,7 @@ $(document).ready(function() {
 		$('#tbodyCausingCase').empty();
 		$('#tbodyCrackdownCase').empty();
 		$('#tbodyOtherCase').empty();
+		$('#tbodyNoneCase').empty();
 
 		var formData = new FormData(this);
 
@@ -350,6 +366,7 @@ $(document).ready(function() {
 						</tr>
 					`);
 				}
+
 				//'show_crackdown_case -- ផ្សេងៗ
 				var otherCases = response.otherCases;
 				if(otherCases.length > 0){
@@ -374,6 +391,31 @@ $(document).ready(function() {
 						</tr>
 					`);
 				}
+				//'show_none_case -- បង្ហាញថាគ្មាន
+				var noneCase = response.noneCase;
+				if(noneCase.length > 0){
+					$.each(noneCase, function(index, record) {
+						let rowNumber = index + 1;
+						let row = `
+						<tr>
+							<td class="text_align_center ">${rowNumber}</td>
+							<td>${record.causing_case}</td>
+							<td class = "text_align_right">${record.total_case}</td>
+							<td class = "text_align_right">${record.total_death}</td>
+							<td class = "text_align_right">${record.total_injure}</td>
+						</tr>`;
+						$('#tbodyNoneCase').append(row);
+					});
+					$('#tbodyNoneCase').append(`
+						<tr class="total_tr">
+							<td colspan="2">សរុប ផ្សេងៗ</td>
+							<td>${response.totalNoneCase}</td>
+							<td>${response.totalNoneDeath}</td>
+							<td>${response.totalNoneInjure}</td>
+						</tr>
+					`);
+				}
+
 
 				$('#loadingModal').modal('hide');
 			},
