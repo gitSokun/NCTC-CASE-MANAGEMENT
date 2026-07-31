@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Action;
 
 use App\Models\Country;
 
@@ -31,7 +32,8 @@ class ReportController extends Controller
 		return view('form/report/reportCaseByCountry',compact('countries'));
 	}
 	public function summaryCaseReport(Request $request){
-		return view('form/report/summaryCaseReport');
+		$actions = Action::get();
+		return view('form/report/summaryCaseReport',compact('actions'));
 	}
 	public function caseReportQuery(Request $request){
 		return view('form/report/reportCase');
@@ -104,85 +106,127 @@ class ReportController extends Controller
 		]);
 
 	}
-	private function getCaseSummaryCaseReport($activity, $fromDate = null, $toDate = null)
+
+	private function getCaseSummaryCaseReport($fromDate = null, $toDate = null, $activity = null,$releasedFromDate= null,$releasedToDate= null,$actualFromDate= null,$actualToDate = null)
 	{
-		$where = ["a.activities = ?"];
-		$params = [$activity];
+		$query = DB::table('case_information as a')
+		    ->leftJoin('case_info_khs as b', 'b.case_id', '=', 'a.id')
+			->selectRaw("
+			    a.created_at,
+				a.released_date,
+				a.actual_date,
+			    a.case_number,
+				a.activities,
+				COALESCE(b.title, a.causing_case) AS causing_case,
+				1 as total_case,
+				COALESCE(a.death,0) as total_death,
+				COALESCE(a.injure,0) as total_injure
+			");
 
+		//កាលបរិច្ឆេទចុះបញ្ជី
 		if ($fromDate) {
-			$where[] = "DATE(a.created_at) >= ?";
-			$params[] = Carbon::parse($fromDate)->format('Y-m-d');
+			$query->where('a.created_at', '>=', Carbon::parse($fromDate)->startOfDay());
 		}
-
 		if ($toDate) {
-			$where[] = "DATE(a.created_at) <= ?";
-			$params[] = Carbon::parse($toDate)->format('Y-m-d');
+			$query->where('a.created_at', '<=', Carbon::parse($toDate)->endOfDay());
+		}
+		//កាលបរិច្ឆេទចុះផ្សាយ
+		if ($releasedFromDate) {
+			$query->where('a.released_date', '>=', Carbon::parse($releasedFromDate)->startOfDay());
+		}
+		if ($releasedToDate) {
+			$query->where('a.released_date', '<=', Carbon::parse($releasedToDate)->endOfDay());
+		}
+		//កាលបរិច្ឆេទជាក់ស្តែង
+		if ($actualFromDate) {
+			$query->where('a.actual_date', '>=', Carbon::parse($actualFromDate)->startOfDay());
+		}
+		if ($actualToDate) {
+			$query->where('a.actual_date', '<=', Carbon::parse($actualToDate)->endOfDay());
 		}
 
-		$sql = "
-			SELECT
-				a.causing_case,
-				COUNT(*) AS total_case,
-				IFNULL(SUM(a.death),0) AS total_death,
-				IFNULL(SUM(a.injure),0) AS total_injure
-			FROM case_information a
-			WHERE " . implode(' AND ', $where) . "
-			GROUP BY a.causing_case
-		";
+		if ($activity) {
+			$query->where('a.activities', '=', $activity);
+		}
 
-		return DB::select($sql, $params);
+		//$releasedFromDate,$releasedToDate,$actualFromDate,$actualToDate
+		return $query
+			->orderBy('a.activities')
+			->get();
 	}
+
+	public static function getActivityName($activity, $dynamicActions = [])
+    {
+        $static = [
+            'show_none'            => 'N/A',
+            'other_case'           => 'ផ្សេងៗ',
+            'show_causing_case'    => 'ការវាយប្រហារ',
+            'show_crackdown_case'  => 'ការបង្ក្រាប',
+        ];
+
+        if (isset($static[$activity])) {
+            return $static[$activity];
+        }
+
+        return $dynamicActions[$activity] ?? $activity;
+    }
 	public function searchSummaryCaseReport(Request $request){
-		
+
+		// Load all dynamic actions once
+		$actions = DB::table('actions')
+			->pluck('name', 'id')
+			->toArray();
+	
+		// កាលបរិច្ឆេទចុះបញ្ជី
 		$fromDate = $request->from_date;
 		$toDate = $request->to_date;
+		// កាលបរិច្ឆេទចុះផ្សាយ
+		$releasedFromDate = $request->released_fromDate;
+		$releasedToDate = $request->released_toDate;
+		//កាលបរិច្ឆេទជាក់ស្តែង
+		$actualFromDate = $request->actual_fromDate;
+		$actualToDate = $request->actual_toDate;
 
-		$causingCases = $this->getCaseSummaryCaseReport('show_causing_case', $fromDate, $toDate);
-		$crackDownCases = $this->getCaseSummaryCaseReport('show_crackdown_case', $fromDate, $toDate);
-		$otherCases = $this->getCaseSummaryCaseReport('other_case', $fromDate, $toDate);
-		$noneCase = $this->getCaseSummaryCaseReport('show_none', $fromDate, $toDate);
+		$activity = $request->activities;
+		$rows = $this->getCaseSummaryCaseReport($fromDate, $toDate, $activity,$releasedFromDate,$releasedToDate,$actualFromDate,$actualToDate);
+	
+		// Group by activity
+		$activities = $rows->groupBy('activities');
 
-		//'show_causing_case' -- ការវាយប្រហារ
-		$totalAllCase = collect($causingCases)->sum('total_case');
-		$totalAllDeath = collect($causingCases)->sum('total_death');
-		$totalAllInjure = collect($causingCases)->sum('total_injure');
-		//'show_crackdown_case' -- ការបង្ក្រាប
-		$totalAllSupressorCase = collect($crackDownCases)->sum('total_case');
-		$totalAllSupressorDeath = collect($crackDownCases)->sum('total_death');
-		$totalAllSupressorInjure = collect($crackDownCases)->sum('total_injure');
-		//'other_case'-- ផ្សេងៗ
-		$totalOtherCase = collect($otherCases)->sum('total_case');
-		$totalOtherDeath = collect($otherCases)->sum('total_death');
-		$totalOtherInjure = collect($otherCases)->sum('total_injure');
-		//'show_none'-- បង្ហាញថាគ្មាន
-		$totalNoneCase = collect($noneCase)->sum('total_case');
-		$totalNoneDeath = collect($noneCase)->sum('total_death');
-		$totalNoneInjure = collect($noneCase)->sum('total_injure');
+		$totalRows = 0;
+		$result = [];
+	
+		foreach ($activities as $activity => $cases) {
+	
+			$rowCount = $cases->count();
+
+			$totalRows += $rowCount;
+
+			$result[] = [
+	
+				'activity_code' => $activity,
+				'activity_name' => $this->getActivityName(
+					$activity,
+					$actions
+				),
+	
+				'cases' => $cases->values(),
+	
+				'total_case' => $cases->sum('total_case'),
+	
+				'total_death' => $cases->sum('total_death'),
+	
+				'total_injure' => $cases->sum('total_injure'),
+	
+			];
+		}
+
 
 		return response()->json([
-			// ការវាយប្រហារ
-			'causingCases' => $causingCases,
-			'totalAllCase'=>$totalAllCase,
-			'totalAllDeath'=>$totalAllDeath,
-			'totalAllInjure'=>$totalAllInjure,
-			// ការបង្ក្រាប
-			'crackDownCases'=>$crackDownCases,
-			'totalAllSupressorCase'=>$totalAllSupressorCase,
-			'totalAllSupressorDeath'=>$totalAllSupressorDeath,
-			'totalAllSupressorInjure'=>$totalAllSupressorInjure,
-			// ផ្សេងៗ
-			'otherCases'=>$otherCases,
-			'totalOtherCase'=>$totalOtherCase,
-			'totalOtherDeath'=>$totalOtherDeath,
-			'totalOtherInjure'=>$totalOtherInjure,
-			// បង្ហាញថាគ្មាន
-			'noneCase'=>$noneCase,
-			'totalNoneCase'=>$totalNoneCase,
-			'totalNoneDeath'=>$totalNoneDeath,
-			'totalNoneInjure'=>$totalNoneInjure,
-
+			'caseActivities' => $result,
 			'fromDate'=>$fromDate,
-			'toDate'=>$toDate
+			'toDate'=>$toDate,
+			'totalRows'=>$totalRows
 		]);
 
 	}

@@ -52,16 +52,15 @@
 <div class="container-fluid Battambang" style="padding-top: 0px;">
 	<div class="row">
 		<div class="col-12">
-		<h4>កាលបរិច្ឆេទចុះបញ្ជី</h4>
 			<div class="card">
 				<div class="card-header">
 					<form class="form-horizontal" enctype="multipart/form-data" id="frmQueryUserReport">
 						{{ csrf_field() }}
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-12">
 								<div class="row">
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចាប់ពី</label>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទចុះបញ្ជី ចាប់ពី</label>
 										<div class="input-group date" id="fromDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#fromDate" id="from_date" name="from_date" />
@@ -71,8 +70,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ដល់</label>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទចុះបញ្ជី ដល់</label>
 										<div class="input-group date" id="toDate" data-target-input="nearest">
 											<input type="text" class="form-control datetimepicker-input "
 												data-target="#toDate" id="to_date" name="to_date" />
@@ -82,13 +81,77 @@
 											</div>
 										</div>
 									</div>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">សកម្មភាព</label>
+										<select class="custom-select rounded-0 " id="activities" name="activities"
+											placeholder="">
+											<option value=""></option>
+											<option value="show_none">N/A</option>
+											<option value="other_case">ផ្សេងៗ</option>
+											<option value="show_causing_case">ការវាយប្រហារ</option>
+											<option value="show_crackdown_case">ការបង្ក្រាប</option>
+											@foreach($actions as $action)
+												<option value="{{ $action->id }}">{{$action->name}}</option>
+											@endforeach
+										</select>
+									</div>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទចុះផ្សាយ ចាប់ពី</label>
+										<div class="input-group date" id="released_fromDate" data-target-input="nearest">
+											<input type="text" class="form-control datetimepicker-input "
+												data-target="#released_fromDate" id="released_fromDate" name="released_fromDate" />
+											<div class="input-group-append" data-target="#released_fromDate"
+												data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទចុះផ្សាយ ដល់</label>
+										<div class="input-group date" id="released_toDate" data-target-input="nearest">
+											<input type="text" class="form-control datetimepicker-input "
+												data-target="#released_toDate" id="released_toDate" name="released_toDate" />
+											<div class="input-group-append" data-target="#released_toDate"
+												data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4"></div>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង ចាប់ពី</label>
+										<div class="input-group date" id="actual_fromDate" data-target-input="nearest">
+											<input type="text" class="form-control datetimepicker-input "
+												data-target="#actual_fromDate" id="actual_fromDate" name="actual_fromDate" />
+											<div class="input-group-append" data-target="#actual_fromDate"
+												data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង ដល់</label>
+										<div class="input-group date" id="actual_toDate" data-target-input="nearest">
+											<input type="text" class="form-control datetimepicker-input "
+												data-target="#actual_toDate" id="actual_toDate" name="actual_toDate" />
+											<div class="input-group-append" data-target="#actual_toDate"
+												data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 
-							<div class="col-sm-6">
+							<div class="col-sm-12">
 								<div class="btn-group" style="padding-top: 5.5%;">
 									<button type="button" class="btn btn-success toastrDefaultSuccess" id="submit_form">
 										<i class="fas fa-save" aria-hidden="true"></i> ស្វែងរក
+									</button>
+								</div>
+								<div class="btn-group" style="padding-top: 5.5%;">
+									<button type="button" class="btn btn-warning toastrDefaultSuccess" id="clearFilter">
+										<i class="fas fa-trash" aria-hidden="true"></i> សម្អាតស្វែងរក
 									</button>
 								</div>
 								<div class="btn-group" style="padding-top: 5.5%;">
@@ -135,68 +198,15 @@
 		<table style="border: none;">
 			<tr style="border: none;">
 				<td style="border: none;"> 
-				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> <span> </span>
+				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> 
 				ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
+				ចំនួនសរុប ៖ <span id="spnTotalAll"></span>-(records)
 				</td>
 			</tr>
 		</table>
 		<!--'show_causing_case'){//ការវាយប្រហារ-->
 		<table id="tableShowCausingCase" class="table table-bordered table-striped">
-		    <tr class="th-group-header">
-				<td colspan="6">សកម្មភាព ៖ ការវាយប្រហារ</td>
-			</tr>
-			<tr class="th-header">
-				<td>ល.រ</td>
-				<td>ករណី</td>
-				<td>ចំនួនករណីសរុប</td>
-				<td>ចំនួនស្លាប់សរុប</td>
-				<td>ចំនួនរបួសសរុប</td>
-			</tr>
-			<tbody id="tbodyCausingCase"></tbody>
-
-			<!--show_crackdown_case-->
-			<tr class="th-group-header">
-				<td colspan="6">សកម្មភាព ៖ ការបង្ក្រាប</td>
-			</tr>
-			<tr class="th-header ">
-				<td>ល.រ</td>
-				<td>ករណី</td>
-				<td>ចំនួនករណីសរុប</td>
-				<td>ចំនួនស្លាប់សរុប</td>
-				<td>ចំនួនរបួសសរុប</td>
-			</tr>
-			<tbody id="tbodyCrackdownCase">
-				
-			</tbody>
-			<!--other_case-->
-			<tr class="th-group-header">
-				<td colspan="6">សកម្មភាព ៖ ផ្សេងៗ</td>
-			</tr>
-			<tr class="th-header ">
-				<td>ល.រ</td>
-				<td>ករណី</td>
-				<td>ចំនួនករណីសរុប</td>
-				<td>ចំនួនស្លាប់សរុប</td>
-				<td>ចំនួនរបួសសរុប</td>
-			</tr>
-			<tbody id="tbodyOtherCase">
-				
-			</tbody>
-
-			<!--none_case-->
-			<tr class="th-group-header">
-				<td colspan="6">សកម្មភាព ៖ N/A</td>
-			</tr>
-			<tr class="th-header ">
-				<td>ល.រ</td>
-				<td>ករណី</td>
-				<td>ចំនួនករណីសរុប</td>
-				<td>ចំនួនស្លាប់សរុប</td>
-				<td>ចំនួនរបួសសរុប</td>
-			</tr>
-			<tbody id="tbodyNoneCase">
-				
-			</tbody>
+			<tbody id="tbodyDynamicCase"></tbody>
 		</table>
 	</div>
 </div>
@@ -280,8 +290,38 @@ $(function() {
 	$('#toDate').datetimepicker({
 		format: 'yyyy-M-D'
 	});
+
+	$('#released_fromDate').datetimepicker({
+		format: 'yyyy-M-D'
+	});
+	//Date picker
+	$('#released_toDate').datetimepicker({
+		format: 'yyyy-M-D'
+	});
+
+	$('#actual_fromDate').datetimepicker({
+		format: 'yyyy-M-D'
+	});
+	//Date picker
+	$('#actual_toDate').datetimepicker({
+		format: 'yyyy-M-D'
+	});	
 });
 $(document).ready(function() {
+	$('#clearFilter').on('click', function () {
+
+		// Clear all date inputs
+		$('#fromDate').datetimepicker('clear');
+$('#toDate').datetimepicker('clear');
+$('#released_fromDate').datetimepicker('clear');
+$('#released_toDate').datetimepicker('clear');
+$('#actual_fromDate').datetimepicker('clear');
+$('#actual_toDate').datetimepicker('clear');
+
+		// Clear other filters if you have them
+		$('#activities').val('').trigger('change');
+    });
+
 	$("#submit_form").click(function(event) {
 		event.preventDefault();
 
@@ -289,13 +329,26 @@ $(document).ready(function() {
 
 		$("#frmQueryUserReport").submit();
 	});
+	function formatDate(dateString) {
+		if (!dateString) return '-';
+
+		const date = new Date(dateString);
+
+		// Invalid date
+		if (isNaN(date.getTime())) {
+			return dateString;
+		}
+
+		const day = String(date.getDate()).padStart(2, '0');
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const year = date.getFullYear();
+
+		return `${day}-${month}-${year}`;
+	}
 	$('#frmQueryUserReport').submit(function(e) {
 		e.preventDefault();
 
-		$('#tbodyCausingCase').empty();
-		$('#tbodyCrackdownCase').empty();
-		$('#tbodyOtherCase').empty();
-		$('#tbodyNoneCase').empty();
+		$('#tbodyDynamicCase').empty();
 
 		var formData = new FormData(this);
 
@@ -310,113 +363,84 @@ $(document).ready(function() {
 					'content') // Include CSRF token
 			},
 			success: function(response) {
-				console.log(response);
+				//console.log(response);
 				let fromDate = response.fromDate;
 				let toDate = response.toDate;
+				let totalRows = response.totalRows;
 
 				$('#spnFromDate').text(fromDate);
 				$('#spnToDate').text(toDate);
+				$('#spnTotalAll').text(totalRows);
+				//test
+				var caseActivities = response.caseActivities;
+				if(caseActivities.length > 0){
+					$.each(caseActivities,function(index,activity){
+						//console.log("---activity --");
+						//console.log(activity);
+						//console.log(activity.activity_name);
+						//console.log(activity.total_case);
 
-				//'show_causing_case' -- ការវាយប្រហារ
-				var causingCases = response.causingCases;
-				if (causingCases.length > 0){
-					$.each(causingCases, function(index, record) {
-						let rowNumber = index + 1;
-						let row = `
-						<tr>
-							<td class="text_align_center ">${rowNumber}</td>
-							<td>${record.causing_case}</td>
-							<td class = "text_align_right">${record.total_case}</td>
-							<td class = "text_align_right">${record.total_death}</td>
-							<td class = "text_align_right">${record.total_injure}</td>
-						</tr>`;
-						$('#tbodyCausingCase').append(row);
-					});
-					$('#tbodyCausingCase').append(`
-						<tr class="total_tr">
-							<td colspan="2">សរុប ការវាយប្រហារ</td>
-							<td>${response.totalAllCase}</td>
-							<td>${response.totalAllDeath}</td>
-							<td>${response.totalAllInjure}</td>
+						let headerRow = `
+						<tr style="font-weight: bold;
+							font-size: 15px;
+							background-color: #fd7e143b !important;
+							color: black;">
+							<td colspan="9">សកម្មភាព ៖ ${activity.activity_name}</td>
 						</tr>
-					`);
-				}
-
-				//'show_crackdown_case -- ការបង្ក្រាប
-				var crackDownCases = response.crackDownCases;
-				if(crackDownCases.length > 0){
-					$.each(crackDownCases, function(index, record) {
-						let rowNumber = index + 1;
-						let row = `
-						<tr>
-							<td class="text_align_center ">${rowNumber}</td>
-							<td>${record.causing_case}</td>
-							<td class = "text_align_right">${record.total_case}</td>
-							<td class = "text_align_right">${record.total_death}</td>
-							<td class = "text_align_right">${record.total_injure}</td>
+						<tr style="font-weight: bold;
+							font-size: 15px;
+							background-color: #3f6791;
+							color: white;
+							text-align: center;"
+							>
+							<td>ល.រ</td>
+							<td>លេខសំគាល់</td>
+							<td>ករណី</td>
+							<td>ចំនួនករណីសរុប</td>
+							<td>ចំនួនស្លាប់សរុប</td>
+							<td>ចំនួនរបួសសរុប</td>
+							<td>កាលបរិច្ឆេទចុះបញ្ជី</td>
+							<td>កាលបរិច្ឆេទចុះផ្សាយ</td>
+							<td>កាលបរិច្ឆេទជាក់ស្តែង</td>
 						</tr>`;
-						$('#tbodyCrackdownCase').append(row);
-					});
-					$('#tbodyCrackdownCase').append(`
-						<tr class="total_tr">
-							<td colspan="2">សរុប ការបង្ក្រាប</td>
-							<td>${response.totalAllSupressorCase}</td>
-							<td>${response.totalAllSupressorDeath}</td>
-							<td>${response.totalAllSupressorInjure}</td>
-						</tr>
-					`);
-				}
+						$('#tbodyDynamicCase').append(headerRow);
 
-				//'show_crackdown_case -- ផ្សេងៗ
-				var otherCases = response.otherCases;
-				if(otherCases.length > 0){
-					$.each(otherCases, function(index, record) {
-						let rowNumber = index + 1;
-						let row = `
-						<tr>
-							<td class="text_align_center ">${rowNumber}</td>
-							<td>${record.causing_case}</td>
-							<td class = "text_align_right">${record.total_case}</td>
-							<td class = "text_align_right">${record.total_death}</td>
-							<td class = "text_align_right">${record.total_injure}</td>
-						</tr>`;
-						$('#tbodyOtherCase').append(row);
-					});
-					$('#tbodyOtherCase').append(`
-						<tr class="total_tr">
-							<td colspan="2">សរុប ផ្សេងៗ</td>
-							<td>${response.totalAllSupressorCase}</td>
-							<td>${response.totalAllSupressorDeath}</td>
-							<td>${response.totalAllSupressorInjure}</td>
-						</tr>
-					`);
-				}
-				//'show_none_case -- បង្ហាញថាគ្មាន
-				var noneCase = response.noneCase;
-				if(noneCase.length > 0){
-					$.each(noneCase, function(index, record) {
-						let rowNumber = index + 1;
-						let row = `
-						<tr>
-							<td class="text_align_center ">${rowNumber}</td>
-							<td>${record.causing_case}</td>
-							<td class = "text_align_right">${record.total_case}</td>
-							<td class = "text_align_right">${record.total_death}</td>
-							<td class = "text_align_right">${record.total_injure}</td>
-						</tr>`;
-						$('#tbodyNoneCase').append(row);
-					});
-					$('#tbodyNoneCase').append(`
-						<tr class="total_tr">
-							<td colspan="2">សរុប ផ្សេងៗ</td>
-							<td>${response.totalNoneCase}</td>
-							<td>${response.totalNoneDeath}</td>
-							<td>${response.totalNoneInjure}</td>
-						</tr>
-					`);
-				}
+						var cases = activity.cases;
+						$.each(cases,function(index,item){
 
+							//console.log(item.causing_case);
+							//console.log(item.total_case);
+							let rowNumber = index + 1;
+							let row = `
+							
+							<tr>
+								<td class="text_align_center ">${rowNumber}</td>
+								<td>${item.case_number}</td>
+								<td>${item.causing_case}</td>
+								<td class = "text_align_right">${item.total_case}</td>
+								<td class = "text_align_right">${item.total_death}</td>
+								<td class = "text_align_right">${item.total_injure}</td>
 
+								<td class = "text_align_right">${formatDate(item.created_at)}</td>
+								<td class = "text_align_right">${formatDate(item.released_date)}</td>
+								<td class = "text_align_right">${formatDate(item.actual_date)}</td>
+							</tr>`;
+							$('#tbodyDynamicCase').append(row);
+						});
+
+						$('#tbodyDynamicCase').append(`
+							<tr class="total_tr">
+								<td colspan="3">សរុប ការវាយប្រហារ</td>
+								<td>${activity.total_case}</td>
+								<td>${activity.total_death}</td>
+								<td>${activity.total_injure}</td>
+								<td colspan="3"></td>
+							</tr>
+						`);
+						
+					});
+				}
+				
 				$('#loadingModal').modal('hide');
 			},
 			complete: function() {
