@@ -312,11 +312,11 @@ $(document).ready(function() {
 
 		// Clear all date inputs
 		$('#fromDate').datetimepicker('clear');
-$('#toDate').datetimepicker('clear');
-$('#released_fromDate').datetimepicker('clear');
-$('#released_toDate').datetimepicker('clear');
-$('#actual_fromDate').datetimepicker('clear');
-$('#actual_toDate').datetimepicker('clear');
+		$('#toDate').datetimepicker('clear');
+		$('#released_fromDate').datetimepicker('clear');
+		$('#released_toDate').datetimepicker('clear');
+		$('#actual_fromDate').datetimepicker('clear');
+		$('#actual_toDate').datetimepicker('clear');
 
 		// Clear other filters if you have them
 		$('#activities').val('').trigger('change');
