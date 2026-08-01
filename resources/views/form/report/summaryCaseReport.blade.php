@@ -198,8 +198,8 @@
 		<table style="border: none;">
 			<tr style="border: none;">
 				<td style="border: none;"> 
-				ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> 
-				ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>
+				<!--ពីកាលបរិច្ឆេទ ៖ <span id="spnFromDate"></span> 
+				ទៅកាលបរិច្ឆេទ ៖ <span id="spnToDate"></span>-->
 				ចំនួនសរុប ៖ <span id="spnTotalAll"></span>-(records)
 				</td>
 			</tr>

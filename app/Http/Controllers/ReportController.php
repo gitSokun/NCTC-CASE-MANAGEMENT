@@ -11,19 +11,6 @@ use App\Models\Country;
 
 class ReportController extends Controller
 {
-    //public function userReport(Request $request){
-	//	return view('form/report/userReport');
-	//}
-	//public function summaryCaseReportByCountry(Request $request){
-	//	$countries = Country::get();
-	//	return view('form/report/reportCaseByCountry',compact('countries'));
-	//}
-	//public function summaryCaseReport(Request $request){
-	//	return view('form/report/summaryCaseReport');
-	//}
-	//public function caseReportQuery(Request $request){
-	//	return view('form/report/reportCase');
-	//}
 	public function userReport(Request $request){
 		return view('form/report/userReport');
 	}
@@ -230,68 +217,140 @@ class ReportController extends Controller
 		]);
 
 	}
-	public function searchCaseByCountry(Request $request){
 
+	private function getCaseSummaryCaseReportByCountry(
+		$fromDate = null, 
+		$toDate = null, 
+		$country = null,
+		$releasedFromDate= null,
+		$releasedToDate= null,
+		$actualFromDate= null,
+		$actualToDate = null)
+	{
+		$query = DB::table('case_information as a')
+		    ->leftJoin('case_info_khs as b', 'b.case_id', '=', 'a.id')
+			->leftJoin('actions as ac', 'b.activities', '=', 'ac.id')
+			->selectRaw("
+			    COALESCE(a.country,'N/A' ) as country,
+			    a.created_at,
+				a.released_date,
+				a.actual_date,
+			    a.case_number,
+				a.activities,
+				CASE b.activities
+					WHEN 'show_none' THEN 'N/A'
+					WHEN 'other_case' THEN 'ផ្សេងៗ'
+					WHEN 'show_causing_case' THEN 'ការវាយប្រហារ'
+					WHEN 'show_crackdown_case' THEN 'ការបង្ក្រាប'
+					ELSE ac.name
+				END AS activity_name,
+				COALESCE(b.title, a.causing_case) AS causing_case,
+				1 as total_case,
+				COALESCE(a.death,0) as total_death,
+				COALESCE(a.injure,0) as total_injure
+			");
+		
+
+		//កាលបរិច្ឆេទចុះបញ្ជី
+		if ($fromDate) {
+			$query->where('a.created_at', '>=', Carbon::parse($fromDate)->startOfDay());
+		}
+		if ($toDate) {
+			$query->where('a.created_at', '<=', Carbon::parse($toDate)->endOfDay());
+		}
+		//កាលបរិច្ឆេទចុះផ្សាយ
+		if ($releasedFromDate) {
+			$query->where('a.released_date', '>=', Carbon::parse($releasedFromDate)->startOfDay());
+		}
+		if ($releasedToDate) {
+			$query->where('a.released_date', '<=', Carbon::parse($releasedToDate)->endOfDay());
+		}
+		//កាលបរិច្ឆេទជាក់ស្តែង
+		if ($actualFromDate) {
+			$query->where('a.actual_date', '>=', Carbon::parse($actualFromDate)->startOfDay());
+		}
+		if ($actualToDate) {
+			$query->where('a.actual_date', '<=', Carbon::parse($actualToDate)->endOfDay());
+		}
+		if ($country) {
+			$query->where('a.country', 'LIKE', "%{$country}%");
+		}
+		//return $query;
+		return $query
+			->orderBy('a.activities')
+			->get();
+	}
+	public function searchCaseByCountry(Request $request){
+		
+		//កាលបរិច្ឆេទចុះបញ្ជី
 		$fromDate = $request->from_date;
 		$toDate   = $request->to_date;
+		// កាលបរិច្ឆេទចុះផ្សាយ
+		$releasedFromDate = $request->released_fromDate;
+		$releasedToDate = $request->released_toDate;
+		//កាលបរិច្ឆេទជាក់ស្តែង
+		$actualFromDate = $request->actual_fromDate;
+		$actualToDate = $request->actual_toDate;
+		//Country
 		$country  = $request->country;
-	
-		$where = ["a.id is not null"];
-		$params = [];
-	
-		if (!empty($fromDate)) {
-			$where[] = "DATE(a.created_at) >= ?";
-			$params[] = Carbon::parse($fromDate)->format('Y-m-d');
-		}
-	
-		if (!empty($toDate)) {
-			$where[] = "DATE(a.created_at) <= ?";
-			$params[] = Carbon::parse($toDate)->format('Y-m-d');
-		}
-	
-		if (!empty($country)) {
-			//$where[] = "a.country = ?";
-			//$params[] = $country;
-			$where[] = "a.country LIKE ?";
-			$params[] = "%{$country}%";
-		}
-	
-		$sql = "
-			SELECT
-				a.country,
-				a.activities,
-				CASE
-					WHEN a.activities = 'show_crackdown_case' THEN 'ការបង្ក្រាប'
-					WHEN a.activities = 'show_causing_case' THEN 'ការវាយប្រហារ'
-					ELSE 'ផ្សេងៗ'
-				END AS activities_description,
-				a.causing_case,
-				COUNT(*) AS total_causing_case,
-				IFNULL(SUM(a.death), 0) AS total_death,
-				IFNULL(SUM(a.injure), 0) AS total_injure
-			FROM case_information a
-			WHERE " . implode(' AND ', $where) . "
-			GROUP BY
-				a.country,
-				a.activities,
-				a.causing_case
-			ORDER BY
-				a.country,
-				a.activities,
-				a.causing_case
-		";
-	
-		$records = DB::select($sql, $params);
-		$totalCausingCase = collect($records)->sum('total_causing_case');
+		$rows = $this->getCaseSummaryCaseReportByCountry(
+			$fromDate, 
+			$toDate, 
+			$country,
+			$releasedFromDate,
+			$releasedToDate,
+			$actualFromDate,
+			$actualToDate);
 
+			//return response()->json([
+			//	'caseGropCountryList'=>[],
+			//	'query'=>$rows->toSql(),
+			//	//កាលបរិច្ឆេទចុះបញ្ជី
+			//	'fromDate'    => $fromDate,
+			//	'toDate'      => $toDate,
+			//	// កាលបរិច្ឆេទចុះផ្សាយ
+			//	'releasedFromDate'    => $releasedFromDate,
+			//	'releasedToDate'      => $releasedToDate,
+			//	//កាលបរិច្ឆេទជាក់ស្តែង
+			//	'actualFromDate'    => $actualFromDate,
+			//	'actualToDate'      => $actualToDate,
+			//]);
+
+		// Group by activity
+		$caseGropCountryList = $rows->groupBy('country');
+		$result = [];
+		$totalRows = 0;
+		
+		foreach ($caseGropCountryList as $country => $cases) {
+		
+			$rowCount = $cases->count();
+			$totalRows += $rowCount;
+		
+			$result[] = [
+				'country'       => $country,
+				'cases'         => $cases->values(),
+		
+				'total_case'    => $cases->sum('total_case'),
+				'total_death'   => $cases->sum('total_death'),
+				'total_injure'  => $cases->sum('total_injure'),
+			];
+		}
 
 		return response()->json([
-			'totalCausingCase' => $totalCausingCase,
-			'groupedData' => collect($records)->groupBy('country'),
+			'caseGropCountryList'=>$result,
+			'totalRows'=>$totalRows,
+			//កាលបរិច្ឆេទចុះបញ្ជី
 			'fromDate'    => $fromDate,
 			'toDate'      => $toDate,
+			// កាលបរិច្ឆេទចុះផ្សាយ
+			'releasedFromDate'    => $releasedFromDate,
+			'releasedToDate'      => $releasedToDate,
+			//កាលបរិច្ឆេទជាក់ស្តែង
+			'actualFromDate'    => $actualFromDate,
+			'actualToDate'      => $actualToDate,
 		]);
 	}
+
 	public function caseReportSearch(Request $request){
 		
 		$formatFromDate = Carbon::now()->subDays(30)->format('Y-m-d');  // 30 days ago
