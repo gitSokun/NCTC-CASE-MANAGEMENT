@@ -302,20 +302,6 @@ class ReportController extends Controller
 			$actualFromDate,
 			$actualToDate);
 
-			//return response()->json([
-			//	'caseGropCountryList'=>[],
-			//	'query'=>$rows->toSql(),
-			//	//កាលបរិច្ឆេទចុះបញ្ជី
-			//	'fromDate'    => $fromDate,
-			//	'toDate'      => $toDate,
-			//	// កាលបរិច្ឆេទចុះផ្សាយ
-			//	'releasedFromDate'    => $releasedFromDate,
-			//	'releasedToDate'      => $releasedToDate,
-			//	//កាលបរិច្ឆេទជាក់ស្តែង
-			//	'actualFromDate'    => $actualFromDate,
-			//	'actualToDate'      => $actualToDate,
-			//]);
-
 		// Group by activity
 		$caseGropCountryList = $rows->groupBy('country');
 		$result = [];
@@ -350,34 +336,103 @@ class ReportController extends Controller
 			'actualToDate'      => $actualToDate,
 		]);
 	}
+	private function getFilterCaseReport(
+		$fromDate = null, 
+		$toDate = null, 
+		$title = null,
+		$releasedFromDate= null,
+		$releasedToDate= null,
+		$actualFromDate= null,
+		$actualToDate = null)
+	{
+		$query = DB::table('case_information as a')
+		    ->leftJoin('case_info_khs as b', 'b.case_id', '=', 'a.id')
+			->leftJoin('actions as ac', 'b.activities', '=', 'ac.id')
+			->selectRaw("
+			    COALESCE(a.country,'N/A' ) as country,
+			    a.created_at,
+				a.released_date,
+				a.actual_date,
+			    a.case_number,
+				a.activities,
+				CASE b.activities
+					WHEN 'show_none' THEN 'N/A'
+					WHEN 'other_case' THEN 'ផ្សេងៗ'
+					WHEN 'show_causing_case' THEN 'ការវាយប្រហារ'
+					WHEN 'show_crackdown_case' THEN 'ការបង្ក្រាប'
+					ELSE ac.name
+				END AS activity_name,
+				COALESCE(b.title, a.causing_case) AS causing_case,
+				1 as total_case,
+				COALESCE(a.death,0) as total_death,
+				COALESCE(a.injure,0) as total_injure
+			");
+		
 
+		//កាលបរិច្ឆេទចុះបញ្ជី
+		if ($fromDate) {
+			$query->where('a.created_at', '>=', Carbon::parse($fromDate)->startOfDay());
+		}
+		if ($toDate) {
+			$query->where('a.created_at', '<=', Carbon::parse($toDate)->endOfDay());
+		}
+		//កាលបរិច្ឆេទចុះផ្សាយ
+		if ($releasedFromDate) {
+			$query->where('a.released_date', '>=', Carbon::parse($releasedFromDate)->startOfDay());
+		}
+		if ($releasedToDate) {
+			$query->where('a.released_date', '<=', Carbon::parse($releasedToDate)->endOfDay());
+		}
+		//កាលបរិច្ឆេទជាក់ស្តែង
+		if ($actualFromDate) {
+			$query->where('a.actual_date', '>=', Carbon::parse($actualFromDate)->startOfDay());
+		}
+		if ($actualToDate) {
+			$query->where('a.actual_date', '<=', Carbon::parse($actualToDate)->endOfDay());
+		}
+		if ($title) {
+			$query->where('a.causing_case', 'LIKE', "%{$title}%");
+		}
+		//return $query;
+		return $query
+			->orderBy('a.activities')
+			->get();
+	}
 	public function caseReportSearch(Request $request){
 		
-		$formatFromDate = Carbon::now()->subDays(30)->format('Y-m-d');  // 30 days ago
-		$formatToDate = Carbon::now()->format('Y-m-d');           // Current date
-		if($request->from_date && $request->to_date){
-			$formatFromDate = Carbon::parse($request->from_date)->format('Y-m-d');
-			$formatToDate = Carbon::parse($request->to_date)->format('Y-m-d');
-		}
+		//កាលបរិច្ឆេទចុះបញ្ជី
+		$fromDate = $request->from_date;
+		$toDate   = $request->to_date;
+		// កាលបរិច្ឆេទចុះផ្សាយ
+		$releasedFromDate = $request->released_fromDate;
+		$releasedToDate = $request->released_toDate;
+		//កាលបរិច្ឆេទជាក់ស្តែង
+		$actualFromDate = $request->actual_fromDate;
+		$actualToDate = $request->actual_toDate;
+		//filterCase
+		$filterCase  = $request->filterCase;
 
-		$list = DB::SELECT("
-			select 
-				a.title,
-				a.released_date,
-				IFNULL(a.activities,'') as activities,
-				IFNULL(a.causing_case,'') as causing_case,
-				IFNULL(a.country,'') as country,
-				IFNULL(a.province_city,'') as province_city,
-				IFNULL(a.area,'') as area,
-				IFNULL(a.death,0) as death,
-				IFNULL(a.injure,0) as injure
-			from case_information a
-			WHERE DATE(a.released_date) BETWEEN ? AND ? 
-		",[$formatFromDate,$formatToDate]);
+		$cases = $this->getFilterCaseReport(
+			$fromDate, 
+			$toDate, 
+			$filterCase,
+			$releasedFromDate,
+			$releasedToDate,
+			$actualFromDate,
+			$actualToDate);
+		$rowCount = $cases->count();
 		return response()->json([
-			'list'=>$list,
-			'fromDate'=>$formatFromDate,
-			'toDate'=>$formatToDate
-		]);	
+			'cases'=>$cases,
+			'totalRows'=>$rowCount,
+			//កាលបរិច្ឆេទចុះបញ្ជី
+			'fromDate'    => $fromDate,
+			'toDate'      => $toDate,
+			// កាលបរិច្ឆេទចុះផ្សាយ
+			'releasedFromDate'    => $releasedFromDate,
+			'releasedToDate'      => $releasedToDate,
+			//កាលបរិច្ឆេទជាក់ស្តែង
+			'actualFromDate'    => $actualFromDate,
+			'actualToDate'      => $actualToDate,
+		]);
 	}
 }
