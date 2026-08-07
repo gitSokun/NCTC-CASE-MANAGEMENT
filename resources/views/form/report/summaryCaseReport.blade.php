@@ -353,7 +353,7 @@ $(document).ready(function() {
 		var formData = new FormData(this);
 
 		$.ajax({
-			url: "{{ route('report-summary-case-search')}}", // Laravel route
+			url: `/report/summary-case-report/search`, // Laravel route
 			method: "POST",
 			data: formData, //$(this).serialize(), // Serialize form data
 			processData: false, // Don't let jQuery process the data
