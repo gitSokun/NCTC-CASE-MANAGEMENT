@@ -71,6 +71,7 @@
 								<tr class="Battambang">
 									<th style="width: 15%;">#</th>
 									<th>សកម្មភាព</th>
+									<th>ត្រូវបានលុប</th>
 									<th style="width: 40%;">-----</th>
 								</tr>
 							</thead>
@@ -79,24 +80,41 @@
 
 								<tr class="Battambang">
 									<td>
-										<p style="font-weight: 100;">{{$action->id}}</p>
+										<p style="font-weight: 100;">{{ $actions->firstItem() + $loop->index }}</p>
 									</td>
 									<td>
 										<p style="font-weight: 100;">{{$action->name}}</p>
 									</td>
+									<td>
+										<input type="checkbox"
+											class="is-hide"
+											data-id="{{ $action->id }}"
+											{{ $action->is_hide ? 'checked' : '' }} disabled>
+									   @if($action->is_hide)
+									   	ត្រូវបានលុប
+									   @else
+									   	មិនត្រូវបានលុប
+									   @endif
+										
+									</td>
 
 									<td>
 										<div class="btn-group" style="float: right;">
-											<button type="submit" class="btn btn-success" data-toggle="modal"
-												data-target="#modal-view-action">
+										@if($action->is_main)
+											ព័ត៌មានប្រព័ន្ធ
+										@else
+										<button type="submit" class="btn btn-success" data-toggle="modal"
+												data-target="#modal-view-action-{{ $action->id }}">
 												<i class="fas fa-eye" aria-hidden="true"></i> មើល
 											</button>
 											<button type="submit" class="btn btn-warning" style="width: 135px;"
-												data-toggle="modal" data-target="#modal-edit-action">
+												data-toggle="modal" data-target="#modal-edit-action-{{ $action->id }}">
 												<i class="fas fa-edit" aria-hidden="true"></i> កែសម្រួល
 											</button>
+										@endif
+				
 
-											<div class="modal fade" id="modal-view-action">
+											<div class="modal fade" id="modal-view-action-{{ $action->id }}">
 												<div class="modal-dialog">
 
 													<div class="modal-content">
@@ -114,7 +132,7 @@
 																	<label class='label1'
 																		style="font-weight: 200;">សកម្មភាព</label>
 																	<input type="text" class="form-control "
-																		id="action_name" name="action_name"
+																		id="action_name-{{ $action->id }}" name="action_name"
 																		placeholder="" value="{{$action->name}}"
 																		disabled>
 																</div>
@@ -135,13 +153,13 @@
 												<!-- /.modal-dialog -->
 											</div>
 
-											<div class="modal fade" id="modal-edit-action">
+											<div class="modal fade" id="modal-edit-action-{{ $action->id }}">
 												<div class="modal-dialog">
 													<form class="form-horizontal" enctype="multipart/form-data"
 														id="newCountry" method="POST"
 														action="{{ route('update-action') }}">
 														{{ csrf_field() }}
-														<input class="form-control " id="id" name="id"
+														<input class="form-control " id="id-{{ $action->id }}" name="id"
 															value="{{$action->id}}" placeholder="" hidden>
 
 														<div class="modal-content">
@@ -159,8 +177,20 @@
 																		<label class='label1'
 																			style="font-weight: 200;">សកម្មភាព</label>
 																		<input type="text" class="form-control "
-																			id="action_name" name="action_name"
+																			id="action_name-{{ $action->id }}" name="action_name"
 																			placeholder="" value="{{$action->name}}">
+																	</div>
+																	<div class="col-sm-12">
+																	   <div class="form-check" style="padding-top: 10px;">
+																			<input class="form-check-input" type="checkbox" id="is_hidden-{{ $action->id }}"
+																				name="is_hidden" {{ $action->is_hide ? 'checked' : '' }}>
+																			<label class="form-check-label">លុបចេញពីប្រព័ន្ធ</label>
+																			</div>
+																			<!--<div class="custom-control ">
+																				<input class="custom-control-input form-control" type="checkbox" id="is_hidden-{{ $action->id }}"
+																				name="is_hidden" {{ $action->is_hide ? 'checked' : '' }}>
+																				<label for="is_hidden-{{ $action->id }}" class="custom-control-label">លុបចេញពីប្រព័ន្ធ</label>
+																			</div>-->
 																	</div>
 
 																</div>

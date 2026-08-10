@@ -9,6 +9,8 @@ class Action extends Model
 {
 	use HasFactory;
 	protected $fillable = [
-        'name'
+        'name',
+		'is_hide',
+		'is_main'
     ];
 }

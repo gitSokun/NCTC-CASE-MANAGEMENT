@@ -19,7 +19,7 @@ class ReportController extends Controller
 		return view('form/report/reportCaseByCountry',compact('countries'));
 	}
 	public function summaryCaseReport(Request $request){
-		$actions = Action::get();
+		$actions = Action::where('is_hide',false)->where('is_main',false)->get();
 		return view('form/report/summaryCaseReport',compact('actions'));
 	}
 	public function caseReportQuery(Request $request){

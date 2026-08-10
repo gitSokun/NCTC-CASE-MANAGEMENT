@@ -14,6 +14,7 @@ use App\Models\Activity;
 use App\Models\CausingCase;
 use App\Models\Country;
 use App\Models\Role;
+use App\Models\Action;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -64,6 +65,20 @@ class DatabaseSeeder extends Seeder
 
 			/** Setup countries */
 			//$this->seedCountries();
+
+			/** add more actions */
+			Action::create([
+				'name'  => 'ផ្សេងៗ',
+				'is_main' => True
+			]);
+			Action::create([
+				'name'  => 'ការវាយប្រហារ',
+				'is_main' => True
+			]);
+			Action::create([
+				'name'  => 'ការបង្ក្រាប',
+				'is_main' => True
+			]);
 
 			/** update active status */
 			DB::table('users')->update([

@@ -201,7 +201,7 @@ class CaseInformationController extends Controller
      */
     public function create()
     {
-		$actions = Action::get();
+		$actions = Action::where('is_hide',false)->where('is_main',false)->get();
 		$causingCases = CausingCase::get();
 		$countries = Country::get();
 
@@ -242,7 +242,7 @@ class CaseInformationController extends Controller
 			$relatedCases = CaseInformation::where('related_case_number',$case->case_number)->whereNotNull('related_case_number')->get();
 	
 			$latestCases = CaseInformation::orderBy('created_at', 'DESC')->paginate(5);
-			$actions = Action::get();
+			$actions = Action::where('is_hide',false)->where('is_main',false)->get();
 			return view('form/case/create-khmer-case',compact('case','actions','countries','caseUploads','relatedCases','latestCases','caseNumber'));
 		
     }
@@ -868,7 +868,7 @@ class CaseInformationController extends Controller
 		$activities = Activity::get();
 		$causingCases = CausingCase::get();
 		$countries = Country::get();
-		$actions = Action::get();
+		$actions = Action::where('is_hide',false)->where('is_main',false)->get();
 
 
         return view('form/case/edit',compact(
@@ -902,7 +902,7 @@ class CaseInformationController extends Controller
 		$countries = Country::get();
 		$case = CaseInformation::find($caseKH->case_id);
 		$caseUploads = CaseUpload::where('case_number',$case->case_number)->get();
-		$actions = Action::get();
+		$actions = Action::where('is_hide',false)->where('is_main',false)->get();
 
 		return view('form/case/edit-khmer-case',compact(
 			'case',

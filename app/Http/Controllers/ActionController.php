@@ -13,7 +13,7 @@ class ActionController extends Controller
      */
     public function index()
     {
-		$actions = Action::paginate(10);
+		$actions = Action::orderByDesc('is_main')->paginate(10);
 		return view('form/action/index',compact('actions'));
     }
 
@@ -43,7 +43,7 @@ class ActionController extends Controller
 				]);
 			}
 		});
-		$actions = Action::paginate(10);
+		$actions = Action::orderByDesc('is_main')->paginate(10);
 		return view('form/action/index',compact('actions'));
 
     }
@@ -73,11 +73,12 @@ class ActionController extends Controller
             'action_name' => 'required'
         ]);
 		DB::transaction(function () use ($request) {
-			Action::where('id',$request->id)->update([
-				'name'=>$request->action_name
+			Action::where('id',$request->id)->where('is_main',False)->update([
+				'name'=>$request->action_name,
+				'is_hide'=>$request->boolean('is_hidden')
 			]);
 		});
-		$actions = Action::paginate(10);
+		$actions = Action::orderByDesc('is_main')->paginate(10);
 		return view('form/action/index',compact('actions'));
     }
 
