@@ -40,69 +40,66 @@ th {
 @endsection
 @section('content')
 <div class="container-fluid Battambang">
-	<div class="row">
-		<div class="col-12">
-			<form class="form-horizontal" enctype="multipart/form-data" id="newcase" method="POST"
-				action="{{ route('case-information-store') }}">
-				<div class="card">
-					{{ csrf_field() }}
-					<div class="card-header">
-						<div class="row">
-							<div class="col-sm-6">
-								<h4>បង្កើតព្រឹត្តិការណ៍(ទម្រង់មូលដ្ឋាន)</h4>
-							</div>
-							<div class="col-sm-6">
-								<div class="btn-group" style="float: right;">
-									<button type="button" class="btn btn-danger"
-										onclick="window.location='{{ route('CaseList')}}'">
-										<i class="fas fa-arrow-circle-left" aria-hidden="true"></i> ត្រលប់ក្រោយ
-									</button>
-									<!--<button type="submit" class="btn btn-success toastrDefaultSuccess">
-											<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុកសេចក្តីព្រាង
-										</button>-->
-									<button type="submit" class="btn btn-success toastrDefaultSuccess">
-										<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
-									</button>
-								</div>
-							</div>
-						</div>
+	<form class="form-horizontal" enctype="multipart/form-data" id="newcase" method="POST"
+		action="{{ route('case-information-store') }}">
+		{{ csrf_field() }}
 
+		<div class="row">
+			<div class="col-md-12">
+				<div class="btn-group" style="float: right; padding-bottom: 20px;">
+					<button type="button" class="btn btn-danger" onclick="window.location='{{ route('CaseList')}}'">
+						<i class="fas fa-arrow-circle-left" aria-hidden="true"></i> ត្រលប់ក្រោយ
+					</button>
+					<button type="submit" class="btn btn-success toastrDefaultSuccess">
+						<i class="fas fa-save" aria-hidden="true"></i> រក្សាទុក
+					</button>
+				</div>
+			</div>
+
+			<div class="col-md-12 ">
+				<div class="card card-primary card-outline card-tabs">
+					<div class="card-header p-0 pt-1 border-bottom-0">
+						<ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="tab-eng-information-tab" data-toggle="pill"
+									href="#tab-eng-information" role="tab" aria-controls="tab-eng-information"
+									aria-selected="true">ខ្លឹមសារដើម</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="tab-khmer-information-tab" data-toggle="pill"
+									href="#tab-khmer-information" role="tab" aria-controls="tab-khmer-information"
+									aria-selected="false">ខ្លឹមសារជាភាសាខ្មែរ</a>
+							</li>
+
+
+						</ul>
 					</div>
+					<div class="card-body">
+						<div class="tab-content" id="custom-tabs-three-tabContent">
 
-					<div class="row">
-						<div class="col-md-12">
-							<div class="card-body">
+							<!--======================= tab-eng-information =======================-->
+							<div class="tab-pane fade show active" id="tab-eng-information" role="tabpanel"
+								aria-labelledby="tab-eng-information-tab">
 								<div class="row">
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">លេខសំគាល់ ព្រឹត្តិការណ៍</label>
-										<div class="input-group ">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">លេខសំគាល់
+												ព្រឹត្តិការណ៍</label>
 											<input type="text" class="form-control" id="caseNumber"
 												value="{{$caseNumber}}" readonly />
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">
-											លេខសំគាល់ ព្រឹត្តិការណ៍​ពាក់ព័ន្ធ</label>
-										<div class="input-group ">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">
+												លេខសំគាល់ ព្រឹត្តិការណ៍​ពាក់ព័ន្ធ</label>
 											<input type="text" class="form-control" id="related_case_number"
 												name="related_case_number" />
 										</div>
 									</div>
-								</div>
-
-							</div>
-						</div>
-
-
-						<div class="col-md-12">
-							<div class="card-header">
-								<h3 class="card-title label1" style="font-weight: 700;">អត្ថបទ</h3>
-							</div>
-							<div class="card-body">
-								<div class="row">
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label class="label1" style="font-weight: 200;color:red;">* ចំណងជើង
+											<label class="label1" style="font-weight: 200;">ចំណងជើង
 											</label>
 											<input type="text" class="form-control @error('title') is-invalid @enderror"
 												id="title" name="title" placeholder="input" value="">
@@ -113,7 +110,7 @@ th {
 										</div>
 									</div>
 									<div class="col-sm-12">
-										<label class="label1" style="font-weight: 200;color:red;">* ខ្លឹមសារដើម
+										<label class="label1" style="font-weight: 200;">ខ្លឹមសារដើម
 											(មានទាំង link ដើម)</label>
 										<textarea id="original_source" name="original_source"
 											class="@error('original_source') is-invalid @enderror"></textarea>
@@ -124,40 +121,87 @@ th {
 									</div>
 								</div>
 							</div>
-						</div>
-						<!--============== កាលបរិច្ឆេទចុះផ្សាយកើតហេតុ ===========-->
-						<div class="col-md-12">
-							<div class="card-header">
-								<h2 class="card-title label1" style="font-weight: 700;">កាលបរិច្ឆេទកើតហេតុ</h2>
-							</div>
-							<div class="card-body" style="padding-top: 0px; padding-bottom: 0px;">
+
+							<!--======================= tab-khmer-information =======================-->
+							<div class="tab-pane fade" id="tab-khmer-information" role="tabpanel"
+								aria-labelledby="tab-khmer-information-tab">
 								<div class="row">
 									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទចុះផ្សាយ</label>
-										<div class="input-group date" id="reservationdate" data-target-input="nearest">
-											<input type="text" class="form-control datetimepicker-input "
-												data-target="#reservationdate" id="released_date"
-												name="released_date" />
-											<div class="input-group-append" data-target="#reservationdate"
-												data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង</label>
-										<div class="input-group date" id="reservationdate1" data-target-input="nearest">
-											<input type="text" class="form-control datetimepicker-input "
-												data-target="#reservationdate1" id="actual_date" name="actual_date" />
-											<div class="input-group-append" data-target="#reservationdate1"
-												data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ប្រទេស</label>
 										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">លេខសំគាល់
+												ព្រឹត្តិការណ៍ ជាភាសាខ្មែរ</label>
+											<input type="text" class="form-control" id="caseNumberKH"
+												value="{{$caseNumberKh}}" readonly />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="label1" style="font-weight: 200;">ចំណងជើង ជាភាសាខ្មែរ
+											</label>
+											<input type="text" class="form-control"
+												id="titleKH" name="titleKH" placeholder="input" value="">
+
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="label1" style="font-weight: 200;">ខ្លឹមសារ ជាភាសាខ្មែរ
+											(មានទាំង link ដើម)</label>
+										<textarea id="original_source_KH" name="original_source_KH"
+											class="@error('original_source') is-invalid @enderror"></textarea>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!--===============================================-->
+
+			<div class="col-12">
+				<div class="card">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card-header">
+								<h3 class="card-title label1" style="font-weight: 700;">ព័ត៌មានបន្ថែម</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទចុះផ្សាយ</label>
+											<div class="input-group date" id="reservationdate"
+												data-target-input="nearest">
+												<input type="text" class="form-control datetimepicker-input "
+													data-target="#reservationdate" id="released_date"
+													name="released_date" />
+												<div class="input-group-append" data-target="#reservationdate"
+													data-toggle="datetimepicker">
+													<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">កាលបរិច្ឆេទជាក់ស្តែង</label>
+											<div class="input-group date" id="reservationdate1"
+												data-target-input="nearest">
+												<input type="text" class="form-control datetimepicker-input "
+													data-target="#reservationdate1" id="actual_date"
+													name="actual_date" />
+												<div class="input-group-append" data-target="#reservationdate1"
+													data-toggle="datetimepicker">
+													<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="label1" style="font-weight: 200;">ប្រទេស</label>
 											<select class="select2" data-placeholder="" id="country" name="country"
 												style="width: 100%; height: 40%;">
 												<option></option>
@@ -168,53 +212,58 @@ th {
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">ខេត្ត</label>
-										<input type="text" class="form-control " id="province_city" name="province_city"
-											placeholder="">
+										<div class="form-group">
+											<label class="label1" style="font-weight: 200;">ខេត្ត</label>
+											<input type="text" class="form-control " id="province_city"
+												name="province_city" placeholder="">
+										</div>
 									</div>
 									<div class="col-sm-6">
-										<label class="label1" style="font-weight: 200;">តំបន់</label>
-										<input type="text" class="form-control " id="area" name="area" placeholder="">
+										<div class="form-group">
+											<label class="label1" style="font-weight: 200;">តំបន់</label>
+											<input type="text" class="form-control " id="area" name="area"
+												placeholder="">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">ចំនួនស្លាប់</label>
+											<input type="number" class="form-control " id="death" name="death"
+												placeholder="">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">ចំនួនរបួស</label>
+											<input type="number" class="form-control " id="injure" name="injure"
+												placeholder="">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">ចំនួនឃុំខ្លួន</label>
+											<input type="number" class="form-control " id="detention" name="detention"
+												placeholder="">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">ផ្លាស់ទីលំនៅ</label>
+											<input type="number" class="form-control " id="relocate" name="relocate"
+												placeholder="">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class='label1' style="font-weight: 200;">ចំណាកស្រុក</label>
+											<input type="number" class="form-control " id="migration" name="migration"
+												placeholder="">
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!--============== ការខាតបង់ ===========-->
-						<div class="col-md-12">
-							<!-- /.card-header -->
-							<div class="card-header">
-								<h2 class="card-title label1" style="font-weight: 700;">ការខាតបង់</h2>
-							</div>
-							<div class="card-body" style="padding-top: 0px; padding-bottom: 0px;">
-								<div class="row">
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចំនួនស្លាប់</label>
-										<input type="number" class="form-control " id="death" name="death"
-											placeholder="">
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចំនួនរបួស</label>
-										<input type="number" class="form-control " id="injure" name="injure"
-											placeholder="">
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចំនួនឃុំខ្លួន</label>
-										<input type="number" class="form-control " id="detention" name="detention"
-											placeholder="">
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ផ្លាស់ទីលំនៅ</label>
-										<input type="number" class="form-control " id="relocate" name="relocate"
-											placeholder="">
-									</div>
-									<div class="col-sm-6">
-										<label class='label1' style="font-weight: 200;">ចំណាកស្រុក</label>
-										<input type="number" class="form-control " id="migration" name="migration"
-											placeholder="">
-									</div>
-								</div>
-							</div>
-						</div>
+
 						<!--============== រើសរើស សកម្មភាព ========-->
 						<div class="col-md-12">
 							<div class="card-body" style="padding-top: 0px;padding-bottom: 0px;">
@@ -228,7 +277,7 @@ th {
 											<option value="show_causing_case">ការវាយប្រហារ</option>
 											<option value="show_crackdown_case">ការបង្ក្រាប</option>
 											@foreach($actions as $action)
-												<option value="{{ $action->id }}">{{$action->name}}</option>
+											<option value="{{ $action->id }}">{{$action->name}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -714,10 +763,10 @@ th {
 						</div>
 					</div>
 				</div>
-			</form>
+			</div>
+			<!-- /.card-body -->
 		</div>
-		<!-- /.card-body -->
-	</div>
+	</form>
 	<!-- /.card -->
 </div>
 <!-- /.col -->
@@ -735,8 +784,8 @@ $(document).ready(function() {
 			$('#causing_case_div').hide();
 			$('#crackdown_case_div').hide();
 		}
-		
-		if(value != 'show_none' && value != 'show_causing_case' && value != 'show_crackdown_case' ){
+
+		if (value != 'show_none' && value != 'show_causing_case' && value != 'show_crackdown_case') {
 			$('#other_activities_div').show();
 			$('#causing_case_div').hide();
 			$('#crackdown_case_div').hide();
@@ -1037,8 +1086,12 @@ $(document).ready(function() {
 <script>
 $(function() {
 	$('#description').summernote();
-	$('#original_source').summernote()
-
+	$('#original_source').summernote({
+		height: 300
+	});
+	$('#original_source_KH').summernote({
+		height: 300
+	});
 
 });
 </script>

@@ -205,10 +205,13 @@ class CaseInformationController extends Controller
 		$causingCases = CausingCase::get();
 		$countries = Country::get();
 
+		$caseInfoKh = new CaseInfoKh();
+		$caseNumberKh = $caseInfoKh->getCaseNumber();
+
 		$caseInfo = new CaseInformation();
 		$caseNumber = $caseInfo->getCaseNumber();
 
-		return view('form/case/create',compact('actions','causingCases','countries','caseNumber'));
+		return view('form/case/create',compact('actions','causingCases','countries','caseNumber','caseNumberKh'));
     }
     /**
      * Show the form for creating a new resource.
@@ -522,10 +525,10 @@ class CaseInformationController extends Controller
      */
     public function store(Request $request)
     {
-		$request->validate([
-            'title' => 'required',
-			'original_source' => 'required',
-        ]);
+		//$request->validate([
+        //    'title' => 'required',
+		//	'original_source' => 'required',
+        //]);
 
 		/** ករណីបង្ក្រាប -> អ្នកបង្រ្កាប */
 		$suppressors = collect([]);
@@ -672,8 +675,8 @@ class CaseInformationController extends Controller
 			$case = CaseInformation::create([
 				'case_number'=>$caseNumber,
 				'related_case_number'=>$request->related_case_number,
-				'title' => $request->title,//ចំណងជើង
-				'description'=>$request->original_source,//ខ្លឹមសារដើម
+				'title' => $request->title ?? 'N/A',//ចំណងជើង
+				'description'=>$request->original_source ?? 'N/A',//ខ្លឹមសារដើម
 				'original_source'=>$request->original_source,//ខ្លឹមសារដើម
 				'released_date'=>$request->released_date,//កាលបរិច្ឆេទចុះផ្សាយ
 				'actual_date'=>$request->actual_date,//កាលបរិច្ឆេទជាក់ស្តែង
@@ -713,6 +716,57 @@ class CaseInformationController extends Controller
 				'status'=>'Active'
 
 			]);
+
+			/** create case information as khmer if user want to add */
+			if($request->titleKH || $request->original_source_KH){
+				/** get case number again */
+				$caseInfoKh = new CaseInfoKh();
+				$caseNumberKh = $caseInfoKh->getCaseNumber();
+
+				/** start to create case information as khmer */
+				$case = CaseInfoKh::create([
+					'case_number'=>$caseNumberKh,
+					'case_id'=>$case->id,
+					'title' => $request->titleKH ?? 'N/A',//ចំណងជើង
+					'description'=>$request->original_source_KH ?? 'N/A',//ខ្លឹមសារដើម
+					'released_date'=>$request->released_date,//កាលបរិច្ឆេទចុះផ្សាយ
+					'actual_date'=>$request->actual_date,//កាលបរិច្ឆេទជាក់ស្តែង
+					'death'=>$request->death,//ចំនួនស្លាប់
+					'injure'=>$request->injure,//ចំនួនរបួស
+					'activities'=>$request->activities,//សកម្មភាព
+					'causing_case'=>$request->causing_case,//ករណីបង្ក
+					'country'=>$request->country,//ប្រទេស
+					'province_city'=>$request->province_city,//ខេត្ត
+					'area'=>$request->area,//តំបន់
+					'provocative_group'=>$request->provocative_group,//ក្រុមបង្កហេតុ/អ្នកពាក់ព័ន្ធ
+					'victim'=>$request->victim,//ក្រុមរងគ្រោះ
+					'perpetrator_name'=>$request->perpetrator_name,//ឈ្មោះជនបង្ក
+					'victim_name'=>$request->victim_name,//ឈ្មោះជនរងគ្រោះ
+					'detention'=>$request->detention,//ចំនួនឃុំខ្លួន
+					'relocate'=>$request->relocate,//ផ្លាស់ទីលំនៅ
+					'migration'=>$request->migration,//ចំណាកស្រុក
+					'provocative_case'=>$request->provocative_case,//ករណីបង្កហេតុ
+					'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+
+					//------------ករណីបង្ក្រាប------------
+					'suppressors'=>$suppressors,//អ្នកបង្រ្កាប
+					'suppressed'=>$suppresseds,// អ្នកដែលត្រូវបានបង្ក្រាប 
+					'crackdowns'=>$crackdowns,//ទីតាំងបង្ក្រាប 
+
+					//------------ករណីបង្ក---------------
+					'attackers'=>$attackers,// អ្នកវាយប្រហារ/អ្នកបង្ក/អ្នកពាក់ព័ន្ធ 
+					'victims'=>$victims,// អ្នករងគ្រោះ 
+					'attackeds'=>$attacks,//ទីតាំងវាយប្រហារ 
+
+					//-------------សកម្មភាព ផ្សេងៗ -------
+					'other_activities'=>$request->other_activities,//សកម្មភាព ផ្សេងៗ
+					'other_material'=>$request->other_material,//សម្ភារៈផ្សេងទៀត
+					'other_losses'=>$request->other_losses,//ការខាតបង់ផ្សេងទៀត
+					
+					'status'=>'Active'
+				]);
+
+			}
 
 			/** upload file for case */
 			if($request->hasFile('photos')){
