@@ -154,6 +154,7 @@
 								@endif
 							</div>
 						</div>
+						
 						<div class="form-group row">
 							<label for="inputName2" class="col-sm-2 col-form-label" style="color:red">* Password</label>
 							<div class="col-sm-10">
@@ -163,6 +164,18 @@
 								<label for="inputSkills" class="col-sm-12 col-form-label "
 									style="color:red;">{{ $errors->first('password') }}</label>
 								@endif
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputName2" class="col-sm-2 col-form-label" style="color:red"></label>
+							<div class="col-sm-10">
+								<ul>
+									<li>✅ password មានយ៉ាងហោចណាស់ 6 តួអក្សរ</li>
+									<li>✅ password មានយ៉ាងហោចណាស់អក្សរធំ 1 (A-Z)</li>
+									<li>✅ password មានយ៉ាងហោចណាស់អក្សរតូច 1 (a-z)</li>
+									<li>✅ password មានយ៉ាងហោចណាស់លេខ 1 (0-9)</li>
+									<li>✅ password មានយ៉ាងហោចណាស់តួអក្សរពិសេស 1 (@, #, $, !, ។ល។)</li>
+								</ul>
 							</div>
 						</div>
 						<div class="form-group row">

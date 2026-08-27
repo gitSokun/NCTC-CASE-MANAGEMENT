@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CaseInformation;
 use App\Models\CaseInfoKh;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use DB;
 
 class LoginController extends Controller
@@ -283,7 +284,13 @@ class LoginController extends Controller
 	public function updatePassword(Request $request){
 		$request->validate([
             'old_password' => 'required',
-            'new_password' => 'required',
+			'new_password' => [
+				'required',
+				Password::min(6)
+					->mixedCase()
+					->numbers()
+					->symbols(),
+			],
 			'new_password_confirmation'=>'required',
         ]);
 

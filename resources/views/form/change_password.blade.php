@@ -101,6 +101,18 @@
 							</div>
 						</div>
 						<div class="form-group row">
+							
+							<div class="col-sm-12">
+								<ul style="padding-left: 15px;">
+									<li>✅ password មានយ៉ាងហោចណាស់ 6 តួអក្សរ</li>
+									<li>✅ password មានយ៉ាងហោចណាស់អក្សរធំ 1 (A-Z)</li>
+									<li>✅ password មានយ៉ាងហោចណាស់អក្សរតូច 1 (a-z)</li>
+									<li>✅ password មានយ៉ាងហោចណាស់លេខ 1 (0-9)</li>
+									<li>✅ password មានយ៉ាងហោចណាស់តួអក្សរពិសេស 1 (@, #, $, !, ។ល។)</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group row">
 							<label for="inputName" class="col-sm-3 col-form-label" style="color:red">*
 								បញ្ជាក់ពាក្យសម្ងាត់</label>
 							<div class="col-sm-9">

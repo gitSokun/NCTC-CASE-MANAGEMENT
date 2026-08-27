@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class UserProfileController extends Controller
 {
@@ -118,7 +119,14 @@ class UserProfileController extends Controller
 			'remark'=>'max:1000',
 			'username'=>'required|max:255',
 			'email'=>'required|max:255',
-			'password'=>'required|min:6',
+			'password' => [
+				'required',
+				Password::min(6)
+					->mixedCase()
+					->numbers()
+					->symbols(),
+			],
+			
 			'role'=>'required'
         ]);
 
