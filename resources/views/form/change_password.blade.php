@@ -101,6 +101,16 @@
 							</div>
 						</div>
 						<div class="form-group row">
+							<label for="inputName" class="col-sm-3 col-form-label" style="color:red">*
+								បញ្ជាក់ពាក្យសម្ងាត់</label>
+							<div class="col-sm-9">
+								<input type="password"
+									class="form-control @error('new_password_confirmation') is-invalid @enderror"
+									id="new_password_confirmation" name="new_password_confirmation"
+									placeholder="បញ្ជាក់ពាក្យសម្ងាត់">
+							</div>
+						</div>
+						<div class="form-group row">
 							
 							<div class="col-sm-12">
 								<ul style="padding-left: 15px;">
@@ -112,16 +122,7 @@
 								</ul>
 							</div>
 						</div>
-						<div class="form-group row">
-							<label for="inputName" class="col-sm-3 col-form-label" style="color:red">*
-								បញ្ជាក់ពាក្យសម្ងាត់</label>
-							<div class="col-sm-9">
-								<input type="password"
-									class="form-control @error('new_password_confirmation') is-invalid @enderror"
-									id="new_password_confirmation" name="new_password_confirmation"
-									placeholder="បញ្ជាក់ពាក្យសម្ងាត់">
-							</div>
-						</div>
+						
 						<div class="form-group row">
 							<label class="col-sm-3 col-form-label">នាមត្រកូល</label>
 							<div class="col-sm-9">
